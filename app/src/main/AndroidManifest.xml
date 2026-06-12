@@ -38,7 +38,7 @@
     </queries>
 
     <application
-        android:name="org.levimc.launcher.core.minecraft.LauncherApplication"
+        android:name="org.levimc.launcher.mom.core.minecraft.LauncherApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -47,7 +47,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.SplashActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.SplashActivity"
             android:exported="true"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -59,7 +59,7 @@
         </activity>
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.MainActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.MainActivity"
             android:exported="true"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/MainActivityTheme"
@@ -67,21 +67,21 @@
             tools:ignore="DiscouragedApi" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.ContentManagementActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.ContentManagementActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
             tools:ignore="DiscouragedApi" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.ContentListActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.ContentListActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
             tools:ignore="DiscouragedApi" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.WorldEditorActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.WorldEditorActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -89,7 +89,7 @@
             android:label="@string/edit_world" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.OptionsEditorActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.OptionsEditorActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -97,7 +97,7 @@
             android:label="@string/edit_options" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.CustomFlatWorldActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.CustomFlatWorldActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -105,21 +105,21 @@
             android:label="@string/custom_flat_world" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.AboutActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.AboutActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
             tools:ignore="DiscouragedApi" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.InstancesActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.InstancesActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
             tools:ignore="DiscouragedApi" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.SettingsActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.SettingsActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -127,7 +127,7 @@
             android:label="@string/settings_title" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.InstanceSettingsActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.InstanceSettingsActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -135,7 +135,7 @@
 
         <!-- Accounts Management -->
         <activity
-            android:name="org.levimc.launcher.ui.activities.AccountsActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.AccountsActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -143,7 +143,7 @@
             android:label="@string/accounts_title" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.MsftLoginActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.MsftLoginActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -175,7 +175,7 @@
             tools:ignore="DiscouragedApi" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.CurseForgeActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.CurseForgeActivity"
             android:theme="@style/Base.Theme.FullScreen"
             android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
@@ -338,7 +338,7 @@
             tools:replace="android:configChanges,android:exported" />
 
         <activity
-            android:name="org.levimc.launcher.ui.activities.CrashActivity"
+            android:name="org.levimc.launcher.mom.ui.activities.CrashActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:process=":crash"
@@ -349,7 +349,7 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
-            android:authorities="org.levimc.launcher.fileprovider"
+            android:authorities="org.levimc.launcher.mom.fileprovider"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
