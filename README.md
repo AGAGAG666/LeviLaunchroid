@@ -15,6 +15,8 @@
 
 AG_fork is a modified fork of [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) v1.4.7, developed by the LeviMC team.
 
+**[中文文档 / Chinese Documentation](README_zh.md)**
+
 ### Modifications
 
 - Removed Google Play store verification requirement
