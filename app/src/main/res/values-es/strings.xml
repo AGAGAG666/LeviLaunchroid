@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">AG_fork</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Jugar</string>
     <string name="beta_badge">Beta</string>
@@ -151,8 +151,8 @@
 
     <string name="error_no_browser">No hay navegador disponible</string>
 
-    <string name="eula_title">Acuerdo de Licencia de LeviLauncher</string>
-    <string name="eula_message"><b>Bienvenido a LeviLauncher</b>\n\nAl usar este software aceptas que:\n\n• Este es un launcher <b>no oficial</b> de Minecraft\n• Debes poseer una copia <b>con licencia</b> de Minecraft\n• Se prohíbe cualquier forma de piratería o trampa\n• Los mods/packs se usan bajo tu propio riesgo\n• No está afiliado con Mojang/Microsoft\n\nEl uso continuo constituye un acuerdo</string>
+    <string name="eula_title">Acuerdo de Licencia de AG_fork</string>
+    <string name="eula_message"><b>Bienvenido a AG_fork</b>\n\nAl usar este software aceptas que:\n\n• Este es un launcher <b>no oficial</b> de Minecraft\n• Debes poseer una copia <b>con licencia</b> de Minecraft\n• Se prohíbe cualquier forma de piratería o trampa\n• Los mods/packs se usan bajo tu propio riesgo\n• No está afiliado con Mojang/Microsoft\n\nEl uso continuo constituye un acuerdo</string>
     <string name="eula_agree">Aceptar</string>
     <string name="eula_exit">Rechazar</string>
 
@@ -363,7 +363,7 @@
     <string name="ms_active_badge">Activa</string>
     <string name="ms_account_subtitle_format">ID Usuario: %1$s • Actualizado: %2$s</string>
     <string name="xbox_avatar">Avatar de Xbox</string>
-    <string name="launcher_managed_mc_login">Inicia sesión en Minecraft con LeviLauncher</string>
+    <string name="launcher_managed_mc_login">Inicia sesión en Minecraft con AG_fork</string>
     <string name="dialog_title_login_required">Se requiere inicio de sesión</string>
     <string name="dialog_message_login_required">El inicio de sesión gestionado está habilitado, pero no hay ninguna cuenta. Ve a Cuentas para iniciar sesión.</string>
     <string name="go_to_accounts">Cuentas</string>
@@ -568,15 +568,15 @@
     <string name="vanilla_prefix">Vanilla %s</string>
 
     <string name="about_page_title">Acerca de</string>
-    <string name="about_subtitle">LeviLauncher — Un moderno Launcher para Minecraft Bedrock</string>
+    <string name="about_subtitle">AG_fork — Un moderno Launcher para Minecraft Bedrock</string>
     <string name="about_authors_title">👥 Autores y Mantenedores</string>
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Autor</string>
-    <string name="about_author_role">Autores de LeviLauncher</string>
+    <string name="about_author_role">Autores de AG_fork</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Código Fuente y Open Source</string>
-    <string name="about_github_repo">GitHub · LeviLauncher</string>
+    <string name="about_github_repo">GitHub · AG_fork</string>
     <string name="about_github_org">LiteLDev</string>
     <string name="about_license_note">Consulta el archivo LICENSE en el repositorio.</string>
     <string name="about_contribute_title">Contribuir</string>
@@ -586,7 +586,7 @@
 
     <string-array name="launcher_tips">
         <item>Los Ajustes te permiten cambiar el tema, color, fondo y otras opciones para adaptar tu launcher.</item>
-        <item>LeviLauncher es de código abierto. Usa los issues en GitHub para informar de problemas o sugerir mejoras.</item>
+        <item>AG_fork es de código abierto. Usa los issues en GitHub para informar de problemas o sugerir mejoras.</item>
         <item>Usa el menú de versión para cambiar de instancia rápidamente.</item>
         <item>¿Alguien lee realmente estos consejos?</item>
         <item>Puedes arrastrar los mods para reordenar su prioridad de carga.</item>

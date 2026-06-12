@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">AG_fork</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Luncurkan</string>
     <string name="beta_badge">Beta</string>
@@ -135,8 +135,8 @@
 
     <string name="error_no_browser">Tidak ada peramban yang tersedia.</string>
 
-    <string name="eula_title">LeviLauncher License Agreement</string>
-    <string name="eula_message"><b>Selamat datang di LeviLauncher</b>\n\nBy using this software you agree to:\n\n• This is an <b>unofficial</b> Minecraft launcher\n• You must own a <b>licensed</b> copy of Minecraft\n• Any form of piracy or cheating is prohibited\n• Mods/resource packs are used at your own risk\n• Not affiliated with Mojang/Microsoft\n\nContinued use constitutes agreement</string>
+    <string name="eula_title">AG_fork License Agreement</string>
+    <string name="eula_message"><b>Selamat datang di AG_fork</b>\n\nBy using this software you agree to:\n\n• This is an <b>unofficial</b> Minecraft launcher\n• You must own a <b>licensed</b> copy of Minecraft\n• Any form of piracy or cheating is prohibited\n• Mods/resource packs are used at your own risk\n• Not affiliated with Mojang/Microsoft\n\nContinued use constitutes agreement</string>
     <string name="eula_agree">Terima</string>
     <string name="eula_exit">Tolak</string>
 
@@ -338,7 +338,7 @@
     <string name="ms_active_badge">Aktif</string>
     <string name="ms_account_subtitle_format">ID Pengguna: %1$s • Diperbarui: %2$s</string>
     <string name="xbox_avatar">Avatar Xbox</string>
-    <string name="launcher_managed_mc_login">Masuk ke Minecraft menggunakan LeviLauncher</string>
+    <string name="launcher_managed_mc_login">Masuk ke Minecraft menggunakan AG_fork</string>
     <string name="dialog_title_login_required">Login diperlukan</string>
     <string name="dialog_message_login_required">Login yang dikelola oleh launcher diaktifkan, tetapi belum ada akun yang masuk. Buka Akun untuk masuk.</string>
     <string name="go_to_accounts">Akun</string>
@@ -593,24 +593,24 @@
     <string name="tag_custom">Kustom</string>
     <string name="vanilla_prefix">Vanilla %s</string>
     <string name="about_page_title">Tentang</string>
-    <string name="about_subtitle">LeviLauncher — Launcher Minecraft Bedrock Modern</string>
+    <string name="about_subtitle">AG_fork — Launcher Minecraft Bedrock Modern</string>
     <string name="about_authors_title">👥 Penulis &amp; Pemelihara</string>
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Penulis</string>
-    <string name="about_author_role">Penulis LeviLauncher</string>
+    <string name="about_author_role">Penulis AG_fork</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Kode Sumber &amp; Open Source</string>
-    <string name="about_github_repo">GitHub · LeviLauncher</string>
+    <string name="about_github_repo">GitHub · AG_fork</string>
     <string name="about_github_org">LiteLDev</string>
     <string name="about_license_note">Lihat LICENSE di repositori untuk detail lisensi.</string>
     <string name="about_contribute_title">Berkontribusi</string>
-    <string name="about_contribute_desc">Kontribusi melalui Issues atau Pull Requests dipersilakan untuk meningkatkan LeviLauncher.</string>
+    <string name="about_contribute_desc">Kontribusi melalui Issues atau Pull Requests dipersilakan untuk meningkatkan AG_fork.</string>
     <string name="about_issues">Issue</string>
     <string name="about_star_fork">Star / Fork</string>
     <string-array name="launcher_tips">
         <item>Pengaturan memungkinkan Anda menyesuaikan tema, warna, latar belakang, dan opsi tampilan lain agar sesuai dengan setup Anda.</item>
-        <item>LeviLauncher bersifat open source. Gunakan GitHub issues untuk melaporkan masalah launcher atau menyarankan perbaikan.</item>
+        <item>AG_fork bersifat open source. Gunakan GitHub issues untuk melaporkan masalah launcher atau menyarankan perbaikan.</item>
         <item>Gunakan dropdown versi untuk mengganti instans saat ini dengan cepat.</item>
         <item>Apakah ada yang benar-benar membaca ini?</item>
         <item>Anda dapat menyeret mod untuk mengubah prioritas pemuatannya.</item>

@@ -1,6 +1,6 @@
 <resources>
     <!-- Общее -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">AG_fork</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Запустить</string>
     <string name="beta_badge">Бета</string>
@@ -135,8 +135,8 @@
 
     <string name="error_no_browser">Браузер не доступен</string>
 
-    <string name="eula_title">Лицензионное соглашение LeviLauncher</string>
-    <string name="eula_message"><b>Добро пожаловать в LeviLauncher</b>\n\nПри использовании данной программы вы соглашаетесь с тем что:\n\n• Это <b>неофициальный</b> лаунчер Minecraft\n• Вам необходимо владеть <b>лицензионной</b> копией Minecraft\n• Любая форма пиратства и читов запрещена\n• Моды/наборы ресурсов используются на ваш риск\n• Не связано с Mojang/Microsoft\n\nДальнейшее использование означает согласие с лицензионным соглашением</string>
+    <string name="eula_title">Лицензионное соглашение AG_fork</string>
+    <string name="eula_message"><b>Добро пожаловать в AG_fork</b>\n\nПри использовании данной программы вы соглашаетесь с тем что:\n\n• Это <b>неофициальный</b> лаунчер Minecraft\n• Вам необходимо владеть <b>лицензионной</b> копией Minecraft\n• Любая форма пиратства и читов запрещена\n• Моды/наборы ресурсов используются на ваш риск\n• Не связано с Mojang/Microsoft\n\nДальнейшее использование означает согласие с лицензионным соглашением</string>
     <string name="eula_agree">Принять</string>
     <string name="eula_exit">Отклонить</string>
 
@@ -333,7 +333,7 @@
     <string name="ms_active_badge">Активный</string>
     <string name="ms_account_subtitle_format">ID пользователя: %1$s • Обновлено: %2$s</string>
     <string name="xbox_avatar">Аватар Xbox</string>
-    <string name="launcher_managed_mc_login">Войти в Minecraft с помощью LeviLauncher</string>
+    <string name="launcher_managed_mc_login">Войти в Minecraft с помощью AG_fork</string>
     <string name="dialog_title_login_required">Требуется вход</string>
     <string name="dialog_message_login_required">Включён вход через лаунчер, но ни один аккаунт не авторизован. Перейдите в «Аккаунты», чтобы войти.</string>
     <string name="go_to_accounts">Аккаунты</string>
@@ -594,24 +594,24 @@
     <string name="tag_custom">Пользовательская</string>
     <string name="vanilla_prefix">Vanilla %s</string>
     <string name="about_page_title">О приложении</string>
-    <string name="about_subtitle">LeviLauncher — современный лаунчер Minecraft Bedrock</string>
+    <string name="about_subtitle">AG_fork — современный лаунчер Minecraft Bedrock</string>
     <string name="about_authors_title">👥 Авторы и сопровождающие</string>
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Автор</string>
-    <string name="about_author_role">Авторы LeviLauncher</string>
+    <string name="about_author_role">Авторы AG_fork</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Исходный код и открытый исходный код</string>
-    <string name="about_github_repo">GitHub · LeviLauncher</string>
+    <string name="about_github_repo">GitHub · AG_fork</string>
     <string name="about_github_org">LiteLDev</string>
     <string name="about_license_note">Подробности лицензии смотрите в файле LICENSE в репозитории.</string>
     <string name="about_contribute_title">Участие в разработке</string>
-    <string name="about_contribute_desc">Вклад через Issues или Pull Requests приветствуется и помогает улучшать LeviLauncher.</string>
+    <string name="about_contribute_desc">Вклад через Issues или Pull Requests приветствуется и помогает улучшать AG_fork.</string>
     <string name="about_issues">Issue</string>
     <string name="about_star_fork">Star / Fork</string>
     <string-array name="launcher_tips">
         <item>В настройках можно изменить тему, цвет, фон и другие параметры внешнего вида под ваш стиль.</item>
-        <item>LeviLauncher имеет открытый исходный код. Используйте GitHub issues, чтобы сообщить о проблемах лаунчера или предложить улучшения.</item>
+        <item>AG_fork имеет открытый исходный код. Используйте GitHub issues, чтобы сообщить о проблемах лаунчера или предложить улучшения.</item>
         <item>Используйте выпадающий список версий, чтобы быстро переключать текущий экземпляр.</item>
         <item>Кто-нибудь вообще читает эти подсказки?</item>
         <item>Вы можете перетаскивать моды, чтобы менять их приоритет загрузки.</item>

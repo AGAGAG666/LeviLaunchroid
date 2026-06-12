@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">AG_fork</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Lancer</string>
     <string name="beta_badge">Bêta</string>
@@ -151,8 +151,8 @@
 
     <string name="error_no_browser">Aucun navigateur disponible</string>
 
-    <string name="eula_title">Accord de licence LeviLauncher</string>
-    <string name="eula_message"><b>Bienvenue sur LeviLauncher</b>\n\nEn utilisant ce logiciel, vous acceptez :\n\n• C\'est un lanceur Minecraft <b>non officiel</b>\n• Vous devez posséder une copie <b>sous licence</b> de Minecraft\n• Toute forme de piratage ou de triche est interdite\n• Les mods/packs de ressources sont utilisés à vos risques et périls\n• Non affilié à Mojang/Microsoft\n\nL\'utilisation continue vaut acceptation</string>
+    <string name="eula_title">Accord de licence AG_fork</string>
+    <string name="eula_message"><b>Bienvenue sur AG_fork</b>\n\nEn utilisant ce logiciel, vous acceptez :\n\n• C\'est un lanceur Minecraft <b>non officiel</b>\n• Vous devez posséder une copie <b>sous licence</b> de Minecraft\n• Toute forme de piratage ou de triche est interdite\n• Les mods/packs de ressources sont utilisés à vos risques et périls\n• Non affilié à Mojang/Microsoft\n\nL\'utilisation continue vaut acceptation</string>
     <string name="eula_agree">Accepter</string>
     <string name="eula_exit">Refuser</string>
 
@@ -363,7 +363,7 @@
     <string name="ms_active_badge">Actif</string>
     <string name="ms_account_subtitle_format">ID utilisateur : %1$s • Mis à jour : %2$s</string>
     <string name="xbox_avatar">Avatar Xbox</string>
-    <string name="launcher_managed_mc_login">Connectez-vous à Minecraft avec LeviLauncher</string>
+    <string name="launcher_managed_mc_login">Connectez-vous à Minecraft avec AG_fork</string>
     <string name="dialog_title_login_required">Connexion requise</string>
     <string name="dialog_message_login_required">La connexion gérée est activée, mais aucun compte n\'est connecté. Allez dans Comptes.</string>
     <string name="go_to_accounts">Comptes</string>
@@ -568,15 +568,15 @@
     <string name="vanilla_prefix">Vanilla %s</string>
 
     <string name="about_page_title">À propos</string>
-    <string name="about_subtitle">LeviLauncher — Un lanceur Minecraft Bedrock moderne</string>
+    <string name="about_subtitle">AG_fork — Un lanceur Minecraft Bedrock moderne</string>
     <string name="about_authors_title">👥 Auteurs et Mainteneurs</string>
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">Auteur</string>
-    <string name="about_author_role">Auteurs de LeviLauncher</string>
+    <string name="about_author_role">Auteurs de AG_fork</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Code Source et Open Source</string>
-    <string name="about_github_repo">GitHub · LeviLauncher</string>
+    <string name="about_github_repo">GitHub · AG_fork</string>
     <string name="about_github_org">LiteLDev</string>
     <string name="about_license_note">Voir LICENSE dans le dépôt pour plus de détails.</string>
     <string name="about_contribute_title">Contribuer</string>
@@ -586,7 +586,7 @@
 
     <string-array name="launcher_tips">
         <item>Les Paramètres vous permettent d\'ajuster le thème, la couleur, le fond et d\'autres options.</item>
-        <item>LeviLauncher est open source. Utilisez GitHub issues pour signaler un problème.</item>
+        <item>AG_fork est open source. Utilisez GitHub issues pour signaler un problème.</item>
         <item>Utilisez la liste déroulante des versions pour changer d\'instance rapidement.</item>
         <item>Est-ce que les gens lisent vraiment ça ?</item>
         <item>Vous pouvez faire glisser les mods pour réorganiser leur priorité de chargement.</item>
