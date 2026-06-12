@@ -83,7 +83,8 @@ class GamePackageManager private constructor(
         )
         
         if (version != null && !version.isInstalled) {
-            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, MinecraftLauncher.MC_PACKAGE_NAME)
+            val actualPackageName = version.packageName ?: detectPackageNameFromApk(version) ?: MinecraftLauncher.MC_PACKAGE_NAME
+            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, actualPackageName)
             nativeLibDir = applicationInfo.nativeLibraryDir
         } else {
             applicationInfo = packageContext.applicationInfo
@@ -116,6 +117,17 @@ class GamePackageManager private constructor(
             true
         } catch (e: PackageManager.NameNotFoundException) {
             false
+        }
+    }
+
+    private fun detectPackageNameFromApk(version: GameVersion): String? {
+        return try {
+            val apkFile = File(version.versionDir, "base.apk.levi")
+            if (!apkFile.exists()) return null
+            val info = context.packageManager.getPackageArchiveInfo(apkFile.absolutePath, 0)
+            info?.packageName
+        } catch (_: Exception) {
+            null
         }
     }
 
