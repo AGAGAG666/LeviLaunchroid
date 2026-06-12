@@ -1,6 +1,6 @@
 <div align="center">
 
-# AG_fork
+# LeviLaunchroid_AG
 
 **基于 [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) 的修改版**
 
@@ -13,14 +13,12 @@
 
 ## 关于
 
-AG_fork 是基于 [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) v1.4.7 的修改版，原项目由 LeviMC 团队开发。
+LeviLaunchroid_AG 是基于 [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) 的修改版，原项目由 LeviMC 团队开发。
 
 ### 修改内容
 
 - 移除了 Google Play 商店验证要求
 - 移除了包名锁定（导入的 MC 安装包不再限于 `com.mojang.minecraftpe`）
-- 应用名称改为 AG_fork
-- 版本号更新为 1.4.7-AG.1
 
 ### 原项目
 

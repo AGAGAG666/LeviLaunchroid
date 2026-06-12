@@ -1,6 +1,6 @@
 <div align="center">
 
-# AG_fork
+# LeviLaunchroid_AG
 
 **A fork of [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) by LeviMC**
 
@@ -13,7 +13,7 @@
 
 ## About
 
-AG_fork is a modified fork of [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) v1.4.7, developed by the LeviMC team.
+LeviLaunchroid_AG is a modified fork of [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid), developed by the LeviMC team.
 
 **[中文文档 / Chinese Documentation](README_zh.md)**
 
@@ -21,8 +21,6 @@ AG_fork is a modified fork of [LeviLaunchroid](https://github.com/LiteLDev/LeviL
 
 - Removed Google Play store verification requirement
 - Removed package name lock (imported MC APKs are no longer limited to `com.mojang.minecraftpe`)
-- Renamed app display name to AG_fork
-- Updated version to 1.4.7-AG.1
 
 ### Original Project
 
