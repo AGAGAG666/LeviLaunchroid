@@ -98,6 +98,24 @@ jobs:
           java-version: "21"
           distribution: temurin
 
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
+
+      - name: Cache Android SDK
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/android-sdk
+            ${{ runner }}/Android/Sdk
+          key: android-sdk-${{ runner.os }}-${{ hashFiles('.github/workflows/android.yml') }}
+          restore-keys: android-sdk-${{ runner.os }}-
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
@@ -106,9 +124,6 @@ jobs:
 
       - name: Install Build Tools 35.0.0
         run: sdkmanager "build-tools;35.0.0"
-
-      - name: Verify installed SDK Packages
-        run: sdkmanager --list
 
       - name: Setup Xmake
         uses: xmake-io/github-action-setup-xmake@v1
