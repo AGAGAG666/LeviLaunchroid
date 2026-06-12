@@ -142,6 +142,9 @@ public class MinecraftLauncher {
             sourceIntent.putExtra("MC_PATH", "");
             sourceIntent.putExtra("IS_INSTALLED", version.isInstalled);
         }
+        if (version.packageName != null) {
+            sourceIntent.putExtra("MINECRAFT_PACKAGE", version.packageName);
+        }
     }
 
     private void launchMinecraftActivity(Intent sourceIntent, GameVersion version, boolean modsEnabled) {
