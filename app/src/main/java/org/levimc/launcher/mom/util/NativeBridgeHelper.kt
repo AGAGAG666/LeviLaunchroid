@@ -45,7 +45,11 @@ object NativeBridgeHelper {
         if (!ensureGxCoreLoaded()) {
             return false
         }
-        return nativeScanImage(inputPath)
+        return try {
+            nativeScanImage(inputPath)
+        } catch (_: UnsatisfiedLinkError) {
+            false
+        }
     }
 
     @JvmStatic
@@ -53,13 +57,20 @@ object NativeBridgeHelper {
         if (!ensureGxCoreLoaded()) {
             return false
         }
-        return nativeRewriteImage(inputPath, outputPath)
+        return try {
+            nativeRewriteImage(inputPath, outputPath)
+        } catch (_: UnsatisfiedLinkError) {
+            false
+        }
     }
 
     @JvmStatic
     fun bootstrapGxCore() {
         if (ensureGxCoreLoaded()) {
-            nativeBootstrapGxCore()
+            try {
+                nativeBootstrapGxCore()
+            } catch (_: UnsatisfiedLinkError) {
+            }
         }
     }
 
