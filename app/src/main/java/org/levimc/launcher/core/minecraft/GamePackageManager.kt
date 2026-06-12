@@ -75,7 +75,11 @@ class GamePackageManager private constructor(
 
     init {
         report("GamePackageManager init started")
-        val packageName = detectGamePackage() ?: throw IllegalStateException("Minecraft not found")
+        val packageName = if (version?.packageName != null && isPackageInstalled(version.packageName)) {
+            version.packageName
+        } else {
+            detectGamePackage() ?: throw IllegalStateException("Minecraft not found")
+        }
         report("Detected Minecraft package: $packageName")
         packageContext = context.createPackageContext(
             packageName,
