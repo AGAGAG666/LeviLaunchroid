@@ -161,7 +161,7 @@ static bool findAndHookVanillaCameraAPI() {
 extern "C" {
 
 JNIEXPORT jboolean JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_SnaplookMod_nativeInit(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_SnaplookMod_nativeInit(JNIEnv* env, jclass clazz) {
     if (g_initialized) {
         return JNI_TRUE;
     }
@@ -181,24 +181,24 @@ Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_SnaplookMod_nativeInit(
 }
 
 JNIEXPORT void JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_SnaplookMod_nativeOnKeyDown(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_SnaplookMod_nativeOnKeyDown(JNIEnv* env, jclass clazz) {
     if (!g_initialized) return;
     g_snaplookActive = true;
 }
 
 JNIEXPORT void JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_SnaplookMod_nativeOnKeyUp(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_SnaplookMod_nativeOnKeyUp(JNIEnv* env, jclass clazz) {
     if (!g_initialized) return;
     g_snaplookActive = false;
 }
 
 JNIEXPORT jboolean JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_SnaplookMod_nativeIsActive(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_SnaplookMod_nativeIsActive(JNIEnv* env, jclass clazz) {
     return g_snaplookActive ? JNI_TRUE : JNI_FALSE;
 }
 
 JNIEXPORT jboolean JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_SnaplookMod_nativeIsInitialized(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_SnaplookMod_nativeIsInitialized(JNIEnv* env, jclass clazz) {
     return g_initialized ? JNI_TRUE : JNI_FALSE;
 }
 

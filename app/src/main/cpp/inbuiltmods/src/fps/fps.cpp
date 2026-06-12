@@ -84,7 +84,7 @@ static bool hookEglSwapBuffers() {
 extern "C" {
 
 JNIEXPORT jboolean JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_FpsMod_nativeInit(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_FpsMod_nativeInit(JNIEnv* env, jclass clazz) {
     if (g_initialized) {
         return JNI_TRUE;
     }
@@ -105,12 +105,12 @@ Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_FpsMod_nativeInit(JNIEn
 }
 
 JNIEXPORT jint JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_FpsMod_nativeGetFps(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_FpsMod_nativeGetFps(JNIEnv* env, jclass clazz) {
     return g_currentFps.load();
 }
 
 JNIEXPORT jboolean JNICALL
-Java_org_levimc_launcher_mom_core_mods_inbuilt_nativemod_FpsMod_nativeIsInitialized(JNIEnv* env, jclass clazz) {
+Java_org_levimc_launcher_core_mods_inbuilt_nativemod_FpsMod_nativeIsInitialized(JNIEnv* env, jclass clazz) {
     return g_initialized ? JNI_TRUE : JNI_FALSE;
 }
 

@@ -43,7 +43,7 @@ jobs:
                 "client_info": {
                   "mobilesdk_app_id": "1:000000000000:android:0000000000000000000000",
                   "android_client_info": {
-                    "package_name": "org.levimc.launcher.mom"
+                    "package_name": "org.levimc.launcher"
                   }
                 },
                 "oauth_client": [],
@@ -72,7 +72,7 @@ jobs:
           import json
           import sys
 
-          expected = "org.levimc.launcher.mom"
+          expected = "org.levimc.launcher"
           with open("app/google-services.json", encoding="utf-8") as fp:
               data = json.load(fp)
 
