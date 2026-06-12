@@ -157,6 +157,18 @@ public class ApkInstaller {
                 if (!internalDir.exists()) internalDir.mkdirs();
                 writeTextFile(new File(internalDir, "version.txt"), versionName);
 
+                File baseApkLevi = new File(baseDir, APK_FILE_NAME);
+                if (baseApkLevi.exists()) {
+                    try {
+                        PackageManager pm2 = context.getPackageManager();
+                        PackageInfo info = pm2.getPackageArchiveInfo(baseApkLevi.getAbsolutePath(), 0);
+                        if (info != null && info.packageName != null) {
+                            writeTextFile(new File(internalDir, "package.txt"), info.packageName);
+                        }
+                    } catch (Exception ignored) {
+                    }
+                }
+
                 postSuccess(versionName);
 
             } catch (Exception e) {

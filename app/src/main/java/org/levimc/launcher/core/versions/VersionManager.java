@@ -413,13 +413,34 @@ public class VersionManager {
 
         displayName = displayName + " (" + versionCode + ")";
 
+        String detectedPackageName = null;
+        File packageTxt = new File(context.getDataDir(), "minecraft/" + dir.getName() + "/package.txt");
+        if (packageTxt.exists()) {
+            String txt = readFileToString(packageTxt);
+            if (!txt.isEmpty()) {
+                detectedPackageName = txt;
+            }
+        }
+        if (detectedPackageName == null) {
+            File apkFile = new File(dir, "base.apk.levi");
+            if (apkFile.exists()) {
+                try {
+                    PackageInfo pi = context.getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
+                    if (pi != null && pi.packageName != null) {
+                        detectedPackageName = pi.packageName;
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
         GameVersion gv = new GameVersion(
                 dir.getName(),
                 displayName,
                 versionCode,
                 dir,
                 false,
-                null,
+                detectedPackageName,
                 "unknown"
         );
 
