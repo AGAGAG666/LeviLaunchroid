@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="app_name">AG_fork</string>
+    <string name="app_name">LeviLauncher</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">लॉन्च करें</string>
     <string name="beta_badge">बीटा</string>
@@ -151,8 +151,8 @@
 
     <string name="error_no_browser">कोई ब्राउज़र उपलब्ध नहीं है</string>
 
-    <string name="eula_title">AG_fork लाइसेंस समझौता</string>
-    <string name="eula_message"><b>AG_fork में आपका स्वागत है</b>\n\nइस सॉफ़्टवेयर का उपयोग करके आप सहमत हैं:\n\n• यह एक <b>अनौपचारिक</b> Minecraft लॉन्चर है\n• आपके पास Minecraft की एक <b>लाइसेंस प्राप्त</b> प्रति होनी चाहिए\n• किसी भी प्रकार की पायरेसी या धोखाधड़ी निषिद्ध है\n• मॉड्स/रिसोर्स पैक्स का उपयोग आपके अपने जोखिम पर है\n• Mojang/Microsoft से संबद्ध नहीं है\n\nनिरंतर उपयोग समझौते का गठन करता है</string>
+    <string name="eula_title">LeviLauncher लाइसेंस समझौता</string>
+    <string name="eula_message"><b>LeviLauncher में आपका स्वागत है</b>\n\nइस सॉफ़्टवेयर का उपयोग करके आप सहमत हैं:\n\n• यह एक <b>अनौपचारिक</b> Minecraft लॉन्चर है\n• आपके पास Minecraft की एक <b>लाइसेंस प्राप्त</b> प्रति होनी चाहिए\n• किसी भी प्रकार की पायरेसी या धोखाधड़ी निषिद्ध है\n• मॉड्स/रिसोर्स पैक्स का उपयोग आपके अपने जोखिम पर है\n• Mojang/Microsoft से संबद्ध नहीं है\n\nनिरंतर उपयोग समझौते का गठन करता है</string>
     <string name="eula_agree">स्वीकार करें</string>
     <string name="eula_exit">अस्वीकार करें</string>
 
@@ -376,7 +376,7 @@
     <string name="ms_active_badge">सक्रिय</string>
     <string name="ms_account_subtitle_format">यूज़र आईडी: %1$s • अपडेट किया गया: %2$s</string>
     <string name="xbox_avatar">Xbox अवतार</string>
-    <string name="launcher_managed_mc_login">AG_fork के साथ Minecraft में साइन इन करें</string>
+    <string name="launcher_managed_mc_login">LeviLauncher के साथ Minecraft में साइन इन करें</string>
     <string name="dialog_title_login_required">साइन-इन आवश्यक है</string>
     <string name="dialog_message_login_required">लॉन्चर-प्रबंधित लॉगिन सक्षम है, लेकिन कोई खाता साइन इन नहीं है। साइन इन करने के लिए खातों में जाएं।</string>
     <string name="go_to_accounts">खाते</string>
@@ -595,25 +595,25 @@
     <string name="vanilla_prefix">वैनिला %s</string>
 
     <string name="about_page_title">बारे में</string>
-    <string name="about_subtitle">AG_fork — एक आधुनिक Minecraft Bedrock लॉन्चर</string>
+    <string name="about_subtitle">LeviLauncher — एक आधुनिक Minecraft Bedrock लॉन्चर</string>
     <string name="about_authors_title">👥 लेखक और मेंटेनर</string>
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">लेखक</string>
-    <string name="about_author_role">AG_fork के लेखक</string>
+    <string name="about_author_role">LeviLauncher के लेखक</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">सोर्स कोड और ओपन सोर्स</string>
-    <string name="about_github_repo">GitHub · AG_fork</string>
+    <string name="about_github_repo">GitHub · LeviLauncher</string>
     <string name="about_github_org">LiteLDev</string>
     <string name="about_license_note">लाइसेंस विवरण के लिए रिपॉजिटरी में LICENSE देखें।</string>
     <string name="about_contribute_title">योगदान करें</string>
-    <string name="about_contribute_desc">AG_fork को बेहतर बनाने के लिए Issues या Pull Requests के माध्यम से योगदान का स्वागत है।</string>
+    <string name="about_contribute_desc">LeviLauncher को बेहतर बनाने के लिए Issues या Pull Requests के माध्यम से योगदान का स्वागत है।</string>
     <string name="about_issues">Issue</string>
     <string name="about_star_fork">Star / Fork</string>
 
     <string-array name="launcher_tips">
         <item>सेटिंग्स आपको अपने सेटअप से मेल खाने के लिए थीम, रंग, पृष्ठभूमि और अन्य उपस्थिति विकल्पों को समायोजित करने देती है।</item>
-        <item>AG_fork ओपन सोर्स है। लॉन्चर समस्याओं की रिपोर्ट करने या सुधार का सुझाव देने के लिए GitHub issues का उपयोग करें।</item>
+        <item>LeviLauncher ओपन सोर्स है। लॉन्चर समस्याओं की रिपोर्ट करने या सुधार का सुझाव देने के लिए GitHub issues का उपयोग करें।</item>
         <item>वर्तमान इंस्टेंस को जल्दी से स्विच करने के लिए संस्करण ड्रॉपडाउन का उपयोग करें।</item>
         <item>क्या लोग वास्तव में इन्हें पढ़ते हैं?</item>
         <item>आप मॉड्स को उनके लोड प्राथमिकता को फिर से क्रमित करने के लिए खींच सकते हैं।</item>

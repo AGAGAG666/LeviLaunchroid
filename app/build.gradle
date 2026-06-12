@@ -43,7 +43,7 @@ android {
         minSdkVersion 28
         targetSdkVersion 35
         versionCode getVersionCodeByTimestamp()
-        versionName getGitTag()
+        versionName "AG_fork"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "CURSEFORGE_API_KEY", "\"${localProperties.getProperty('curseforge.api_key', '')}\""
         ndk {
@@ -97,7 +97,7 @@ android {
                 mappingFileUploadEnabled false
                 nativeSymbolUploadEnabled true
             }
-            resValue "string", "app_name", "AG_fork Beta"
+            resValue "string", "app_name", "LeviLauncher Beta"
             buildConfigField "boolean", "IS_BETA", "true"
             matchingFallbacks = ["release"]
             ndk {

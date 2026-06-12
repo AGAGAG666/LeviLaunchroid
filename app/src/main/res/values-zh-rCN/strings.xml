@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-    <string name="app_name">AG_fork</string>
+    <string name="app_name">LeviLauncher</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">启动</string>
 
@@ -134,8 +134,8 @@
     <string name="dialog_positive_ok">确定</string>
 
 
-    <string name="eula_title">AG_fork 用户协议</string>
-    <string name="eula_message"><b>欢迎使用 AG_fork</b>\n\n使用本软件即表示您同意：\n\n• 此为<b>非官方</b> Minecraft 启动器\n• 您需拥有<b>合法授权</b>的 Minecraft 副本\n• 禁止任何形式的盗版或作弊行为\n• 模组/资源包使用风险自负\n• 与 Mojang/Microsoft 无关联\n\n继续使用视为接受条款</string>
+    <string name="eula_title">LeviLauncher 用户协议</string>
+    <string name="eula_message"><b>欢迎使用 LeviLauncher</b>\n\n使用本软件即表示您同意：\n\n• 此为<b>非官方</b> Minecraft 启动器\n• 您需拥有<b>合法授权</b>的 Minecraft 副本\n• 禁止任何形式的盗版或作弊行为\n• 模组/资源包使用风险自负\n• 与 Mojang/Microsoft 无关联\n\n继续使用视为接受条款</string>
     <string name="eula_agree">接受</string>
     <string name="eula_exit">拒绝</string>
 
@@ -326,7 +326,7 @@
     <string name="ms_login_failed">Microsoft 登录失败</string>
     <string name="ms_login_failed_detail">登录失败：%1$s</string>
     <string name="xbox_avatar">Xbox头像</string>
-    <string name="launcher_managed_mc_login">使用 AG_fork 登录 Minecraft</string>
+    <string name="launcher_managed_mc_login">使用 LeviLauncher 登录 Minecraft</string>
     <string name="dialog_title_login_required">需要登录</string>
     <string name="dialog_message_login_required">已开启使用启动器登录，但当前未登录。请前往账号管理登录后再启动。</string>
     <string name="go_to_accounts">账号管理</string>
@@ -592,24 +592,24 @@
     <string name="tag_custom">自定义</string>
     <string name="vanilla_prefix">原版 %s</string>
     <string name="about_page_title">关于</string>
-    <string name="about_subtitle">AG_fork — 现代 Minecraft 基岩版启动器</string>
+    <string name="about_subtitle">LeviLauncher — 现代 Minecraft 基岩版启动器</string>
     <string name="about_authors_title">👥 作者与维护者</string>
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">作者</string>
-    <string name="about_author_role">AG_fork 作者</string>
+    <string name="about_author_role">LeviLauncher 作者</string>
     <string name="about_afdian">爱发电</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">源代码与开源</string>
-    <string name="about_github_repo">GitHub · AG_fork</string>
+    <string name="about_github_repo">GitHub · LeviLauncher</string>
     <string name="about_github_org">LiteLDev</string>
     <string name="about_license_note">许可证详情请参阅仓库中的 LICENSE。</string>
     <string name="about_contribute_title">参与贡献</string>
-    <string name="about_contribute_desc">欢迎通过 Issues 或 Pull Requests 改进 AG_fork。</string>
+    <string name="about_contribute_desc">欢迎通过 Issues 或 Pull Requests 改进 LeviLauncher。</string>
     <string name="about_issues">Issue</string>
     <string name="about_star_fork">Star / Fork</string>
     <string-array name="launcher_tips">
         <item>在设置中可以调整主题、颜色、背景和其他外观选项，让启动器更符合你的使用习惯。</item>
-        <item>AG_fork 是开源项目。你可以通过 GitHub Issues 反馈启动器问题或提出改进建议。</item>
+        <item>LeviLauncher 是开源项目。你可以通过 GitHub Issues 反馈启动器问题或提出改进建议。</item>
         <item>使用版本下拉菜单可以快速切换当前实例。</item>
         <item>真的有人会读这些提示吗？</item>
         <item>你可以拖动模组来调整加载优先级。</item>

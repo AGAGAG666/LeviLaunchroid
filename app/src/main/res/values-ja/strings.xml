@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="app_name">AG_fork</string>
+    <string name="app_name">LeviLauncher</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">起動</string>
     <string name="beta_badge">ベータ</string>
@@ -151,8 +151,8 @@
 
     <string name="error_no_browser">利用可能なブラウザがありません</string>
 
-    <string name="eula_title">AG_fork 使用許諾契約</string>
-    <string name="eula_message"><b>AG_fork へようこそ</b>\n\nこのソフトウェアを使用することにより、以下に同意したとみなされます：\n\n• これは<b>非公式</b>の Minecraft ランチャーです\n• <b>ライセンスされた</b> Minecraft のコピーを所有している必要があります\n• いかなる形式の海賊版やチートも禁止されています\n• モッドやリソースパックの使用は自己責任です\n• Mojang / Microsoft とは提携していません\n\n継続使用は同意を構成します</string>
+    <string name="eula_title">LeviLauncher 使用許諾契約</string>
+    <string name="eula_message"><b>LeviLauncher へようこそ</b>\n\nこのソフトウェアを使用することにより、以下に同意したとみなされます：\n\n• これは<b>非公式</b>の Minecraft ランチャーです\n• <b>ライセンスされた</b> Minecraft のコピーを所有している必要があります\n• いかなる形式の海賊版やチートも禁止されています\n• モッドやリソースパックの使用は自己責任です\n• Mojang / Microsoft とは提携していません\n\n継続使用は同意を構成します</string>
     <string name="eula_agree">同意する</string>
     <string name="eula_exit">拒否する</string>
 
@@ -363,7 +363,7 @@
     <string name="ms_active_badge">アクティブ</string>
     <string name="ms_account_subtitle_format">ユーザー ID: %1$s • 更新: %2$s</string>
     <string name="xbox_avatar">Xbox アバター</string>
-    <string name="launcher_managed_mc_login">AG_fork で Minecraft にサインイン</string>
+    <string name="launcher_managed_mc_login">LeviLauncher で Minecraft にサインイン</string>
     <string name="dialog_title_login_required">サインインが必要です</string>
     <string name="dialog_message_login_required">ランチャー管理のログインが有効ですが、アカウントがサインインしていません。</string>
     <string name="go_to_accounts">アカウント</string>
@@ -568,15 +568,15 @@
     <string name="vanilla_prefix">バニラ %s</string>
 
     <string name="about_page_title">アプリについて</string>
-    <string name="about_subtitle">AG_fork — 最新の Minecraft Bedrock ランチャー</string>
+    <string name="about_subtitle">LeviLauncher — 最新の Minecraft Bedrock ランチャー</string>
     <string name="about_authors_title">👥 開発者 &amp; メンテナー</string>
     <string name="about_author_name">DreamGuXiang</string>
     <string name="about_author_badge">開発者</string>
-    <string name="about_author_role">AG_fork 開発者</string>
+    <string name="about_author_role">LeviLauncher 開発者</string>
     <string name="about_afdian">Afdian</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">ソースコード &amp; オープンソース</string>
-    <string name="about_github_repo">GitHub · AG_fork</string>
+    <string name="about_github_repo">GitHub · LeviLauncher</string>
     <string name="about_github_org">LiteLDev</string>
     <string name="about_license_note">ライセンスの詳細はリポジトリの LICENSE をご覧ください。</string>
     <string name="about_contribute_title">貢献</string>
@@ -586,7 +586,7 @@
 
     <string-array name="launcher_tips">
         <item>設定でテーマ、色、背景などの外観オプションを調整できます。</item>
-        <item>AG_fork はオープンソースです。GitHub で問題の報告や改善の提案ができます。</item>
+        <item>LeviLauncher はオープンソースです。GitHub で問題の報告や改善の提案ができます。</item>
         <item>バージョンのドロップダウンを使用して、現在のインスタンスをすばやく切り替えます。</item>
         <item>誰かこれを本当に読んでいるのでしょうか？</item>
         <item>モッドをドラッグしてロードの優先度を変更できます。</item>
