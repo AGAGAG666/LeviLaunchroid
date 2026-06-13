@@ -180,20 +180,27 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "35.0.0"
 
+      - name: Get version name
+        id: version
+        run: |
+          VERSION=$(grep 'versionName' app/build.gradle | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Rename Signed APK
         run: |
           SIGNED_APK="${{ steps.sign_app.outputs.signedReleaseFile }}"
           if [ -n "$SIGNED_APK" ] && [ -f "$SIGNED_APK" ]; then
-            cp "$SIGNED_APK" "LeviLaunchroid_AG-release.apk"
-            echo "Signed APK renamed to LeviLaunchroid_AG-release.apk"
+            APK_NAME="LeviLaunchroid_AG-v${{ steps.version.outputs.version }}-release.apk"
+            cp "$SIGNED_APK" "$APK_NAME"
+            echo "Signed APK renamed to $APK_NAME"
           fi
 
       - name: Upload Signed APK Artifact
-        if: hashFiles('LeviLaunchroid_AG-release.apk') != ''
+        if: hashFiles('LeviLaunchroid_AG-v*-release.apk') != ''
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: LeviLaunchroid_AG-release-signed
-          path: LeviLaunchroid_AG-release.apk
+          name: LeviLaunchroid_AG-v${{ steps.version.outputs.version }}-release
+          path: LeviLaunchroid_AG-v*-release.apk
 
       - name: Release APK to GitHub Releases
         if: startsWith(github.ref, 'refs/tags/')
