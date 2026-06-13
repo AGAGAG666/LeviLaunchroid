@@ -8,7 +8,7 @@ public class FeatureSettings {
     private boolean versionIsolationEnabled = false;
     private boolean launcherManagedMcLoginEnabled = false;
     private boolean logcatOverlayEnabled = false;
-    private Boolean crashUploadEnabled = true;
+    private boolean memoryEditorEnabled = false;
 
     public enum StorageType {
         INTERNAL,
@@ -43,9 +43,8 @@ public class FeatureSettings {
     public boolean isLogcatOverlayEnabled() { return logcatOverlayEnabled; }
     public void setLogcatOverlayEnabled(boolean enabled) { this.logcatOverlayEnabled = enabled; autoSave(); }
 
-    public boolean isCrashUploadEnabled() { return crashUploadEnabled == null || crashUploadEnabled; }
-    public void setCrashUploadEnabled(boolean enabled) { this.crashUploadEnabled = enabled; autoSave(); }
-
+    public boolean isMemoryEditorEnabled() { return memoryEditorEnabled; }
+    public void setMemoryEditorEnabled(boolean enabled) { this.memoryEditorEnabled = enabled; autoSave(); }
 
     private void autoSave() {
         if (appContext != null) {
