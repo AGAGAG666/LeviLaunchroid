@@ -4,7 +4,7 @@
 
 **基于 [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) 的修改版**
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%2020-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Android](https://img.shields.io/badge/Android-9.0%2B-green?style=flat-square&logo=android)](https://www.android.com/)
 
 </div>
@@ -15,10 +15,15 @@
 
 LeviLaunchroid_AG 是基于 [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) 的修改版，原项目由 LeviMC 团队开发。
 
+**[English Documentation](README.md)**
+
 ### 修改内容
 
 - 移除了 Google Play 商店验证要求
 - 移除了包名锁定（导入的 MC 安装包不再限于 `com.mojang.minecraftpe`）
+- 恢复了内存编辑器功能（原版 v1.4.7 中被移除）
+- 移除了自定义版本的强制版本隔离
+- CurseForge API 集成用于模组发现
 
 ### 原项目
 

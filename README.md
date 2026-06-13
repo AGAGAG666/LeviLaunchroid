@@ -4,7 +4,7 @@
 
 **A fork of [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) by LeviMC**
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%2020-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Android](https://img.shields.io/badge/Android-9.0%2B-green?style=flat-square&logo=android)](https://www.android.com/)
 
 </div>
@@ -21,6 +21,9 @@ LeviLaunchroid_AG is a modified fork of [LeviLaunchroid](https://github.com/Lite
 
 - Removed Google Play store verification requirement
 - Removed package name lock (imported MC APKs are no longer limited to `com.mojang.minecraftpe`)
+- Restored memory editor feature (removed in original v1.4.7)
+- Removed forced version isolation for custom versions
+- CurseForge API integration for mod discovery
 
 ### Original Project
 
