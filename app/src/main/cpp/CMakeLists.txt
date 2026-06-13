@@ -8,7 +8,6 @@ if(ANDROID)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
-add_subdirectory(unpaircore)
 add_subdirectory(preloader)
 add_subdirectory(memoryeditor)
 add_subdirectory(inbuiltmods)
