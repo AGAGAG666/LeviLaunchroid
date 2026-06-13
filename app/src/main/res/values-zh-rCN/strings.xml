@@ -111,8 +111,10 @@
     <string name="missing_libs_message">检测到缺少必要的游戏库文件，是否立即修复？</string>
     <string name="repair">修复</string>
     <string name="repair_libs_dialog_title">修复游戏库文件</string>
+    <string name="repair_libs_dialog_subtitle">正在准备 Minecraft 原生运行库</string>
     <string name="repair_preparing">准备中…</string>
     <string name="repair_processing">正在提取库文件…</string>
+    <string name="repair_finalizing">正在完成修复…</string>
     
     <string name="theme_title">主题模式</string>
     <string name="theme_follow_system">跟随系统</string>
@@ -128,6 +130,8 @@
     <string name="dialog_positive_enable">启用</string>
     <string name="dialog_title_launch_failed">启动失败</string>
     <string name="dialog_message_launch_failed">无法启动Minecraft：%1$s</string>
+    <string name="dialog_title_incompatible_mods">已跳过不兼容模组</string>
+    <string name="dialog_message_incompatible_mods">部分已启用模组与当前 Minecraft 版本 %1$s 不兼容，已跳过加载：\n\n%2$s</string>
     <string name="dialog_title_disable_version_isolation">禁用版本隔离</string>
     <string name="dialog_message_disable_version_isolation">您尝试在启用版本隔离的情况下启动已安装的版本。请禁用版本隔离以继续。</string>
     <string name="dialog_positive_disable">禁用</string>
@@ -149,7 +153,9 @@
     <string name="toast_delete_failed">删除失败: %1$s</string>
     <string name="error_delete_builtin_version">不能删除内置版本</string>
     <string name="invalid_mod_file">失败</string>
-    <string name="invalid_mod_file_reason">仅允许导入 .so 文件或 .zip 模组包。所选文件不是有效的原生模组导入包。</string>
+    <string name="invalid_mod_file_reason">仅允许导入 .so 文件、.zip 模组包或 .levipack 模组包。所选文件不是有效的原生模组导入包。</string>
+    <string name="invalid_zip_mod_package_title">非法 ZIP 模组包</string>
+    <string name="invalid_zip_mod_package_message">ZIP 模组包必须包含 manifest.json 与 .so 文件。</string>
     <string name="error_versions">错误版本</string>
 
     <string name="dialog_title_delete_mod">删除 Mod</string>

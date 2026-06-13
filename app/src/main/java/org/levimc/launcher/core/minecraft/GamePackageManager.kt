@@ -528,7 +528,11 @@ class GamePackageManager private constructor(
             }
             try {
                 if (normalizedName == "gxcore") {
-                    NativeBridgeHelper.bootstrapGxCore()
+                    if (!NativeBridgeHelper.bootstrapGxCore()) {
+                        val detail = "gxcore bootstrap failed"
+                        Log.e(TAG, "Failed to load $fileName from $source: $detail")
+                        return LibraryLoadResult(normalizedName, fileName, source, false, elapsedSince(startedAt), detail)
+                    }
                 } else {
                     System.loadLibrary(normalizedName)
                 }
@@ -581,7 +585,7 @@ class GamePackageManager private constructor(
         progressStart: Int = 46,
         progressEnd: Int = 74,
         excludeReasons: Map<String, String> = emptyMap()
-    ) {
+    ): List<LibraryLoadResult> {
         val allLibs = requiredLibs + systemLoadedLibs
         val loadableLibs = allLibs.filterNot { lib ->
             val libName = normalizeLibraryName(lib)
@@ -589,6 +593,7 @@ class GamePackageManager private constructor(
         }
         val total = loadableLibs.size.coerceAtLeast(1)
         var loadIndex = 0
+        val results = mutableListOf<LibraryLoadResult>()
 
         allLibs.forEach { lib ->
             val libName = normalizeLibraryName(lib)
@@ -608,6 +613,7 @@ class GamePackageManager private constructor(
             trace?.mark("System.load started", lib)
 
             val result = loadLibraryDetailed(libName)
+            results.add(result)
             val detail = formatLoadResult(result)
             trace?.mark(
                 if (result.loaded) "System.load finished" else "System.load failed",
@@ -620,6 +626,8 @@ class GamePackageManager private constructor(
                 listener?.onLog("Loaded native library: ${result.fileName}")
             }
         }
+
+        return results
     }
 
     private fun toLibraryFileName(name: String): String {
