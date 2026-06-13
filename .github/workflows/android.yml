@@ -146,8 +146,13 @@ jobs:
           CF_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
         run: echo "curseforge.api_key=${CF_API_KEY}" >> local.properties
 
-      - name: Build Debug, Beta and Unsigned Release APKs
-        run: ./gradlew assembleDebug assembleBeta assembleRelease
+      - name: Build APKs
+        run: |
+          if [ "${{ github.ref_name }}" = "test" ]; then
+            ./gradlew assembleDebug
+          else
+            ./gradlew assembleDebug assembleBeta assembleRelease
+          fi
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4.6.2
@@ -156,18 +161,21 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
 
       - name: Upload Unsigned Release APK
+        if: github.ref_name != 'test'
         uses: actions/upload-artifact@v4.6.2
         with:
           name: LeviLauncher-release-unsigned-apk
           path: app/build/outputs/apk/release/*-unsigned.apk
 
       - name: Upload Beta APK
+        if: github.ref_name != 'test'
         uses: actions/upload-artifact@v4.6.2
         with:
           name: LeviLauncher-beta-apk
           path: app/build/outputs/apk/beta/*.apk
 
       - name: Sign Release APK
+        if: github.ref_name != 'test'
         uses: kevin-david/zipalign-sign-android-release@v2
         id: sign_app
         with:
@@ -181,12 +189,14 @@ jobs:
           BUILD_TOOLS_VERSION: "35.0.0"
 
       - name: Get version name
+        if: github.ref_name != 'test'
         id: version
         run: |
           VERSION=$(grep 'versionName' app/build.gradle | head -1 | sed 's/.*"\(.*\)".*/\1/')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Rename Signed APK
+        if: github.ref_name != 'test'
         run: |
           SIGNED_APK="${{ steps.sign_app.outputs.signedReleaseFile }}"
           if [ -n "$SIGNED_APK" ] && [ -f "$SIGNED_APK" ]; then
@@ -196,7 +206,7 @@ jobs:
           fi
 
       - name: Upload Signed APK Artifact
-        if: hashFiles('LeviLaunchroid_AG-v*-release.apk') != ''
+        if: github.ref_name != 'test' && hashFiles('LeviLaunchroid_AG-v*-release.apk') != ''
         uses: actions/upload-artifact@v4.6.2
         with:
           name: LeviLaunchroid_AG-v${{ steps.version.outputs.version }}-release
