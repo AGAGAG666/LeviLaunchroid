@@ -644,6 +644,14 @@
 
     <string name="unsupported_version_title">Unsupported Version</string>
     <string name="unsupported_version_msg">This launcher does not support Minecraft versions older than 1.21.80.</string>
+    <!-- Memory Overlay -->
+    <string name="memory_overlay_config_title">Configure Overlay Button</string>
+    <string name="memory_overlay_name">Button Name</string>
+    <string name="memory_overlay_name_hint">e.g. Health, Speed</string>
+    <string name="memory_overlay_original_value">Original Value</string>
+    <string name="memory_overlay_new_value">New Value</string>
+    <string name="memory_overlay_new_value_hint">Enter value to apply</string>
+    <string name="memory_overlay_toggleable">Toggleable</string>
 <!-- Memory Editor -->
     <string name="memory_editor_enable">Memory Editor</string>
     <string name="memory_editor_title">Memory Editor</string>

@@ -637,6 +637,14 @@
 
     <string name="unsupported_version_title">不支持的版本</string>
     <string name="unsupported_version_msg">此启动器不支持早于 1.21.80 的 Minecraft 版本。</string>
+    <!-- Memory Overlay -->
+    <string name="memory_overlay_config_title">配置悬浮按钮</string>
+    <string name="memory_overlay_name">按钮名称</string>
+    <string name="memory_overlay_name_hint">例如：生命值、速度</string>
+    <string name="memory_overlay_original_value">原始值</string>
+    <string name="memory_overlay_new_value">新值</string>
+    <string name="memory_overlay_new_value_hint">输入要应用的值</string>
+    <string name="memory_overlay_toggleable">可切换</string>
     <!-- Memory Editor -->
     <string name="memory_editor_enable">内存编辑器</string>
     <string name="memory_editor_title">内存编辑器</string>
