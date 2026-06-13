@@ -832,21 +832,6 @@ import okhttp3.OkHttpClient;
             }
         }
 
-        if (!version.isInstalled && !version.versionIsolation) {
-            trace.warning("Launch cancelled", "Version isolation must be enabled");
-            binding.launchButton.setEnabled(true);
-            new CustomAlertDialog(this)
-                    .setTitleText(getString(R.string.dialog_title_version_isolation))
-                    .setMessage(getString(R.string.dialog_message_version_isolation))
-                    .setPositiveButton(getString(R.string.dialog_positive_enable), v -> {
-                        VersionManager.get(this).setInstanceVersionIsolation(version, true);
-                        performActualLaunch();
-                    })
-                    .setNegativeButton(getString(R.string.dialog_negative_cancel), null)
-                    .show();
-            return;
-        }
-
         trace.mark("Launch validation completed", version.directoryName + " " + version.versionCode);
         try {
             Intent launchIntent = createMinecraftLaunchIntent();
