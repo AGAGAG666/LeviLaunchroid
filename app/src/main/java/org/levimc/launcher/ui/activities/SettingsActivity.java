@@ -32,6 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import org.levimc.launcher.R;
 import org.levimc.launcher.core.crash.CrashReporter;
 import org.levimc.launcher.settings.FeatureSettings;
+import org.levimc.launcher.ui.dialogs.CustomAlertDialog;
 import org.levimc.launcher.ui.animation.DynamicAnim;
 import org.levimc.launcher.ui.dialogs.LogcatOverlayManager;
 import org.levimc.launcher.util.GithubReleaseUpdater;
