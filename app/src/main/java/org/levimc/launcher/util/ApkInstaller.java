@@ -230,6 +230,12 @@ public class ApkInstaller {
         store.loadOrCreate(metadataDir, VersionProfileMetadataStore.Defaults.custom(dirName, versionName));
     }
 
+    private static void writeTextFile(File file, String content) throws IOException {
+        java.io.FileWriter writer = new java.io.FileWriter(file);
+        writer.write(content);
+        writer.close();
+    }
+
     private void postProgress(int progress) {
         int clamped = Math.max(0, Math.min(100, progress));
         if (clamped <= lastPostedProgress && clamped < 100) {

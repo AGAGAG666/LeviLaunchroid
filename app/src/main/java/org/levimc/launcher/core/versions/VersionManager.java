@@ -865,4 +865,19 @@ public class VersionManager {
     private File getRuntimeLibDir(String dirName) {
         return MinecraftLauncher.getRuntimeLibDir(context, dirName);
     }
+
+    private static String readFileToString(File file) {
+        try {
+            java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(file));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            reader.close();
+            return sb.toString().trim();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }
