@@ -6,9 +6,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
-import android.widget.Toast
 import com.mojang.minecraftpe.MainActivity
 import org.levimc.launcher.core.crash.CrashReporter
+import org.levimc.launcher.core.mods.ModManager
 import org.levimc.launcher.core.mods.inbuilt.overlay.InbuiltOverlayManager
 import java.io.File
 
@@ -24,7 +24,6 @@ class MinecraftActivity : MainActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         trace = LaunchTrace.ensure(intent)
         trace.mark("MinecraftActivity onCreate entered")
-        CrashReporter.disarmRecovery(this)
         window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(resolveLaunchBackgroundColor()))
 
         if (savedInstanceState != null) {
@@ -40,15 +39,23 @@ class MinecraftActivity : MainActivity() {
                 ?: MinecraftRuntimePreparer.prepare(applicationContext, intent)
             gameManager = preparedRuntime.gameManager
             trace.mark("Prepared runtime consumed")
-        } catch (e: Exception) {
-            trace.mark("MinecraftActivity prepare failed", e.message)
-            Toast.makeText(this, "Failed to load game: ${e.message}", Toast.LENGTH_LONG).show()
-            finish()
+        } catch (throwable: Throwable) {
+            trace.error("MinecraftActivity prepare failed", formatLaunchFailure(throwable))
+            returnToLauncherAfterLaunchFailure()
             return
         }
+        trace.mark("Native mod enable started")
+        ModManager.enableLoadedMods()
+        trace.mark("Native mod enable finished")
         trace.mark("Mojang MainActivity super.onCreate starting")
-        gameRuntimeStarted = true
-        super.onCreate(savedInstanceState)
+        try {
+            gameRuntimeStarted = true
+            super.onCreate(savedInstanceState)
+        } catch (throwable: Throwable) {
+            trace.error("Mojang MainActivity super.onCreate failed", formatLaunchFailure(throwable))
+            returnToLauncherAfterLaunchFailure()
+            return
+        }
         trace.mark("Mojang MainActivity super.onCreate finished")
         
         val launchVertically = intent.getBooleanExtra("LAUNCH_VERTICALLY", false)
@@ -63,6 +70,17 @@ class MinecraftActivity : MainActivity() {
             .putBoolean("game_verified", true)
             .apply()
         trace.mark("MinecraftActivity onCreate finished")
+    }
+
+    private fun returnToLauncherAfterLaunchFailure() {
+        gameRuntimeStarted = false
+        MinecraftLaunchSession.clear()
+        MinecraftProcessRestarter.restartLauncherAfterMinecraftExit(this)
+        finish()
+    }
+
+    private fun formatLaunchFailure(throwable: Throwable): String {
+        return throwable.message ?: throwable.javaClass.simpleName
     }
 
     private fun resolveLaunchBackgroundColor(): Int {
@@ -175,6 +193,7 @@ class MinecraftActivity : MainActivity() {
     override fun onPause() {
         val shouldRestartAfterNormalExit = shouldRestartAfterNormalExit()
         if (shouldRestartAfterNormalExit) {
+            ModManager.disableAndUnloadLoadedMods()
             prepareNormalExitCleanup()
             scheduleNormalExitProcessRestart()
         }
@@ -183,6 +202,8 @@ class MinecraftActivity : MainActivity() {
     }
 
     override fun onDestroy() {
+        ModManager.disableAndUnloadLoadedMods()
+
         val shouldPrepareNormalExit = shouldRestartAfterNormalExit()
         if (shouldPrepareNormalExit) {
             prepareNormalExitCleanup()
@@ -203,14 +224,12 @@ class MinecraftActivity : MainActivity() {
     }
 
     private fun shouldRestartAfterNormalExit(): Boolean {
-        return gameRuntimeStarted && isFinishing && !CrashReporter.isHandlingCrash() && !CrashReporter.hasPendingCrash(this)
+        return gameRuntimeStarted && isFinishing && !CrashReporter.isHandlingCrash()
     }
 
     private fun prepareNormalExitCleanup() {
         if (normalExitPrepared) return
         normalExitPrepared = true
-
-        CrashReporter.disarmRecovery(this)
     }
 
     private fun scheduleNormalExitProcessRestart() {
@@ -229,18 +248,7 @@ class MinecraftActivity : MainActivity() {
     }
 
     override fun getFilesDir(): File {
-        val mcPath = intent?.getStringExtra("MC_PATH")
-        val isIsolated = intent?.getBooleanExtra("VERSION_ISOLATION", false) ?: false
-
-        return if (isIsolated && !mcPath.isNullOrEmpty()) {
-            val filesDir = File(mcPath, "games/com.mojang")
-            if (!filesDir.exists()) {
-                filesDir.mkdirs()
-            }
-            filesDir
-        } else {
-            super.getFilesDir()
-        }
+        return resolveStorageDir(MinecraftLauncher.EXTRA_STORAGE_FILES_DIR, super.getFilesDir())
     }
 
     override fun tick() {
@@ -249,67 +257,48 @@ class MinecraftActivity : MainActivity() {
     }
 
     override fun getDataDir(): File {
-        val mcPath = intent?.getStringExtra("MC_PATH")
-        val isIsolated = intent?.getBooleanExtra("VERSION_ISOLATION", false) ?: false
-
-        return if (isIsolated && !mcPath.isNullOrEmpty()) {
-            val dataDir = File(mcPath)
-            if (!dataDir.exists()) {
-                dataDir.mkdirs()
-            }
-            dataDir
-        } else {
-            super.getDataDir()
-        }
+        return resolveStorageDir(MinecraftLauncher.EXTRA_STORAGE_DATA_DIR, super.getDataDir())
     }
 
     override fun getExternalFilesDir(type: String?): File? {
-        val mcPath = intent?.getStringExtra("MC_PATH")
-        val isIsolated = intent?.getBooleanExtra("VERSION_ISOLATION", false) ?: false
-
-        return if (isIsolated && !mcPath.isNullOrEmpty()) {
-            val externalDir = if (type != null) {
-                File(mcPath, "games/com.mojang/$type")
-            } else {
-                File(mcPath, "games/com.mojang")
-            }
-            if (!externalDir.exists()) {
-                externalDir.mkdirs()
-            }
-            externalDir
+        val baseDir = resolveStorageDir(
+            MinecraftLauncher.EXTRA_STORAGE_EXTERNAL_FILES_DIR,
+            super.getExternalFilesDir(null)
+        )
+        return if (type.isNullOrEmpty()) {
+            baseDir
         } else {
-            super.getExternalFilesDir(type)
+            File(baseDir, type).also { it.mkdirs() }
         }
+    }
+
+    override fun getInternalStoragePath(): String {
+        return getFilesDir().absolutePath
+    }
+
+    override fun getExternalStoragePath(): String {
+        return (getExternalFilesDir(null) ?: getFilesDir()).absolutePath
+    }
+
+    private fun resolveStorageDir(extraName: String, fallback: File?): File {
+        val path = intent?.getStringExtra(extraName)
+        val dir = if (!path.isNullOrEmpty()) File(path) else fallback ?: super.getFilesDir()
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        return dir
     }
 
     override fun getDatabasePath(name: String): File {
-        val mcPath = intent?.getStringExtra("MC_PATH")
-        val isIsolated = intent?.getBooleanExtra("VERSION_ISOLATION", false) ?: false
-
-        return if (isIsolated && !mcPath.isNullOrEmpty()) {
-            val dbDir = File(mcPath, "databases")
-            if (!dbDir.exists()) {
-                dbDir.mkdirs()
-            }
-            File(dbDir, name)
-        } else {
-            super.getDatabasePath(name)
+        val dbDir = File(getDataDir(), "databases")
+        if (!dbDir.exists()) {
+            dbDir.mkdirs()
         }
+        return File(dbDir, name)
     }
 
     override fun getCacheDir(): File {
-        val mcPath = intent?.getStringExtra("MC_PATH")
-        val isIsolated = intent?.getBooleanExtra("VERSION_ISOLATION", false) ?: false
-
-        return if (isIsolated && !mcPath.isNullOrEmpty()) {
-            val cacheDir = File(mcPath, "cache")
-            if (!cacheDir.exists()) {
-                cacheDir.mkdirs()
-            }
-            cacheDir
-        } else {
-            super.getCacheDir()
-        }
+        return resolveStorageDir(MinecraftLauncher.EXTRA_STORAGE_CACHE_DIR, super.getCacheDir())
     }
 
     fun showSoftKeyboard() {

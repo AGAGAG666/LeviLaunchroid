@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.SystemClock
 import android.util.Log
 import org.levimc.launcher.core.versions.GameVersion
+import org.levimc.launcher.util.LauncherStorage
 import org.levimc.launcher.util.NativeBridgeHelper
 import org.levimc.launcher.util.NativeImageGuard
 import java.io.File
@@ -29,21 +30,7 @@ class GamePackageManager private constructor(
     private val nativeLibDir: String
     private val applicationInfo: ApplicationInfo
 
-    private val knownPackages = listOf(
-        "com.mojang.minecraftpe",
-        "com.mojang.minecraftpe.beta",
-        "com.mojang.minecraftpe.preview"
-    )
-
-    private fun isMinecraftPackageByScan(packageName: String): Boolean {
-        return try {
-            val appInfo = context.packageManager.getApplicationInfo(packageName, 0)
-            val nativeLibDir = appInfo.nativeLibraryDir
-            nativeLibDir != null && java.io.File(nativeLibDir, "libminecraftpe.so").exists()
-        } catch (_: Exception) {
-            false
-        }
-    }
+    private val knownPackages = arrayOf(MinecraftLauncher.MC_PACKAGE_NAME)
 
     private val requiredLibs = arrayOf(
         "libc++_shared.so",
@@ -75,11 +62,7 @@ class GamePackageManager private constructor(
 
     init {
         report("GamePackageManager init started")
-        val packageName = if (version?.packageName != null && isPackageInstalled(version.packageName)) {
-            version.packageName
-        } else {
-            detectGamePackage() ?: throw IllegalStateException("Minecraft not found")
-        }
+        val packageName = detectGamePackage() ?: throw IllegalStateException("Minecraft not found")
         report("Detected Minecraft package: $packageName")
         packageContext = context.createPackageContext(
             packageName,
@@ -87,8 +70,7 @@ class GamePackageManager private constructor(
         )
         
         if (version != null && !version.isInstalled) {
-            val actualPackageName = version.packageName ?: detectPackageNameFromApk(version) ?: MinecraftLauncher.MC_PACKAGE_NAME
-            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, actualPackageName)
+            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, MinecraftLauncher.MC_PACKAGE_NAME)
             nativeLibDir = applicationInfo.nativeLibraryDir
         } else {
             applicationInfo = packageContext.applicationInfo
@@ -104,15 +86,7 @@ class GamePackageManager private constructor(
     }
 
     private fun detectGamePackage(): String? {
-        knownPackages.firstOrNull { isPackageInstalled(it) }?.let { return it }
-        val pm = context.packageManager
-        val installedPackages = pm.getInstalledPackages(0)
-        for (pi in installedPackages) {
-            if (isMinecraftPackageByScan(pi.packageName)) {
-                return pi.packageName
-            }
-        }
-        return null
+        return knownPackages.firstOrNull { isPackageInstalled(it) }
     }
 
     private fun isPackageInstalled(packageName: String): Boolean {
@@ -124,26 +98,15 @@ class GamePackageManager private constructor(
         }
     }
 
-    private fun detectPackageNameFromApk(version: GameVersion): String? {
-        return try {
-            val apkFile = File(version.versionDir, "base.apk.levi")
-            if (!apkFile.exists()) return null
-            val info = context.packageManager.getPackageArchiveInfo(apkFile.absolutePath, 0)
-            info?.packageName
-        } catch (_: Exception) {
-            null
-        }
-    }
-
     private fun resolveNativeLibDir(): String {
-        val cacheName = sanitizeCacheName(version?.directoryName ?: packageContext.packageName)
-        val cacheLibDir = File(context.filesDir, "minecraft_libs/$cacheName/${getDeviceAbi()}")
+        val profileId = if (version != null) {
+            MinecraftLauncher.getStorageProfileId(version)
+        } else {
+            LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID
+        }
+        val cacheLibDir = MinecraftLauncher.getRuntimeLibAbiDir(context, profileId, getDeviceAbi())
         cacheLibDir.mkdirs()
         return cacheLibDir.absolutePath
-    }
-
-    private fun sanitizeCacheName(value: String): String {
-        return value.replace(Regex("[^A-Za-z0-9._-]"), "_").ifBlank { "default" }
     }
 
     private fun getDeviceAbi(): String {
@@ -528,7 +491,11 @@ class GamePackageManager private constructor(
             }
             try {
                 if (normalizedName == "gxcore") {
-                    NativeBridgeHelper.bootstrapGxCore()
+                    if (!NativeBridgeHelper.bootstrapGxCore()) {
+                        val detail = "gxcore bootstrap failed"
+                        Log.e(TAG, "Failed to load $fileName from $source: $detail")
+                        return LibraryLoadResult(normalizedName, fileName, source, false, elapsedSince(startedAt), detail)
+                    }
                 } else {
                     System.loadLibrary(normalizedName)
                 }
@@ -581,7 +548,7 @@ class GamePackageManager private constructor(
         progressStart: Int = 46,
         progressEnd: Int = 74,
         excludeReasons: Map<String, String> = emptyMap()
-    ) {
+    ): List<LibraryLoadResult> {
         val allLibs = requiredLibs + systemLoadedLibs
         val loadableLibs = allLibs.filterNot { lib ->
             val libName = normalizeLibraryName(lib)
@@ -589,6 +556,7 @@ class GamePackageManager private constructor(
         }
         val total = loadableLibs.size.coerceAtLeast(1)
         var loadIndex = 0
+        val results = mutableListOf<LibraryLoadResult>()
 
         allLibs.forEach { lib ->
             val libName = normalizeLibraryName(lib)
@@ -608,6 +576,7 @@ class GamePackageManager private constructor(
             trace?.mark("System.load started", lib)
 
             val result = loadLibraryDetailed(libName)
+            results.add(result)
             val detail = formatLoadResult(result)
             trace?.mark(
                 if (result.loaded) "System.load finished" else "System.load failed",
@@ -620,6 +589,8 @@ class GamePackageManager private constructor(
                 listener?.onLog("Loaded native library: ${result.fileName}")
             }
         }
+
+        return results
     }
 
     private fun toLibraryFileName(name: String): String {

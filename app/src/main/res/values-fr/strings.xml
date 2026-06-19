@@ -54,13 +54,14 @@
     <string name="overwrite">Écraser</string>
     <string name="skip">Ignorer</string>
     <string name="confirm">Confirmer</string>
+    <string name="retry">Réessayer</string>
 
     <string name="installed_packages">Paquets installés</string>
     <string name="local_custom">Personnalisé local</string>
 
     <!-- Permissions -->
-    <string name="storage_permission_title">Autorisation de stockage requise</string>
-    <string name="storage_permission_message">Veuillez accorder l\'autorisation de stockage pour accéder au répertoire et détecter les mods.</string>
+    <string name="storage_permission_title">Autorisation de migration du stockage</string>
+    <string name="storage_permission_message">Veuillez accorder l’autorisation de stockage afin que LeviLauncher puisse copier les données depuis l’ancien dossier games/org.levimc. Cette autorisation n’est utilisée que pour la migration.</string>
     <string name="grant_permission">Accorder</string>
     <string name="cancel">Annuler</string>
 
@@ -114,6 +115,8 @@
     <string name="dialog_positive_enable">Activer</string>
     <string name="dialog_title_launch_failed">Échec du lancement</string>
     <string name="dialog_message_launch_failed">Échec du lancement de Minecraft : %1$s</string>
+    <string name="dialog_title_incompatible_mods">Mods incompatibles ignorés</string>
+    <string name="dialog_message_incompatible_mods">Certains mods activés sont incompatibles avec votre version actuelle de Minecraft %1$s et ont été ignorés :\n\n%2$s</string>
     <string name="dialog_title_disable_version_isolation">Désactiver l\'isolation de version</string>
     <string name="dialog_message_disable_version_isolation">Vous essayez de lancer une version installée avec l\'isolation de version activée. Veuillez désactiver l\'isolation de version pour continuer.</string>
     <string name="dialog_positive_disable">Désactiver</string>
@@ -141,8 +144,38 @@
     <string name="missing_libs_message">Fichiers de bibliothèque de jeu requis manquants. Voulez-vous les réparer maintenant ?</string>
     <string name="repair">Réparer</string>
     <string name="repair_libs_dialog_title">Réparation des bibliothèques de jeu</string>
+    <string name="repair_libs_dialog_subtitle">Préparation des bibliothèques natives Minecraft</string>
     <string name="repair_preparing">Préparation…</string>
     <string name="repair_processing">Extraction des bibliothèques…</string>
+    <string name="repair_finalizing">Finalisation de la réparation…</string>
+    <string name="storage_migration_title">Migration du stockage requise</string>
+    <string name="storage_migration_message">LeviLauncher doit migrer les données de games/org.levimc vers %1$s avant de continuer.
+
+Ce changement de stockage est nécessaire pour respecter les exigences de publication sur Google Play. L’ancien dossier restera intact, mais il ne sera plus utilisé après la migration.
+
+La migration peut prendre du temps. Vous pouvez laisser l’application en arrière-plan pendant son exécution ; le téléphone peut chauffer lors d’une copie importante de fichiers. Merci de votre compréhension.</string>
+    <string name="storage_migration_start">Migrer</string>
+    <string name="storage_migration_permission_denied">L’autorisation de stockage est nécessaire pour lire l’ancien dossier pendant la migration.</string>
+    <string name="storage_migration_progress_title">Migration du stockage</string>
+    <string name="storage_migration_progress_subtitle">Copie des données du lanceur vers Android/media</string>
+    <string name="storage_migration_scanning">Analyse de l’ancien dossier…</string>
+    <string name="storage_migration_progress_detail">%1$d/%2$d fichiers · %3$s</string>
+    <string name="storage_migration_eta_pending">Estimation du temps restant…</string>
+    <string name="storage_migration_eta_detail">Environ %1$s restant · fin vers %2$s</string>
+    <string name="storage_migration_duration_hours_minutes">%1$d h %2$d min</string>
+    <string name="storage_migration_duration_minutes_seconds">%1$d min %2$d s</string>
+    <string name="storage_migration_duration_seconds">%1$d s</string>
+    <string name="storage_migration_background_hint">La migration peut continuer en arrière-plan. Gardez de préférence le téléphone chargé ; le téléphone peut chauffer pendant la copie de fichiers. Merci de votre compréhension.</string>
+    <string name="storage_migration_completed_title">Migration terminée</string>
+    <string name="storage_migration_completed_message">%1$d fichiers migrés (%2$s). %3$d fichiers étaient déjà à jour.
+
+L’ancien dossier games/org.levimc n’a pas été supprimé et n’est plus utilisé.</string>
+    <string name="storage_migration_partial_title">Migration incomplète</string>
+    <string name="storage_migration_partial_message">%1$d fichiers sur %2$d n’ont pas pu être copiés. La migration doit être terminée avant de continuer avec LeviLauncher.</string>
+    <string name="storage_migration_failed_title">Échec de la migration</string>
+    <string name="storage_migration_failed_message">La migration ne peut pas continuer : %1$s
+
+La migration doit être terminée avant de continuer avec LeviLauncher.</string>
 
     <string name="theme_title">Mode Thème</string>
     <string name="theme_follow_system">Suivre le système</string>
@@ -166,7 +199,9 @@
     <string name="toast_delete_failed">Échec de la suppression : %1$s</string>
     <string name="error_delete_builtin_version">Impossible de supprimer la version intégrée</string>
     <string name="invalid_mod_file">Échec</string>
-    <string name="invalid_mod_file_reason">Seuls les fichiers .so ou .zip sont autorisés. Le fichier sélectionné n\'est pas un mod natif valide.</string>
+    <string name="invalid_mod_file_reason">Seuls les fichiers .so, les packages de mod .zip ou les packages de mod .levipack sont autorisés. Le fichier sélectionné n\'est pas un mod natif valide.</string>
+    <string name="invalid_zip_mod_package_title">Package ZIP de mod invalide</string>
+    <string name="invalid_zip_mod_package_message">Le package ZIP de mod doit contenir manifest.json et un fichier .so.</string>
     <string name="error_versions">Versions erronées</string>
 
     <string name="dialog_title_delete_mod">Supprimer le mod</string>
@@ -192,6 +227,19 @@
     <string name="instance_delete_warning">Cette action ne peut pas être annulée.</string>
     <string name="instance_delete_confirm_title">Supprimer l\'instance</string>
     <string name="instance_delete_confirm_msg">Êtes-vous sûr ? Toutes les données, y compris les mondes, seront définitivement supprimées.</string>
+    <string name="instance_batch_backup_button">Sauvegarde par lot</string>
+    <string name="instance_batch_backup_title">Sauvegarde par lot des instances</string>
+    <string name="instance_batch_backup_select_message">Sélectionnez les instances à sauvegarder. Quittez Minecraft s\'il est en cours d\'exécution afin d\'éviter toute modification des données pendant la sauvegarde.</string>
+    <string name="instance_batch_backup_select_all">Sélectionner toutes les instances</string>
+    <string name="instance_batch_backup_no_instances">Aucune instance disponible à sauvegarder.</string>
+    <string name="instance_batch_backup_no_selection">Sélectionnez au moins une instance.</string>
+    <string name="instance_batch_backup_in_progress">Sauvegarde de %1$s (%2$d/%3$d)…</string>
+    <string name="instance_batch_backup_success_title">Sauvegardes créées</string>
+    <string name="instance_batch_backup_success_message">%1$d sauvegardes créées :\n%2$s</string>
+    <string name="instance_batch_backup_partial_title">Sauvegarde partiellement terminée</string>
+    <string name="instance_batch_backup_partial_message">%1$d sauvegardes créées, %2$d échecs.\n\nEnregistrées :\n%3$s\n\nÉchecs :\n%4$s</string>
+    <string name="instance_batch_backup_failed_title">Échec de la sauvegarde par lot</string>
+    <string name="instance_batch_backup_failed_message">Impossible de créer une sauvegarde :\n%1$s</string>
 
     <string name="language">Langue (Language)</string>
     <string name="english">English</string>
@@ -615,4 +663,41 @@
 
     <string name="unsupported_version_title">Version non prise en charge</string>
     <string name="unsupported_version_msg">Ce lanceur ne prend pas en charge les versions de Minecraft antérieures à 1.21.80.</string>
+    <!-- Mod Config -->
+    <string name="mod_author_byline">par %s</string>
+    <string name="mod_version_chip">Version %s</string>
+    <string name="mod_config_title_format">Configuration de %s</string>
+    <string name="mod_config_not_found">Aucune configuration modifiable trouvée</string>
+    <string name="mod_config_load_failed">Échec du chargement de la configuration : %s</string>
+    <string name="mod_config_save_failed">Échec de l\'enregistrement de la configuration</string>
+    <string name="mod_config_saved">Configuration enregistrée</string>
+    <string name="mod_config_restart_hint">Le fichier de configuration a été enregistré et un fichier .backup a été conservé.</string>
+    <string name="mod_config_validation_failed">Échec de la validation de la configuration</string>
+    <string name="mod_config_invalid_json">JSON invalide</string>
+    <string name="mod_config_expand">Développer</string>
+    <string name="mod_config_collapse">Réduire</string>
+    <string name="mod_config_raw_json">Modifier le JSON brut</string>
+    <string name="mod_config_raw_json_short">JSON</string>
+    <string name="mod_config_item_label">Élément %1$s</string>
+    <string name="mod_config_object_desc">Groupe de paramètres liés</string>
+    <string name="mod_config_array_desc">Liste de valeurs</string>
+    <string name="mod_config_range_prefix">Plage</string>
+    <string name="mod_config_error_number">%1$s doit être un nombre</string>
+    <string name="mod_config_error_minimum">%1$s doit être au moins %2$s</string>
+    <string name="mod_config_error_maximum">%1$s doit être au plus %2$s</string>
+    <string name="mod_config_error_boolean">%1$s doit être activé ou désactivé</string>
+    <string name="mod_config_error_string">%1$s doit être du texte</string>
+    <plurals name="mod_config_files_count">
+        <item quantity="one">%d configuration modifiable</item>
+        <item quantity="other">%d configurations modifiables</item>
+    </plurals>
+    <plurals name="mod_config_choices_count">
+        <item quantity="one">%d choix</item>
+        <item quantity="other">%d choix</item>
+    </plurals>
+    <plurals name="mod_config_items_count">
+        <item quantity="one">%d élément</item>
+        <item quantity="other">%d éléments</item>
+    </plurals>
+
 </resources>

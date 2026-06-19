@@ -7,10 +7,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.levimc.launcher.core.versions.GameVersion;
+import org.levimc.launcher.core.mods.config.ModConfigManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +36,7 @@ public class ModManager {
     private static final String TAG = "ModManager";
     private static final String MANIFEST_FILE_NAME = "manifest.json";
     private static final String PRELOAD_NATIVE_TYPE = "preload-native";
+    private static final String MINECRAFT_VERSIONS_FIELD = "minecraft_versions";
     private static final String DEFAULT_MOD_AUTHOR = "Unknown";
     private static final String DEFAULT_MOD_ICON = "";
     private static final String DEFAULT_MOD_VERSION = "1.0.0";
@@ -53,24 +57,47 @@ public class ModManager {
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .create();
+    private final ModConfigManager modConfigManager = new ModConfigManager();
 
     private static final class ModDescriptor {
         final String id;
         final String fileName;
         final String entryPath;
         final String displayName;
+        final List<String> minecraftVersions;
+        final String author;
+        final String version;
+        final String iconPath;
+        final String manifestPath;
+        final String description;
+        final File modRoot;
+        final File configDir;
+        final int configFileCount;
 
-        ModDescriptor(String id, String fileName, String entryPath, String displayName) {
+        ModDescriptor(String id, String fileName, String entryPath, String displayName, List<String> minecraftVersions,
+                      String author, String version, String iconPath, String manifestPath, String description,
+                      File modRoot, File configDir, int configFileCount) {
             this.id = id;
             this.fileName = fileName;
             this.entryPath = entryPath;
             this.displayName = displayName;
+            this.minecraftVersions = minecraftVersions;
+            this.author = author;
+            this.version = version;
+            this.iconPath = iconPath;
+            this.manifestPath = manifestPath;
+            this.description = description;
+            this.modRoot = modRoot;
+            this.configDir = configDir;
+            this.configFileCount = configFileCount;
         }
     }
 
     private ModManager() {}
 
-    private static native boolean nativeLoadMod(String libPath, Mod modObj);
+    private static native boolean nativeLoadMod(String libPath, String modRootPath, Mod modObj);
+    private static native void nativeEnableLoadedMods();
+    private static native void nativeDisableAndUnloadLoadedMods();
 
     public static ModManager getInstance() {
         ModManager result = instance;
@@ -106,15 +133,43 @@ public class ModManager {
     }
 
     public static boolean initializeLoadedMod(String libPath, Mod mod) {
+        return initializeLoadedMod(libPath, null, mod);
+    }
+
+    public static boolean initializeLoadedMod(String libPath, String modRootPath, Mod mod) {
         if (!ensurePreloaderLoaded()) {
             return false;
         }
 
         try {
-            return nativeLoadMod(libPath, mod);
+            return nativeLoadMod(libPath, modRootPath, mod);
         } catch (UnsatisfiedLinkError e) {
             Log.e(TAG, "Failed to invoke nativeLoadMod for " + libPath, e);
             return false;
+        }
+    }
+
+    public static void enableLoadedMods() {
+        if (!ensurePreloaderLoaded()) {
+            return;
+        }
+
+        try {
+            nativeEnableLoadedMods();
+        } catch (UnsatisfiedLinkError e) {
+            Log.e(TAG, "Failed to invoke nativeEnableLoadedMods", e);
+        }
+    }
+
+    public static void disableAndUnloadLoadedMods() {
+        if (!ensurePreloaderLoaded()) {
+            return;
+        }
+
+        try {
+            nativeDisableAndUnloadLoadedMods();
+        } catch (UnsatisfiedLinkError e) {
+            Log.e(TAG, "Failed to invoke nativeDisableAndUnloadLoadedMods", e);
         }
     }
 
@@ -165,6 +220,16 @@ public class ModManager {
                     descriptor.fileName,
                     descriptor.entryPath,
                     descriptor.displayName,
+                    descriptor.minecraftVersions,
+                    descriptor.author,
+                    descriptor.version,
+                    descriptor.iconPath,
+                    descriptor.manifestPath,
+                    descriptor.description,
+                    descriptor.modRoot.getAbsolutePath(),
+                    descriptor.configDir.getAbsolutePath(),
+                    descriptor.configFileCount > 0,
+                    descriptor.configFileCount,
                     enabledMap.getOrDefault(modId, true),
                     i
             ));
@@ -482,15 +547,87 @@ public class ModManager {
                 displayName = modDirectory.getName();
             }
 
+            File configDir = new File(modDirectory, ModConfigManager.CONFIG_DIR_NAME);
+            int configFileCount = modConfigManager.scanConfigFiles(modDirectory).size();
+            File iconFile = resolveSafeIconFile(modDirectory, parseOptionalString(manifest, "icon", DEFAULT_MOD_ICON));
+            String description = parseOptionalString(manifest, "description", null);
+
             return new ModDescriptor(
                     modDirectory.getName(),
                     entryFile.getName(),
                     entryPath,
-                    displayName
+                    displayName,
+                    parseMinecraftVersions(manifest),
+                    parseOptionalString(manifest, "author", DEFAULT_MOD_AUTHOR),
+                    parseOptionalString(manifest, "version", DEFAULT_MOD_VERSION),
+                    iconFile == null ? null : iconFile.getAbsolutePath(),
+                    manifestFile.getAbsolutePath(),
+                    description,
+                    modDirectory,
+                    configDir,
+                    configFileCount
             );
         } catch (Exception e) {
             Log.w(TAG, "Failed to parse mod manifest: " + manifestFile.getAbsolutePath(), e);
             return null;
+        }
+    }
+
+    private List<String> parseMinecraftVersions(JsonObject manifest) {
+        List<String> versions = new ArrayList<>();
+        if (manifest == null || !manifest.has(MINECRAFT_VERSIONS_FIELD)) {
+            return versions;
+        }
+
+        JsonElement value = manifest.get(MINECRAFT_VERSIONS_FIELD);
+        if (value == null || value.isJsonNull()) {
+            return versions;
+        }
+
+        if (value.isJsonArray()) {
+            JsonArray array = value.getAsJsonArray();
+            for (JsonElement element : array) {
+                addMinecraftVersionPattern(versions, element);
+            }
+            return versions;
+        }
+
+        addMinecraftVersionPattern(versions, value);
+        return versions;
+    }
+
+    private String parseOptionalString(JsonObject manifest, String fieldName, String fallback) {
+        if (manifest == null || !manifest.has(fieldName)) {
+            return fallback;
+        }
+
+        JsonElement value = manifest.get(fieldName);
+        if (value == null || value.isJsonNull() || !value.isJsonPrimitive()) {
+            return fallback;
+        }
+
+        try {
+            String text = value.getAsString();
+            if (text == null || text.trim().isEmpty()) {
+                return fallback;
+            }
+            return text.trim();
+        } catch (UnsupportedOperationException | IllegalStateException ignored) {
+            return fallback;
+        }
+    }
+
+    private void addMinecraftVersionPattern(List<String> versions, JsonElement element) {
+        if (element == null || !element.isJsonPrimitive()) {
+            return;
+        }
+
+        try {
+            String pattern = element.getAsString();
+            if (pattern != null && !pattern.trim().isEmpty()) {
+                versions.add(pattern.trim());
+            }
+        } catch (UnsupportedOperationException | IllegalStateException ignored) {
         }
     }
 
@@ -582,6 +719,37 @@ public class ModManager {
         }
 
         return normalized;
+    }
+
+    private File resolveSafeIconFile(File modDirectory, String iconPath) {
+        String safePath = sanitizeEntryPath(iconPath);
+        if (safePath == null) {
+            return null;
+        }
+
+        File iconFile = new File(modDirectory, safePath);
+        try {
+            String modRoot = modDirectory.getCanonicalPath();
+            String iconCanonicalPath = iconFile.getCanonicalPath();
+            if (!iconCanonicalPath.equals(modRoot) && !iconCanonicalPath.startsWith(modRoot + File.separator)) {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
+
+        if (!iconFile.isFile() || !isSupportedIconFile(iconFile)) {
+            return null;
+        }
+        return iconFile;
+    }
+
+    private boolean isSupportedIconFile(File iconFile) {
+        String name = iconFile.getName().toLowerCase();
+        return name.endsWith(".png")
+                || name.endsWith(".jpg")
+                || name.endsWith(".jpeg")
+                || name.endsWith(".webp");
     }
 
     private String deriveDisplayNameFromLibrary(String fileName) {

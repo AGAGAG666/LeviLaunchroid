@@ -130,7 +130,7 @@ android {
         }
     }
 
-    ndkVersion = "27.2.12479018"
+    ndkVersion = "28.2.13676358"
 }
 
 dependencies {
@@ -152,6 +152,8 @@ dependencies {
     implementation libs.okhttp
     implementation libs.androidx.dynamicanimation
     implementation libs.bedrock.connection
+    implementation libs.xcrash
+    implementation libs.play.services.games.v2
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

@@ -2,10 +2,11 @@ package org.levimc.launcher.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -20,6 +21,8 @@ import androidx.fragment.app.DialogFragment;
 
 import org.levimc.launcher.R;
 import org.levimc.launcher.ui.animation.DynamicAnim;
+import org.levimc.launcher.util.LauncherStorage;
+import org.levimc.launcher.util.PersonalizationManager;
 
 import java.io.File;
 import java.util.regex.Pattern;
@@ -64,6 +67,7 @@ public class ApkVersionConfirmDialog extends DialogFragment {
         editVersionName = root.findViewById(R.id.edit_version_name);
         textError = root.findViewById(R.id.text_version_error);
         btnInstall = root.findViewById(R.id.btn_install);
+        TextView title = root.findViewById(R.id.tv_title);
         Button btnCancel = root.findViewById(R.id.btn_cancel);
 
         editVersionName.setText(initialVersionName);
@@ -127,15 +131,26 @@ public class ApkVersionConfirmDialog extends DialogFragment {
         DynamicAnim.applyPressScale(btnCancel);
 
         try {
-            org.levimc.launcher.util.PersonalizationManager pm = new org.levimc.launcher.util.PersonalizationManager(context);
+            PersonalizationManager pm = new PersonalizationManager(context);
             int accent = pm.getAccentColor();
             if (accent != 0) {
-                btnInstall.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+                title.setTextColor(accent);
+                editVersionName.setBackground(createAccentEditTextBackground(context, accent));
+                btnInstall.setBackgroundTintList(ColorStateList.valueOf(accent));
                 btnInstall.setTextColor(Color.WHITE);
             }
         } catch (Exception ignored) {}
 
         return dialog;
+    }
+
+    private GradientDrawable createAccentEditTextBackground(Context context, int accent) {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setColor(context.getResources().getColor(R.color.surface, context.getTheme()));
+        drawable.setCornerRadius(6 * context.getResources().getDisplayMetrics().density);
+        drawable.setStroke((int) (1 * context.getResources().getDisplayMetrics().density), accent);
+        return drawable;
     }
 
     private void validateVersionName(String name) {
@@ -156,7 +171,7 @@ public class ApkVersionConfirmDialog extends DialogFragment {
     }
 
     private boolean ensureBaseDirectoryExists() {
-        File baseDir = new File(Environment.getExternalStorageDirectory(), "games/org.levimc/minecraft");
+        File baseDir = LauncherStorage.getMinecraftRoot(requireContext());
         if (!baseDir.exists()) {
             return baseDir.mkdirs();
         }
@@ -164,7 +179,7 @@ public class ApkVersionConfirmDialog extends DialogFragment {
     }
 
     private boolean isVersionExist(String name) {
-        File baseDir = new File(Environment.getExternalStorageDirectory(), "games/org.levimc/minecraft");
+        File baseDir = LauncherStorage.getMinecraftRoot(requireContext());
         if (!baseDir.exists()) return false;
         File targetDir = new File(baseDir, name);
         return targetDir.exists();

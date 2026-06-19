@@ -41,6 +41,7 @@
     <string name="overwrite">覆盖</string>
     <string name="skip">跳过</string>
     <string name="confirm">确认</string>
+    <string name="retry">重试</string>
 
     <string name="installed_packages">已安装包</string>
     <string name="local_custom">本地自定义</string>
@@ -49,8 +50,8 @@
     <string name="version_prefix">版本号：</string>
 
     <!-- Permissions -->
-    <string name="storage_permission_title">需要存储权限</string>
-    <string name="storage_permission_message">授予存储权限以便访问 mods 目录，检测模组。</string>
+    <string name="storage_permission_title">存储迁移权限</string>
+    <string name="storage_permission_message">请授予存储权限，以便 LeviLauncher 从旧的 games/org.levimc 目录复制数据。此权限仅用于迁移步骤。</string>
     <string name="grant_permission">授予权限</string>
     <string name="cancel">取消</string>
 
@@ -111,8 +112,38 @@
     <string name="missing_libs_message">检测到缺少必要的游戏库文件，是否立即修复？</string>
     <string name="repair">修复</string>
     <string name="repair_libs_dialog_title">修复游戏库文件</string>
+    <string name="repair_libs_dialog_subtitle">正在准备游戏库文件</string>
     <string name="repair_preparing">准备中…</string>
     <string name="repair_processing">正在提取库文件…</string>
+    <string name="repair_finalizing">正在完成修复…</string>
+    <string name="storage_migration_title">需要迁移存储目录</string>
+    <string name="storage_migration_message">LeviLauncher 必须先将数据从 games/org.levimc 迁移到 %1$s，才能继续使用。
+
+这次存储迁移是为了满足 Google Play 上架合规要求，不得不这么做。旧目录会保持不变，但迁移后不再作为运行目录使用。
+
+迁移可能需要一段时间，可以把应用挂在后台等待；大量复制文件期间手机可能会发烫，请您理解。</string>
+    <string name="storage_migration_start">迁移</string>
+    <string name="storage_migration_permission_denied">需要存储权限才能读取旧目录并进行迁移。</string>
+    <string name="storage_migration_progress_title">正在迁移存储</string>
+    <string name="storage_migration_progress_subtitle">正在将启动器数据复制到 Android/media</string>
+    <string name="storage_migration_scanning">正在扫描旧目录…</string>
+    <string name="storage_migration_progress_detail">%1$d/%2$d 个文件 · %3$s</string>
+    <string name="storage_migration_eta_pending">正在估算剩余时间…</string>
+    <string name="storage_migration_eta_detail">预计剩余 %1$s · 约 %2$s 完成</string>
+    <string name="storage_migration_duration_hours_minutes">%1$d 小时 %2$d 分钟</string>
+    <string name="storage_migration_duration_minutes_seconds">%1$d 分 %2$d 秒</string>
+    <string name="storage_migration_duration_seconds">%1$d 秒</string>
+    <string name="storage_migration_background_hint">迁移可以在后台继续运行。建议保持电量充足；复制大量文件时手机可能会发热，请您理解。</string>
+    <string name="storage_migration_completed_title">迁移完成</string>
+    <string name="storage_migration_completed_message">已迁移 %1$d 个文件（%2$s）。%3$d 个文件已是最新。
+
+旧的 games/org.levimc 目录未被删除，后续不再使用。</string>
+    <string name="storage_migration_partial_title">迁移未完成</string>
+    <string name="storage_migration_partial_message">%1$d/%2$d 个文件未能复制。必须完成迁移后才能继续使用 LeviLauncher。</string>
+    <string name="storage_migration_failed_title">迁移失败</string>
+    <string name="storage_migration_failed_message">迁移无法继续：%1$s
+
+必须完成迁移后才能继续使用 LeviLauncher。</string>
     
     <string name="theme_title">主题模式</string>
     <string name="theme_follow_system">跟随系统</string>
@@ -128,6 +159,8 @@
     <string name="dialog_positive_enable">启用</string>
     <string name="dialog_title_launch_failed">启动失败</string>
     <string name="dialog_message_launch_failed">无法启动Minecraft：%1$s</string>
+    <string name="dialog_title_incompatible_mods">已跳过不兼容模组</string>
+    <string name="dialog_message_incompatible_mods">部分已启用模组与当前 Minecraft 版本 %1$s 不兼容，已跳过加载：\n\n%2$s</string>
     <string name="dialog_title_disable_version_isolation">禁用版本隔离</string>
     <string name="dialog_message_disable_version_isolation">您尝试在启用版本隔离的情况下启动已安装的版本。请禁用版本隔离以继续。</string>
     <string name="dialog_positive_disable">禁用</string>
@@ -149,7 +182,9 @@
     <string name="toast_delete_failed">删除失败: %1$s</string>
     <string name="error_delete_builtin_version">不能删除内置版本</string>
     <string name="invalid_mod_file">失败</string>
-    <string name="invalid_mod_file_reason">仅允许导入 .so 文件或 .zip 模组包。所选文件不是有效的原生模组导入包。</string>
+    <string name="invalid_mod_file_reason">仅允许导入 .so 文件、.zip 模组包或 .levipack 模组包。所选文件不是有效的原生模组导入包。</string>
+    <string name="invalid_zip_mod_package_title">非法 ZIP 模组包</string>
+    <string name="invalid_zip_mod_package_message">ZIP 模组包必须包含 manifest.json 与 .so 文件。</string>
     <string name="error_versions">错误版本</string>
 
     <string name="dialog_title_delete_mod">删除 Mod</string>
@@ -289,6 +324,54 @@
     <string name="mod_disabled">模组已禁用</string>
     <string name="mod_filename_format">文件：%s</string>
     <string name="mod_enable_status">启用状态</string>
+    <string name="mod_icon_content_description">模组图标</string>
+    <string name="mod_author_byline">by %s</string>
+    <string name="mod_version_chip">版本 %s</string>
+    <string name="mod_metadata_title">信息</string>
+    <string name="mod_actions_title">操作</string>
+    <string name="mod_author_label">作者</string>
+    <string name="mod_version_label">版本</string>
+    <string name="mod_minecraft_versions_label">适配版本</string>
+    <string name="mod_entry_label">入口文件</string>
+    <string name="mod_id_label">模组 ID</string>
+    <string name="mod_config_files_label">配置文件</string>
+    <string name="mod_unknown_author">未知作者</string>
+    <string name="mod_unknown_version">未知版本</string>
+    <string name="mod_all_versions">全部支持版本</string>
+    <string name="mod_no_config_files">没有可编辑配置</string>
+    <string name="mod_config_badge">配置</string>
+    <string name="mod_config_badge_with_count">配置 · %d</string>
+    <string name="mod_config_title_format">%s 配置</string>
+    <string name="mod_config_not_found">未找到可编辑配置</string>
+    <string name="mod_config_load_failed">配置加载失败：%s</string>
+    <string name="mod_config_save_failed">配置保存失败</string>
+    <string name="mod_config_saved">配置已保存</string>
+    <string name="mod_config_restart_hint">配置文件已保存，并保留了 .backup 备份。重启或重新加载游戏后生效。</string>
+    <string name="mod_config_validation_failed">配置校验失败</string>
+    <string name="mod_config_invalid_json">JSON 无效</string>
+    <string name="mod_config_expand">展开</string>
+    <string name="mod_config_collapse">收起</string>
+    <string name="mod_config_raw_json">编辑原始 JSON</string>
+    <string name="mod_config_raw_json_short">JSON</string>
+    <string name="mod_config_item_label">项目 %1$s</string>
+    <string name="mod_config_object_desc">相关设置组</string>
+    <string name="mod_config_array_desc">值列表</string>
+    <string name="mod_config_range_prefix">范围</string>
+    <string name="mod_config_error_number">%1$s 必须是数字</string>
+    <string name="mod_config_error_minimum">%1$s 不能小于 %2$s</string>
+    <string name="mod_config_error_maximum">%1$s 不能大于 %2$s</string>
+    <string name="mod_config_error_boolean">%1$s 必须是开关值</string>
+    <string name="mod_config_error_string">%1$s 必须是文本</string>
+
+    <plurals name="mod_config_files_count">
+        <item quantity="other">%d 个可编辑配置</item>
+    </plurals>
+    <plurals name="mod_config_choices_count">
+        <item quantity="other">%d 个选项</item>
+    </plurals>
+    <plurals name="mod_config_items_count">
+        <item quantity="other">%d 项</item>
+    </plurals>
 
     <!-- 版本选择对话框 -->
     <string name="game_version_select_title">选择游戏版本</string>
@@ -297,7 +380,7 @@
     <!-- 启动页 -->
     <string name="splash_logo_desc">叶子标志</string>
     <string name="minecraft_loading_title">正在启动 Minecraft</string>
-    <string name="minecraft_loading_subtitle">准备原生库与已启用模组</string>
+    <string name="minecraft_loading_subtitle">准备游戏文件与已启用模组</string>
     <string name="minecraft_loading_status_preparing">正在准备运行时</string>
     <string name="minecraft_loading_log_title">启动日志</string>
     <string name="minecraft_loading_complete">运行时已就绪</string>
@@ -375,7 +458,7 @@
     <!-- Inbuilt Mods -->
     <string name="inbuilt_mods">内置模组</string>
     <string name="inbuilt_mods_title">🔧 内置模组</string>
-    <string name="inbuilt_mods_subtitle">无需原生库即可运行的内部模组</string>
+    <string name="inbuilt_mods_subtitle">开箱即用的内置模组</string>
     <string name="no_inbuilt_mods_available">所有内置模组均已添加</string>
     <string name="inbuilt_mod_added">%s 已添加到模组</string>
     <string name="inbuilt_mod_removed">%s 已从模组移除</string>
@@ -564,6 +647,35 @@
     <string name="instance_delete_warning">此操作无法撤销。</string>
     <string name="instance_delete_confirm_title">删除实例</string>
     <string name="instance_delete_confirm_msg">确定要删除此实例吗？包括世界在内的所有数据都将被永久移除。</string>
+    <string name="instance_backup_title">备份实例</string>
+    <string name="instance_backup_desc">将此实例完整备份到 Download/LeviLauncher/Backups。</string>
+    <string name="instance_backup_button">备份实例</string>
+    <string name="instance_backup_confirm_message">现在创建此实例的完整备份吗？如果 Minecraft 正在运行，建议先退出游戏，避免备份过程中数据变化。</string>
+    <string name="instance_backup_in_progress">正在备份实例…</string>
+    <string name="instance_backup_success_title">备份已创建</string>
+    <string name="instance_backup_success_message">备份已保存到：\n%1$s</string>
+    <string name="instance_backup_failed_title">备份失败</string>
+    <string name="instance_backup_failed_message">无法创建备份：\n%1$s</string>
+    <string name="instance_import_backup_button">导入备份</string>
+    <string name="instance_batch_backup_button">批量备份</string>
+    <string name="instance_batch_backup_title">批量备份实例</string>
+    <string name="instance_batch_backup_select_message">选择需要备份的实例。如果 Minecraft 正在运行，建议先退出游戏，避免备份过程中数据变化。</string>
+    <string name="instance_batch_backup_select_all">选择全部实例</string>
+    <string name="instance_batch_backup_no_instances">当前没有可备份的实例。</string>
+    <string name="instance_batch_backup_no_selection">请至少选择一个实例。</string>
+    <string name="instance_batch_backup_in_progress">正在备份 %1$s（%2$d/%3$d）…</string>
+    <string name="instance_batch_backup_success_title">备份已创建</string>
+    <string name="instance_batch_backup_success_message">已创建 %1$d 个备份：\n%2$s</string>
+    <string name="instance_batch_backup_partial_title">部分备份完成</string>
+    <string name="instance_batch_backup_partial_message">已创建 %1$d 个备份，%2$d 个失败。\n\n已保存：\n%3$s\n\n失败：\n%4$s</string>
+    <string name="instance_batch_backup_failed_title">批量备份失败</string>
+    <string name="instance_batch_backup_failed_message">未能创建任何备份：\n%1$s</string>
+    <string name="instance_restore_title">恢复备份</string>
+    <string name="instance_restore_in_progress">正在恢复实例备份…</string>
+    <string name="instance_restore_success_title">恢复完成</string>
+    <string name="instance_restore_success_message">已恢复：%1$s</string>
+    <string name="instance_restore_failed_title">恢复失败</string>
+    <string name="instance_restore_failed_message">无法恢复备份：\n%1$s</string>
     <string name="skin_packs_title">皮肤包</string>
     <string name="worlds_category">世界</string>
     <string name="resource_packs_category">资源包</string>
@@ -618,7 +730,7 @@
         <item>你可以在内容管理页面导入 .mcworld、.mcpack 和 .mcaddon 文件。</item>
         <item>在启动器中管理多个 Xbox 账号，并在它们之间无缝切换。</item>
         <item>CurseForge 可以让你直接浏览并下载社区内容。</item>
-        <item>加载外部原生 SO 模块以扩展或增强 Minecraft 功能和性能。</item>
+        <item>导入模组以扩展或增强 Minecraft 功能和性能。</item>
     </string-array>
     <string name="theme_color_title">主题颜色</string>
     <string name="theme_color_desc">应用的主强调色</string>

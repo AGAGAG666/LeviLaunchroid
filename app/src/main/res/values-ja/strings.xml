@@ -54,13 +54,14 @@
     <string name="overwrite">上書き</string>
     <string name="skip">スキップ</string>
     <string name="confirm">確認</string>
+    <string name="retry">再試行</string>
 
     <string name="installed_packages">インストール済みパッケージ</string>
     <string name="local_custom">ローカルカスタム</string>
 
     <!-- Permissions -->
-    <string name="storage_permission_title">ストレージ権限が必要です</string>
-    <string name="storage_permission_message">モッドディレクトリにアクセスしてモッドを検出するために、ストレージ権限を付与してください。</string>
+    <string name="storage_permission_title">ストレージ移行の権限</string>
+    <string name="storage_permission_message">古い games/org.levimc ディレクトリからデータをコピーするため、LeviLauncher にストレージ権限を付与してください。この権限は移行手順でのみ必要です。</string>
     <string name="grant_permission">許可する</string>
     <string name="cancel">キャンセル</string>
 
@@ -114,6 +115,8 @@
     <string name="dialog_positive_enable">有効にする</string>
     <string name="dialog_title_launch_failed">起動失敗</string>
     <string name="dialog_message_launch_failed">Minecraft の起動に失敗しました: %1$s</string>
+    <string name="dialog_title_incompatible_mods">互換性のない Mod をスキップしました</string>
+    <string name="dialog_message_incompatible_mods">有効な一部の Mod は現在の Minecraft バージョン %1$s と互換性がないためスキップされました:\n\n%2$s</string>
     <string name="dialog_title_disable_version_isolation">バージョン分離を無効にする</string>
     <string name="dialog_message_disable_version_isolation">バージョン分離が有効な状態でインストール済みバージョンを起動しようとしています。続行するには無効にしてください。</string>
     <string name="dialog_positive_disable">無効にする</string>
@@ -141,8 +144,38 @@
     <string name="missing_libs_message">必要なゲームライブラリファイルが不足しています。今すぐ修復しますか？</string>
     <string name="repair">修復</string>
     <string name="repair_libs_dialog_title">ゲームライブラリの修復</string>
+    <string name="repair_libs_dialog_subtitle">Minecraft のネイティブランタイムを準備中</string>
     <string name="repair_preparing">準備中…</string>
     <string name="repair_processing">ライブラリを展開中…</string>
+    <string name="repair_finalizing">修復を完了しています…</string>
+    <string name="storage_migration_title">ストレージ移行が必要です</string>
+    <string name="storage_migration_message">LeviLauncher を続行する前に、games/org.levimc のデータを %1$s に移行する必要があります。
+
+このストレージ変更は Google Play への公開要件を満たすために必要です。古いディレクトリはそのまま保持されますが、移行後は使用されません。
+
+移行には時間がかかる場合があります。実行中はアプリをバックグラウンドにしておけます。大量のファイルコピー中は端末が熱くなることがあります。ご理解ください。</string>
+    <string name="storage_migration_start">移行</string>
+    <string name="storage_migration_permission_denied">移行のために古いディレクトリを読み取るには、ストレージ権限が必要です。</string>
+    <string name="storage_migration_progress_title">ストレージを移行中</string>
+    <string name="storage_migration_progress_subtitle">ランチャーデータを Android/media にコピーしています</string>
+    <string name="storage_migration_scanning">古いディレクトリをスキャン中…</string>
+    <string name="storage_migration_progress_detail">%1$d/%2$d ファイル · %3$s</string>
+    <string name="storage_migration_eta_pending">残り時間を推定中…</string>
+    <string name="storage_migration_eta_detail">残り約 %1$s · %2$s 頃に完了</string>
+    <string name="storage_migration_duration_hours_minutes">%1$d時間%2$d分</string>
+    <string name="storage_migration_duration_minutes_seconds">%1$d分%2$d秒</string>
+    <string name="storage_migration_duration_seconds">%1$d秒</string>
+    <string name="storage_migration_background_hint">移行はバックグラウンドで続行できます。充電したままにすることをおすすめします。ファイルコピー中は端末が熱くなることがあります。ご理解ください。</string>
+    <string name="storage_migration_completed_title">移行完了</string>
+    <string name="storage_migration_completed_message">%1$d 個のファイル (%2$s) を移行しました。%3$d 個のファイルは既に最新でした。
+
+古い games/org.levimc ディレクトリは削除されておらず、今後は使用されません。</string>
+    <string name="storage_migration_partial_title">移行が完了していません</string>
+    <string name="storage_migration_partial_message">%1$d/%2$d 個のファイルをコピーできませんでした。LeviLauncher を続行するには移行を完了する必要があります。</string>
+    <string name="storage_migration_failed_title">移行失敗</string>
+    <string name="storage_migration_failed_message">移行を続行できませんでした: %1$s
+
+LeviLauncher を続行するには移行を完了する必要があります。</string>
 
     <string name="theme_title">テーマモード</string>
     <string name="theme_follow_system">システムに従う</string>
@@ -166,7 +199,9 @@
     <string name="toast_delete_failed">削除に失敗しました: %1$s</string>
     <string name="error_delete_builtin_version">組み込みバージョンは削除できません</string>
     <string name="invalid_mod_file">失敗</string>
-    <string name="invalid_mod_file_reason">.so ファイルまたは .zip のモッドパッケージのみ許可されています。</string>
+    <string name="invalid_mod_file_reason">.so ファイル、.zip モッドパッケージ、または .levipack モッドパッケージのみ許可されています。</string>
+    <string name="invalid_zip_mod_package_title">無効な ZIP モッドパッケージ</string>
+    <string name="invalid_zip_mod_package_message">ZIP モッドパッケージには manifest.json と .so ファイルが含まれている必要があります。</string>
     <string name="error_versions">エラーバージョン</string>
 
     <string name="dialog_title_delete_mod">モッドの削除</string>
@@ -192,6 +227,19 @@
     <string name="instance_delete_warning">この操作は元に戻せません。</string>
     <string name="instance_delete_confirm_title">インスタンスの削除</string>
     <string name="instance_delete_confirm_msg">本当に削除しますか？ワールドを含むすべてのデータが完全に失われます。</string>
+    <string name="instance_batch_backup_button">一括バックアップ</string>
+    <string name="instance_batch_backup_title">インスタンスを一括バックアップ</string>
+    <string name="instance_batch_backup_select_message">バックアップするインスタンスを選択してください。Minecraft が実行中の場合は、バックアップ中のデータ変更を避けるため先に終了してください。</string>
+    <string name="instance_batch_backup_select_all">すべてのインスタンスを選択</string>
+    <string name="instance_batch_backup_no_instances">バックアップ可能なインスタンスがありません。</string>
+    <string name="instance_batch_backup_no_selection">少なくとも 1 つのインスタンスを選択してください。</string>
+    <string name="instance_batch_backup_in_progress">%1$s をバックアップ中 (%2$d/%3$d)…</string>
+    <string name="instance_batch_backup_success_title">バックアップを作成しました</string>
+    <string name="instance_batch_backup_success_message">%1$d 件のバックアップを作成しました:\n%2$s</string>
+    <string name="instance_batch_backup_partial_title">バックアップは一部完了しました</string>
+    <string name="instance_batch_backup_partial_message">%1$d 件のバックアップを作成し、%2$d 件が失敗しました。\n\n保存済み:\n%3$s\n\n失敗:\n%4$s</string>
+    <string name="instance_batch_backup_failed_title">一括バックアップに失敗しました</string>
+    <string name="instance_batch_backup_failed_message">バックアップを作成できませんでした:\n%1$s</string>
 
     <string name="language">言語 (Language)</string>
     <string name="english">English</string>
@@ -615,4 +663,38 @@
 
     <string name="unsupported_version_title">サポートされていないバージョン</string>
     <string name="unsupported_version_msg">このランチャーは1.21.80より前のMinecraftバージョンをサポートしていません。</string>
+    <!-- Mod Config -->
+    <string name="mod_author_byline">by %s</string>
+    <string name="mod_version_chip">バージョン %s</string>
+    <string name="mod_config_title_format">%s の設定</string>
+    <string name="mod_config_not_found">編集可能な設定が見つかりません</string>
+    <string name="mod_config_load_failed">設定の読み込みに失敗しました: %s</string>
+    <string name="mod_config_save_failed">設定の保存に失敗しました</string>
+    <string name="mod_config_saved">設定を保存しました</string>
+    <string name="mod_config_restart_hint">設定ファイルを保存し、.backup ファイルを保持しました。</string>
+    <string name="mod_config_validation_failed">設定の検証に失敗しました</string>
+    <string name="mod_config_invalid_json">無効な JSON</string>
+    <string name="mod_config_expand">展開</string>
+    <string name="mod_config_collapse">折りたたむ</string>
+    <string name="mod_config_raw_json">元の JSON を編集</string>
+    <string name="mod_config_raw_json_short">JSON</string>
+    <string name="mod_config_item_label">項目 %1$s</string>
+    <string name="mod_config_object_desc">関連設定のグループ</string>
+    <string name="mod_config_array_desc">値のリスト</string>
+    <string name="mod_config_range_prefix">範囲</string>
+    <string name="mod_config_error_number">%1$s は数値である必要があります</string>
+    <string name="mod_config_error_minimum">%1$s は %2$s 以上である必要があります</string>
+    <string name="mod_config_error_maximum">%1$s は %2$s 以下である必要があります</string>
+    <string name="mod_config_error_boolean">%1$s はオンまたはオフである必要があります</string>
+    <string name="mod_config_error_string">%1$s はテキストである必要があります</string>
+    <plurals name="mod_config_files_count">
+        <item quantity="other">%d 個の編集可能な設定</item>
+    </plurals>
+    <plurals name="mod_config_choices_count">
+        <item quantity="other">%d 個の選択肢</item>
+    </plurals>
+    <plurals name="mod_config_items_count">
+        <item quantity="other">%d 個の項目</item>
+    </plurals>
+
 </resources>
