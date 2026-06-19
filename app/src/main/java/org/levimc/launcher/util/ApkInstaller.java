@@ -178,7 +178,7 @@ public class ApkInstaller {
                         PackageManager pm2 = context.getPackageManager();
                         PackageInfo info = pm2.getPackageArchiveInfo(baseApkLevi.getAbsolutePath(), 0);
                         if (info != null && info.packageName != null) {
-                            writeTextFile(new File(internalDir, "package.txt"), info.packageName);
+                            writeTextFile(new File(baseDir, "package.txt"), info.packageName);
                         }
                     } catch (Exception ignored) {
                     }
