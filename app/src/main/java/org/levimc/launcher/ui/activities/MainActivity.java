@@ -714,33 +714,10 @@ import okhttp3.OkHttpClient;
     }
 
     private void showStorageMigrationPromptIfNeeded() {
-        if (postMigrationInitialized || migrationPromptShown || migrationPromptCheckInFlight || storageMigrationManager == null || isFinishing() || isDestroyed()) return;
-        if (StorageMigrationService.isMigrationRunning(this)) {
-            resumeStorageMigrationService();
-            return;
-        }
-        migrationPromptCheckInFlight = true;
-        storageMigrationExecutor.execute(() -> {
-            boolean shouldOfferMigration = false;
-            try {
-                shouldOfferMigration = storageMigrationManager.shouldOfferMigration();
-            } catch (Exception ignored) {
-            }
-            boolean finalShouldOfferMigration = shouldOfferMigration;
-            runOnUiThread(() -> {
-                migrationPromptCheckInFlight = false;
-                if (isFinishing() || isDestroyed()) return;
-                if (!finalShouldOfferMigration) {
-                    initializeAfterMigrationGate();
-                    return;
-                }
-                if (migrationPromptShown || storageMigrationManager == null) return;
-                showStorageMigrationPromptDialog();
-            });
-        });
+        // Migration disabled - using legacy directory
     }
 
-    private void showStorageMigrationPromptDialog() {
+        private void showStorageMigrationPromptDialog() {
         migrationPromptShown = true;
 
         CustomAlertDialog dialog = new CustomAlertDialog(this)
@@ -762,53 +739,8 @@ import okhttp3.OkHttpClient;
     }
 
     private void showStorageMigrationPromptAfterEula() {
-        SharedPreferences prefs = getSharedPreferences("LauncherPrefs", MODE_PRIVATE);
-        if (!prefs.getBoolean("eula_accepted", false)) return;
-        showStorageMigrationPromptIfNeeded();
+        // Migration disabled
     }
-
-    private void startStorageMigrationService() {
-        if (isFinishing()) return;
-        requestNotificationPermissionForMigration();
-        showStorageMigrationDialog();
-        StorageMigrationService.startMigration(this);
-        bindStorageMigrationService();
-    }
-
-    private void resumeStorageMigrationService() {
-        if (isFinishing()) return;
-        requestNotificationPermissionForMigration();
-        showStorageMigrationDialog();
-        StorageMigrationService.startMigration(this);
-        bindStorageMigrationService();
-    }
-
-    private void requestNotificationPermissionForMigration() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || notificationPermissionLauncher == null) return;
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
-    }
-
-    private void bindStorageMigrationService() {
-        if (storageMigrationBound) return;
-        if (!StorageMigrationService.isMigrationRunning(this)) return;
-        Intent intent = new Intent(this, StorageMigrationService.class);
-        bindService(intent, storageMigrationConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    private void unbindStorageMigrationService() {
-        if (!storageMigrationBound) return;
-        if (storageMigrationService != null) {
-            storageMigrationService.removeListener(storageMigrationListener);
-        }
-        unbindService(storageMigrationConnection);
-        storageMigrationBound = false;
-        storageMigrationService = null;
-    }
-
     private void showStorageMigrationDialog() {
         if (isFinishing()) return;
         if (storageMigrationDialog != null && storageMigrationDialog.isShowing()) return;
