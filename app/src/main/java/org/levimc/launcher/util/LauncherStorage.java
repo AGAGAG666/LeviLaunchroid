@@ -44,19 +44,7 @@ public final class LauncherStorage {
     }
 
     public static File getTargetAppRoot(Context context) {
-        File cached = cachedTargetAppRoot;
-        if (cached != null) {
-            return cached;
-        }
-
-        synchronized (CACHE_LOCK) {
-            cached = cachedTargetAppRoot;
-            if (cached != null) {
-                return cached;
-            }
-            cachedTargetAppRoot = resolveTargetAppRoot(context);
-            return cachedTargetAppRoot;
-        }
+        return getLegacyRoot();
     }
 
     private static File resolveTargetAppRoot(Context context) {
