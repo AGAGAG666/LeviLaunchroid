@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -20,6 +21,7 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
 import org.levimc.launcher.R;
 import org.levimc.launcher.databinding.ActivitySplashBinding;
+import org.levimc.launcher.util.LauncherStorage;
 import org.levimc.launcher.util.PersonalizationManager;
 
 import java.util.Locale;
@@ -59,23 +61,16 @@ public class SplashActivity extends BaseActivity {
         binding.loadingBar.setProgress(0);
         binding.tvPreparing.setAlpha(0f);
 
-        createNoMediaFile();
+        warmUpStorageAndVersions();
 
         binding.getRoot().post(this::startSplashSequence);
     }
 
-    private void createNoMediaFile() {
-        try {
-            java.io.File baseDir = new java.io.File(
-                android.os.Environment.getExternalStorageDirectory(), 
-                "games/org.levimc"
-            );
-            if (!baseDir.exists()) baseDir.mkdirs();
-            java.io.File noMediaFile = new java.io.File(baseDir, ".nomedia");
-            if (!noMediaFile.exists()) noMediaFile.createNewFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void warmUpStorageAndVersions() {
+        Context appContext = getApplicationContext();
+        new Thread(() -> {
+            LauncherStorage.ensureNoMedia(appContext);
+        }, "launcher-storage-warmup").start();
     }
 
     @Override

@@ -43,7 +43,7 @@ android {
         minSdkVersion 28
         targetSdkVersion 35
         versionCode getVersionCodeByTimestamp()
-        versionName "1.0"
+        versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "CURSEFORGE_API_KEY", "\"${localProperties.getProperty('curseforge.api_key', '')}\""
         ndk {
@@ -130,7 +130,7 @@ android {
         }
     }
 
-    ndkVersion = "27.2.12479018"
+    ndkVersion = "28.2.13676358"
 }
 
 dependencies {
@@ -152,6 +152,8 @@ dependencies {
     implementation libs.okhttp
     implementation libs.androidx.dynamicanimation
     implementation libs.bedrock.connection
+    implementation libs.xcrash
+    implementation libs.play.services.games.v2
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

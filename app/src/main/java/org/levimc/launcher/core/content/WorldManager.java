@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import org.levimc.launcher.core.versions.GameVersion;
+import org.levimc.launcher.util.LauncherStorage;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +45,10 @@ public class WorldManager {
 
     public void setCurrentVersion(GameVersion version) {
         if (version != null && version.versionDir != null) {
-            this.worldsDirectory = new File(version.versionDir, "games/com.mojang/minecraftWorlds");
+            this.worldsDirectory = new File(
+                    LauncherStorage.getProfileGameDataDir(context, version.getStorageProfileId()),
+                    "minecraftWorlds"
+            );
             if (!worldsDirectory.exists()) {
                 worldsDirectory.mkdirs();
             }
@@ -319,8 +323,7 @@ public class WorldManager {
     }
 
     private String createBackup(WorldItem world) throws IOException {
-        File storageDir = android.os.Environment.getExternalStorageDirectory();
-        File backupDir = new File(storageDir, "games/org.levimc/backups/worlds");
+        File backupDir = LauncherStorage.getWorldBackupsDir(context);
         backupDir.mkdirs();
         
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());

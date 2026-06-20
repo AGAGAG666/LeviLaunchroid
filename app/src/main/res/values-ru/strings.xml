@@ -42,13 +42,14 @@
     <string name="overwrite">Перезаписать</string>
     <string name="skip">Пропустить</string>
     <string name="confirm">Подтвердить</string>
+    <string name="retry">Повторить</string>
 
     <string name="installed_packages">Установленные пакеты</string>
     <string name="local_custom">Доступные версии</string>
 
     <!-- Разрешения -->
-    <string name="storage_permission_title">Необходимо разрешение на доступ к хранилищу</string>
-    <string name="storage_permission_message">Пожалуйста выдайте доступ к хранилищу для доступа к папке модов и для определения модов.</string>
+    <string name="storage_permission_title">Разрешение для миграции хранилища</string>
+    <string name="storage_permission_message">Предоставьте доступ к хранилищу, чтобы LeviLauncher мог скопировать данные из старой папки games/org.levimc. Это разрешение нужно только для миграции.</string>
     <string name="grant_permission">Выдать</string>
     <string name="cancel">Отмена</string>
 
@@ -97,6 +98,8 @@
     <string name="dialog_positive_enable">Включить</string>
     <string name="dialog_title_launch_failed">Ошибка запуска</string>
     <string name="dialog_message_launch_failed">Не удалось запустить Minecraft: %1$s</string>
+    <string name="dialog_title_incompatible_mods">Несовместимые моды пропущены</string>
+    <string name="dialog_message_incompatible_mods">Некоторые включенные моды несовместимы с текущей версией Minecraft %1$s и были пропущены:\n\n%2$s</string>
     <string name="dialog_title_disable_version_isolation">Отключить изоляцию версии</string>
     <string name="dialog_message_disable_version_isolation">Вы пытаетесь запустить установленную версию с включенной изоляцией версии. Пожалуйста, отключите изоляцию версии, чтобы продолжить.</string>
     <string name="dialog_positive_disable">Отключить</string>
@@ -125,8 +128,38 @@
     <string name="missing_libs_message">Необходимые файлы библиотек игры отсутствуют. Хотите восстановить их сейчас?</string>
     <string name="repair">Восстановить</string>
     <string name="repair_libs_dialog_title">Восстановление библиотек игры</string>
+    <string name="repair_libs_dialog_subtitle">Подготовка нативных библиотек Minecraft</string>
     <string name="repair_preparing">Подготовка…</string>
     <string name="repair_processing">Извлечение библиотек…</string>
+    <string name="repair_finalizing">Завершение восстановления…</string>
+    <string name="storage_migration_title">Требуется миграция хранилища</string>
+    <string name="storage_migration_message">LeviLauncher должен перенести данные из games/org.levimc в %1$s перед продолжением.
+
+Это изменение хранилища необходимо для соответствия требованиям публикации в Google Play. Старая папка останется нетронутой, но после миграции больше не будет использоваться.
+
+Миграция может занять время. Можно оставить приложение в фоне; при интенсивном копировании файлов телефон может нагреваться. Благодарим за понимание.</string>
+    <string name="storage_migration_start">Перенести</string>
+    <string name="storage_migration_permission_denied">Для чтения старой папки во время миграции требуется разрешение на доступ к хранилищу.</string>
+    <string name="storage_migration_progress_title">Миграция хранилища</string>
+    <string name="storage_migration_progress_subtitle">Копирование данных лаунчера в Android/media</string>
+    <string name="storage_migration_scanning">Сканирование старой папки…</string>
+    <string name="storage_migration_progress_detail">%1$d/%2$d файлов · %3$s</string>
+    <string name="storage_migration_eta_pending">Оценка оставшегося времени…</string>
+    <string name="storage_migration_eta_detail">Осталось около %1$s · завершение примерно в %2$s</string>
+    <string name="storage_migration_duration_hours_minutes">%1$d ч %2$d мин</string>
+    <string name="storage_migration_duration_minutes_seconds">%1$d мин %2$d с</string>
+    <string name="storage_migration_duration_seconds">%1$d с</string>
+    <string name="storage_migration_background_hint">Миграция может продолжаться в фоне. Рекомендуется держать телефон заряженным; во время копирования файлов телефон может нагреваться. Благодарим за понимание.</string>
+    <string name="storage_migration_completed_title">Миграция завершена</string>
+    <string name="storage_migration_completed_message">Перенесено файлов: %1$d (%2$s). Уже актуальны: %3$d.
+
+Старая папка games/org.levimc не была удалена и больше не используется.</string>
+    <string name="storage_migration_partial_title">Миграция не завершена</string>
+    <string name="storage_migration_partial_message">Не удалось скопировать %1$d из %2$d файлов. Миграция должна завершиться, прежде чем LeviLauncher сможет продолжить.</string>
+    <string name="storage_migration_failed_title">Ошибка миграции</string>
+    <string name="storage_migration_failed_message">Миграция не может продолжиться: %1$s
+
+Миграция должна завершиться, прежде чем LeviLauncher сможет продолжить.</string>
 
     <string name="theme_title">Тема</string>
     <string name="theme_follow_system">Как в системе</string>
@@ -150,7 +183,9 @@
     <string name="toast_delete_failed">Ошибка удаления: %1$s</string>
     <string name="error_delete_builtin_version">Нельзя удалить встроенную версию</string>
     <string name="invalid_mod_file">Ошибка</string>
-    <string name="invalid_mod_file_reason">Допускаются только файлы .so или ZIP-пакеты модов. Выбранный файл не является допустимым пакетом нативного мода.</string>
+    <string name="invalid_mod_file_reason">Допускаются только файлы .so, ZIP-пакеты модов или пакеты модов .levipack. Выбранный файл не является допустимым пакетом нативного мода.</string>
+    <string name="invalid_zip_mod_package_title">Недопустимый ZIP-пакет мода</string>
+    <string name="invalid_zip_mod_package_message">ZIP-пакет мода должен содержать manifest.json и файл .so.</string>
     <string name="error_versions">Ошибочные версии</string>
 
     <string name="dialog_title_delete_mod">Удалить мод</string>
@@ -566,6 +601,19 @@
     <string name="instance_delete_warning">Это действие нельзя отменить.</string>
     <string name="instance_delete_confirm_title">Удалить экземпляр</string>
     <string name="instance_delete_confirm_msg">Вы уверены, что хотите удалить этот экземпляр? Все данные, включая миры, будут удалены навсегда.</string>
+    <string name="instance_batch_backup_button">Пакетная копия</string>
+    <string name="instance_batch_backup_title">Пакетное резервное копирование экземпляров</string>
+    <string name="instance_batch_backup_select_message">Выберите экземпляры для резервного копирования. Если Minecraft запущен, сначала выйдите из игры, чтобы избежать изменения данных во время копирования.</string>
+    <string name="instance_batch_backup_select_all">Выбрать все экземпляры</string>
+    <string name="instance_batch_backup_no_instances">Нет экземпляров, доступных для резервного копирования.</string>
+    <string name="instance_batch_backup_no_selection">Выберите хотя бы один экземпляр.</string>
+    <string name="instance_batch_backup_in_progress">Резервное копирование %1$s (%2$d/%3$d)…</string>
+    <string name="instance_batch_backup_success_title">Резервные копии созданы</string>
+    <string name="instance_batch_backup_success_message">Создано резервных копий: %1$d\n%2$s</string>
+    <string name="instance_batch_backup_partial_title">Резервное копирование частично завершено</string>
+    <string name="instance_batch_backup_partial_message">Создано резервных копий: %1$d, ошибок: %2$d.\n\nСохранено:\n%3$s\n\nОшибки:\n%4$s</string>
+    <string name="instance_batch_backup_failed_title">Ошибка пакетного копирования</string>
+    <string name="instance_batch_backup_failed_message">Не удалось создать резервные копии:\n%1$s</string>
     <string name="skin_packs_title">Скин-паки</string>
     <string name="worlds_category">Миры</string>
     <string name="resource_packs_category">Наборы ресурсов</string>
@@ -639,4 +687,47 @@
 
     <string name="unsupported_version_title">Неподдерживаемая версия</string>
     <string name="unsupported_version_msg">Этот лаунчер не поддерживает версии Minecraft старше 1.21.80.</string>
+    <!-- Mod Config -->
+    <string name="mod_author_byline">от %s</string>
+    <string name="mod_version_chip">Версия %s</string>
+    <string name="mod_config_title_format">Конфигурация %s</string>
+    <string name="mod_config_not_found">Редактируемая конфигурация не найдена</string>
+    <string name="mod_config_load_failed">Не удалось загрузить конфигурацию: %s</string>
+    <string name="mod_config_save_failed">Не удалось сохранить конфигурацию</string>
+    <string name="mod_config_saved">Конфигурация сохранена</string>
+    <string name="mod_config_restart_hint">Файл конфигурации сохранен, файл .backup оставлен.</string>
+    <string name="mod_config_validation_failed">Проверка конфигурации не пройдена</string>
+    <string name="mod_config_invalid_json">Недопустимый JSON</string>
+    <string name="mod_config_expand">Развернуть</string>
+    <string name="mod_config_collapse">Свернуть</string>
+    <string name="mod_config_raw_json">Редактировать исходный JSON</string>
+    <string name="mod_config_raw_json_short">JSON</string>
+    <string name="mod_config_item_label">Элемент %1$s</string>
+    <string name="mod_config_object_desc">Группа связанных настроек</string>
+    <string name="mod_config_array_desc">Список значений</string>
+    <string name="mod_config_range_prefix">Диапазон</string>
+    <string name="mod_config_error_number">%1$s должно быть числом</string>
+    <string name="mod_config_error_minimum">%1$s должно быть не меньше %2$s</string>
+    <string name="mod_config_error_maximum">%1$s должно быть не больше %2$s</string>
+    <string name="mod_config_error_boolean">%1$s должно быть включено или выключено</string>
+    <string name="mod_config_error_string">%1$s должно быть текстом</string>
+    <plurals name="mod_config_files_count">
+        <item quantity="one">%d редактируемая конфигурация</item>
+        <item quantity="few">%d редактируемые конфигурации</item>
+        <item quantity="many">%d редактируемых конфигураций</item>
+        <item quantity="other">%d редактируемой конфигурации</item>
+    </plurals>
+    <plurals name="mod_config_choices_count">
+        <item quantity="one">%d вариант</item>
+        <item quantity="few">%d варианта</item>
+        <item quantity="many">%d вариантов</item>
+        <item quantity="other">%d варианта</item>
+    </plurals>
+    <plurals name="mod_config_items_count">
+        <item quantity="one">%d элемент</item>
+        <item quantity="few">%d элемента</item>
+        <item quantity="many">%d элементов</item>
+        <item quantity="other">%d элемента</item>
+    </plurals>
+
 </resources>
