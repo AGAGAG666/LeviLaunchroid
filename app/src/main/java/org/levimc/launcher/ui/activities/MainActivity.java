@@ -1498,5 +1498,12 @@ import okhttp3.OkHttpClient;
         super.onDestroy();
     }
 
- }
+ 
+    // Migration disabled stubs
+    private void startStorageMigrationService() {}
+    private void resumeStorageMigrationService() {}
+    private void bindStorageMigrationService() {}
+    private void unbindStorageMigrationService() {}
+
+}
 
