@@ -714,229 +714,79 @@ import okhttp3.OkHttpClient;
     }
 
     private void showStorageMigrationPromptIfNeeded() {
-        if (postMigrationInitialized || migrationPromptShown || migrationPromptCheckInFlight || storageMigrationManager == null || isFinishing() || isDestroyed()) return;
-        if (StorageMigrationService.isMigrationRunning(this)) {
-            resumeStorageMigrationService();
-            return;
+        // Migration removed
         }
-        migrationPromptCheckInFlight = true;
-        storageMigrationExecutor.execute(() -> {
-            boolean shouldOfferMigration = false;
-            try {
-                shouldOfferMigration = storageMigrationManager.shouldOfferMigration();
-            } catch (Exception ignored) {
-            }
-            boolean finalShouldOfferMigration = shouldOfferMigration;
-            runOnUiThread(() -> {
-                migrationPromptCheckInFlight = false;
-                if (isFinishing() || isDestroyed()) return;
-                if (!finalShouldOfferMigration) {
-                    initializeAfterMigrationGate();
-                    return;
-                }
-                if (migrationPromptShown || storageMigrationManager == null) return;
-                showStorageMigrationPromptDialog();
-            });
-        });
-    }
+
 
     private void showStorageMigrationPromptDialog() {
-        migrationPromptShown = true;
+        // Migration removed
+        }
 
-        CustomAlertDialog dialog = new CustomAlertDialog(this)
-                .setTitleText(getString(R.string.storage_migration_title))
-                .setMessage(getString(
-                        R.string.storage_migration_message,
-                        LauncherStorage.getTargetAppRootDisplayPath(this)
-                ))
-                .setPositiveButton(getString(R.string.confirm), v -> {
-                    if (storageMigrationManager.canReadLegacyRoot()) {
-                        startStorageMigrationService();
-                    } else {
-                        requestBasicPermissions();
-                    }
-                })
-                .setNegativeButton(getString(R.string.exit), v -> finishAffinity());
-        dialog.setCancelable(false);
-        dialog.show();
-    }
 
     private void showStorageMigrationPromptAfterEula() {
-        SharedPreferences prefs = getSharedPreferences("LauncherPrefs", MODE_PRIVATE);
-        if (!prefs.getBoolean("eula_accepted", false)) return;
-        showStorageMigrationPromptIfNeeded();
-    }
+        // Migration removed
+        }
+
 
     private void startStorageMigrationService() {
-        if (isFinishing()) return;
-        requestNotificationPermissionForMigration();
-        showStorageMigrationDialog();
-        StorageMigrationService.startMigration(this);
-        bindStorageMigrationService();
-    }
+        // Migration removed
+        }
+
 
     private void resumeStorageMigrationService() {
-        if (isFinishing()) return;
-        requestNotificationPermissionForMigration();
-        showStorageMigrationDialog();
-        StorageMigrationService.startMigration(this);
-        bindStorageMigrationService();
-    }
+        // Migration removed
+        }
+
 
     private void requestNotificationPermissionForMigration() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || notificationPermissionLauncher == null) return;
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_GRANTED) {
-            return;
+        // Migration removed
         }
-        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
-    }
+
 
     private void bindStorageMigrationService() {
-        if (storageMigrationBound) return;
-        if (!StorageMigrationService.isMigrationRunning(this)) return;
-        Intent intent = new Intent(this, StorageMigrationService.class);
-        bindService(intent, storageMigrationConnection, Context.BIND_AUTO_CREATE);
-    }
+        // Migration removed
+        }
+
 
     private void unbindStorageMigrationService() {
-        if (!storageMigrationBound) return;
-        if (storageMigrationService != null) {
-            storageMigrationService.removeListener(storageMigrationListener);
+        // Migration removed
         }
-        unbindService(storageMigrationConnection);
-        storageMigrationBound = false;
-        storageMigrationService = null;
-    }
+
 
     private void showStorageMigrationDialog() {
-        if (isFinishing()) return;
-        if (storageMigrationDialog != null && storageMigrationDialog.isShowing()) return;
-        storageMigrationDialog = new LibsRepairDialog(this);
-        storageMigrationDialog.setCanceledOnTouchOutside(false);
-        storageMigrationDialog.setOnShowListener(dialog -> {
-            storageMigrationDialog.setTitleText(getString(R.string.storage_migration_progress_title));
-            storageMigrationDialog.setSubtitleText(getString(R.string.storage_migration_progress_subtitle));
-            storageMigrationDialog.setStatusText(getString(R.string.storage_migration_scanning));
-            storageMigrationDialog.setEtaText(getString(R.string.storage_migration_eta_pending));
-            storageMigrationDialog.setBackgroundHintText(getString(R.string.storage_migration_background_hint));
-            storageMigrationDialog.setPauseButton("", null);
-            storageMigrationDialog.setIndeterminate(true);
-            storageMigrationDialog.updateProgress(0);
-            if (lastMigrationState != null) {
-                updateStorageMigrationDialog(lastMigrationState);
-            }
-        });
-        storageMigrationDialog.show();
-    }
+        // Migration removed
+        }
+
 
     private void handleStorageMigrationState(StorageMigrationService.MigrationState state) {
-        if (state == null || isFinishing()) return;
-        lastMigrationState = state;
-        if (state.isActive()) {
-            showStorageMigrationDialog();
-            updateStorageMigrationDialog(state);
-            return;
+        // Migration removed
         }
-        if (state.isFinished()) {
-            dismissStorageMigrationDialog(() -> showStorageMigrationResult(state));
-            return;
-        }
-    }
+
 
     private void updateStorageMigrationDialog(StorageMigrationService.MigrationState state) {
-        if (storageMigrationDialog == null || !storageMigrationDialog.isShowing()) return;
-        if (state.status == StorageMigrationService.Status.SCANNING) {
-            storageMigrationDialog.setIndeterminate(true);
-            storageMigrationDialog.setStatusText(getString(R.string.storage_migration_scanning));
-            storageMigrationDialog.setEtaText(getMigrationEtaText(state));
-            storageMigrationDialog.updateProgress(0);
-            return;
+        // Migration removed
         }
-        if (state.status != StorageMigrationService.Status.RUNNING) return;
-        storageMigrationDialog.setIndeterminate(false);
-        String progressDetail = getString(
-                R.string.storage_migration_progress_detail,
-                state.processedFiles,
-                state.totalFiles,
-                shortenMigrationPath(state.currentFile)
-        );
-        storageMigrationDialog.setStatusText(progressDetail);
-        storageMigrationDialog.setEtaText(getMigrationEtaText(state));
-        storageMigrationDialog.updateProgress(state.percent);
-    }
+
 
     private void dismissStorageMigrationDialog(Runnable afterDismiss) {
-        LibsRepairDialog dialog = storageMigrationDialog;
-        storageMigrationDialog = null;
-        if (dialog == null) {
-            if (afterDismiss != null) afterDismiss.run();
-            return;
+        // Migration removed
         }
-        dialog.setOnDismissAnimationEndListener(afterDismiss);
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        } else if (afterDismiss != null) {
-            afterDismiss.run();
-        }
-    }
+
 
     private void showStorageMigrationResult(StorageMigrationService.MigrationState state) {
-        if (isFinishing()) return;
-        if (state.status == StorageMigrationService.Status.COMPLETED) {
-            boolean wasInitialized = postMigrationInitialized;
-            initializeAfterMigrationGate();
-            if (wasInitialized && versionManager != null) {
-                versionManager.reload();
-                setTextMinecraftVersion();
-                updateViewModelVersion();
-            }
-            if (viewModel != null) viewModel.refreshMods();
-            refreshContentCounts();
-            new CustomAlertDialog(MainActivity.this)
-                    .setTitleText(getString(R.string.storage_migration_completed_title))
-                    .setMessage(getString(
-                            R.string.storage_migration_completed_message,
-                            state.totalFiles,
-                            formatBytes(state.totalBytes),
-                            state.skippedFiles
-                    ))
-                    .setPositiveButton(getString(R.string.confirm), null)
-                    .show();
-        } else if (state.status == StorageMigrationService.Status.PARTIAL) {
-            showBlockingMigrationRetryDialog(
-                    getString(R.string.storage_migration_partial_title),
-                    getString(
-                            R.string.storage_migration_partial_message,
-                            state.failedFiles,
-                            state.totalFiles
-                    )
-            );
-        } else if (state.status == StorageMigrationService.Status.FAILED) {
-            showBlockingMigrationRetryDialog(
-                    getString(R.string.storage_migration_failed_title),
-                    getString(R.string.storage_migration_failed_message, state.errorMessage)
-            );
+        // Migration removed
         }
-    }
+
 
     private void showBlockingMigrationRetryDialog(String title, String message) {
-        if (isFinishing() || isDestroyed()) return;
-        migrationPromptShown = false;
-        CustomAlertDialog dialog = new CustomAlertDialog(MainActivity.this)
-                .setTitleText(title)
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.retry), v -> showStorageMigrationPromptIfNeeded())
-                .setNegativeButton(getString(R.string.exit), v -> finishAffinity());
-        dialog.setCancelable(false);
-        dialog.show();
-    }
+        // Migration removed
+        }
+
 
     private String shortenMigrationPath(String path) {
-        if (path == null || path.isEmpty()) return "";
-        final int max = 48;
-        return path.length() <= max ? path : "..." + path.substring(path.length() - max);
-    }
+        // Migration removed
+        }
+
 
     private String formatBytes(long bytes) {
         if (bytes < 1024) return bytes + " B";
@@ -948,28 +798,14 @@ import okhttp3.OkHttpClient;
     }
 
     private String getMigrationEtaText(StorageMigrationService.MigrationState state) {
-        if (state.estimatedRemainingMillis < 0L || state.estimatedCompletionAtMillis <= 0L) {
-            return getString(R.string.storage_migration_eta_pending);
+        // Migration removed
         }
-        String remaining = formatMigrationDuration(state.estimatedRemainingMillis);
-        String completionTime = DateFormat.getTimeInstance(DateFormat.SHORT, java.util.Locale.getDefault())
-                .format(new Date(state.estimatedCompletionAtMillis));
-        return getString(R.string.storage_migration_eta_detail, remaining, completionTime);
-    }
+
 
     private String formatMigrationDuration(long millis) {
-        long seconds = Math.max(1L, Math.round(millis / 1000.0d));
-        long hours = seconds / 3600L;
-        long minutes = (seconds % 3600L) / 60L;
-        long remainingSeconds = seconds % 60L;
-        if (hours > 0L) {
-            return getString(R.string.storage_migration_duration_hours_minutes, hours, minutes);
+        // Migration removed
         }
-        if (minutes > 0L) {
-            return getString(R.string.storage_migration_duration_minutes_seconds, minutes, remainingSeconds);
-        }
-        return getString(R.string.storage_migration_duration_seconds, remainingSeconds);
-    }
+
 
     private void showEulaIfNeeded() {
         SharedPreferences prefs = getSharedPreferences("LauncherPrefs", MODE_PRIVATE);
