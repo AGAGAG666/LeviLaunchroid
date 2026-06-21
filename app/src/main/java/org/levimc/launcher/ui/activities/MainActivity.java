@@ -684,11 +684,20 @@ import okhttp3.OkHttpClient;
     }
 
     private void requestBasicPermissions() {
-        requestStoragePermissionForMigration(() -> {
-            if (storageMigrationManager != null) {
-                startStorageMigrationService();
-            }
-        });
+        permissionsHandler.requestPermission(PermissionsHandler.PermissionType.STORAGE,
+            new PermissionsHandler.PermissionResultCallback() {
+                @Override
+                public void onPermissionGranted(PermissionsHandler.PermissionType type) {
+                    VersionManager.initializeAsync(MainActivity.this, manager -> runOnUiThread(() -> {
+                        if (isFinishing() || isDestroyed()) return;
+                        versionManager = manager;
+                        onVersionManagerReady();
+                    }));
+                }
+                @Override
+                public void onPermissionDenied(PermissionsHandler.PermissionType type, boolean permanentlyDenied) {
+                }
+            });
     }
 
     private void requestStoragePermissionForMigration(Runnable onGranted) {
