@@ -152,13 +152,9 @@
     <string name="repair_finalizing">Finalizing repair…</string>
 
 
-This storage change is required for Google Play listing compliance. The old directory will be kept untouched, but it will no longer be used after migration.
 
-Migration may take a while. You can leave the app in the background while it runs; the phone may get warm during heavy file copying. Thank you for your understanding.</string>
 
-The old games/org.levimc directory was not deleted and is no longer used.</string>
 
-Migration must complete before LeviLauncher can continue.</string>
 
     <string name="theme_title">Theme Mode</string>
     <string name="theme_follow_system">Follow System</string>

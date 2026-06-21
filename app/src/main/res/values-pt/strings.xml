@@ -149,13 +149,9 @@
     <string name="repair_processing">Extraindo bibliotecas…</string>
     <string name="repair_finalizing">Finalizando reparo…</string>
 
-Essa mudança de armazenamento é necessária para cumprir os requisitos de publicação na Google Play. O diretório antigo será mantido intacto, mas não será mais usado após a migração.
 
-A migração pode demorar. Você pode deixar o app em segundo plano enquanto ela roda; o telefone pode aquecer durante a cópia intensa de arquivos. Agradecemos a sua compreensão.</string>
 
-O diretório antigo games/org.levimc não foi excluído e não é mais usado.</string>
 
-A migração deve ser concluída antes que o LeviLauncher continue.</string>
 
     <string name="theme_title">Modo Tema</string>
     <string name="theme_follow_system">Seguir o Sistema</string>

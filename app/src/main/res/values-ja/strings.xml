@@ -149,13 +149,9 @@
     <string name="repair_processing">ライブラリを展開中…</string>
     <string name="repair_finalizing">修復を完了しています…</string>
 
-このストレージ変更は Google Play への公開要件を満たすために必要です。古いディレクトリはそのまま保持されますが、移行後は使用されません。
 
-移行には時間がかかる場合があります。実行中はアプリをバックグラウンドにしておけます。大量のファイルコピー中は端末が熱くなることがあります。ご理解ください。</string>
 
-古い games/org.levimc ディレクトリは削除されておらず、今後は使用されません。</string>
 
-LeviLauncher を続行するには移行を完了する必要があります。</string>
 
     <string name="theme_title">テーマモード</string>
     <string name="theme_follow_system">システムに従う</string>
