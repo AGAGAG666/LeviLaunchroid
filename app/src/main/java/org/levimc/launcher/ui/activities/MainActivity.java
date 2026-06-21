@@ -129,14 +129,11 @@ import okhttp3.OkHttpClient;
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            storageMigrationService = ((StorageMigrationService.LocalBinder) service).getService();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            if (storageMigrationService != null) {
             }
-            storageMigrationService = null;
         }
     };
 
@@ -667,7 +664,6 @@ import okhttp3.OkHttpClient;
 
     private void requestBasicPermissions() {
         requestStoragePermissionForMigration(() -> {
-            if (storageMigrationManager != null) {
             }
         });
     }
@@ -702,8 +698,6 @@ import okhttp3.OkHttpClient;
                 .setMessage(getString(
                         LauncherStorage.getTargetAppRootDisplayPath(this)
                 ))
-                .setPositiveButton(getString(R.string.storage_migration_start), v -> {
-                    if (storageMigrationManager.canReadLegacyRoot()) {
                     } else {
                         requestBasicPermissions();
                     }
@@ -722,27 +716,7 @@ import okhttp3.OkHttpClient;
         });
     }
 
-    private void handleStorageMigrationState(StorageMigrationService.MigrationState state) {
-        if (state == null || isFinishing()) return;
-        if (state.isActive()) {
-            return;
-        }
-        if (state.isFinished()) {
-            return;
-        }
-    }
 
-    private void updateStorageMigrationDialog(StorageMigrationService.MigrationState state) {
-        if (state.status == StorageMigrationService.Status.SCANNING) {
-            return;
-        }
-        if (state.status != StorageMigrationService.Status.RUNNING) return;
-        String progressDetail = getString(
-                state.processedFiles,
-                state.totalFiles,
-                shortenMigrationPath(state.currentFile)
-        );
-    }
 
     private void dismissStorageMigrationDialog(Runnable afterDismiss) {
         if (dialog == null) {
@@ -757,38 +731,6 @@ import okhttp3.OkHttpClient;
         }
     }
 
-    private void showStorageMigrationResult(StorageMigrationService.MigrationState state) {
-        if (isFinishing()) return;
-        if (state.status == StorageMigrationService.Status.COMPLETED) {
-            boolean wasInitialized = postMigrationInitialized;
-            initializeAfterMigrationGate();
-            if (wasInitialized && versionManager != null) {
-                versionManager.reload();
-                setTextMinecraftVersion();
-                updateViewModelVersion();
-            }
-            if (viewModel != null) viewModel.refreshMods();
-            refreshContentCounts();
-            new CustomAlertDialog(MainActivity.this)
-                    .setMessage(getString(
-                            state.totalFiles,
-                            formatBytes(state.totalBytes),
-                            state.skippedFiles
-                    ))
-                    .setPositiveButton(getString(R.string.confirm), null)
-                    .show();
-        } else if (state.status == StorageMigrationService.Status.PARTIAL) {
-            showBlockingMigrationRetryDialog(
-                    getString(
-                            state.failedFiles,
-                            state.totalFiles
-                    )
-            );
-        } else if (state.status == StorageMigrationService.Status.FAILED) {
-            showBlockingMigrationRetryDialog(
-            );
-        }
-    }
 
     private void showBlockingMigrationRetryDialog(String title, String message) {
         if (isFinishing() || isDestroyed()) return;
@@ -816,13 +758,6 @@ import okhttp3.OkHttpClient;
         return String.format(java.util.Locale.getDefault(), "%.1f GB", mb / 1024.0);
     }
 
-    private String getMigrationEtaText(StorageMigrationService.MigrationState state) {
-        if (state.estimatedRemainingMillis < 0L || state.estimatedCompletionAtMillis <= 0L) {
-        }
-        String remaining = formatMigrationDuration(state.estimatedRemainingMillis);
-        String completionTime = DateFormat.getTimeInstance(DateFormat.SHORT, java.util.Locale.getDefault())
-                .format(new Date(state.estimatedCompletionAtMillis));
-    }
 
     private String formatMigrationDuration(long millis) {
         long seconds = Math.max(1L, Math.round(millis / 1000.0d));
@@ -861,7 +796,6 @@ import okhttp3.OkHttpClient;
     protected void onResume() {
         super.onResume();
         refreshAccountHeaderUI();
-        if (StorageMigrationService.isMigrationRunning(this)) {
             return;
         }
         if (!postMigrationInitialized) {
@@ -1425,10 +1359,4 @@ import okhttp3.OkHttpClient;
 
  
     // Migration disabled stubs
-    private void startStorageMigrationService() {}
-    private void resumeStorageMigrationService() {}
-    private void bindStorageMigrationService() {}
-    private void unbindStorageMigrationService() {}
-
-}
 
