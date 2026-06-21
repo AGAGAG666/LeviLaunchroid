@@ -658,7 +658,7 @@ import okhttp3.OkHttpClient;
             }
         }
 
-        viewModel.getModsLiveData().observe(this, this::updateModsUI);
+        if (viewModel != null) viewModel.getModsLiveData().observe(this, this::updateModsUI);
     }
 
     private void updateViewModelVersion() {
@@ -847,7 +847,7 @@ import okhttp3.OkHttpClient;
         }
         if (versionManager != null) {
             setTextMinecraftVersion();
-            viewModel.refreshMods();
+            if (viewModel != null) viewModel.refreshMods();
             refreshContentCounts();
         }
         if (binding != null && versionManager != null) {
@@ -1110,7 +1110,9 @@ import okhttp3.OkHttpClient;
 
         adapter.setOnItemClickListener(version -> {
             versionManager.selectVersion(version);
-            viewModel.setCurrentVersion(version);
+            if (viewModel != null) {
+                viewModel.setCurrentVersion(version);
+            }
             setTextMinecraftVersion();
             popup.dismiss();
         });
