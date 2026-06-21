@@ -723,8 +723,8 @@ import okhttp3.OkHttpClient;
     }
 
     private void showStorageMigrationPromptIfNeeded() {
-        // Migration removed
-        }
+        initializeAfterMigrationGate();
+    }
 
 
     private void showStorageMigrationPromptDialog() {
@@ -733,8 +733,8 @@ import okhttp3.OkHttpClient;
 
 
     private void showStorageMigrationPromptAfterEula() {
-        // Migration removed
-        }
+        initializeAfterMigrationGate();
+    }
 
 
     private void startStorageMigrationService() {
