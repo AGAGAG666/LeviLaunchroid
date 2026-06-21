@@ -1,11 +1,19 @@
 package org.levimc.launcher.util;
+
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
+
 public class StorageMigrationService extends android.app.Service {
+    public enum Status {
+        IDLE, SCANNING, RUNNING, COMPLETED, PARTIAL, FAILED
+    }
+
     public static boolean isMigrationRunning(Context c) { return false; }
     public static void startMigration(Context c) {}
+
     public static class MigrationState {
-        public enum Status { IDLE, SCANNING, RUNNING, COMPLETED, PARTIAL, FAILED }
         public final Status status = Status.IDLE;
         public final int percent = 0;
         public final int processedFiles = 0;
@@ -22,12 +30,24 @@ public class StorageMigrationService extends android.app.Service {
         public boolean isFinished() { return false; }
         static MigrationState idle() { return new MigrationState(); }
     }
-    public interface MigrationListener { void onMigrationStateChanged(MigrationState state); }
-    public class LocalBinder extends android.os.Binder {
-        public StorageMigrationService getService() { return StorageMigrationService.this; }
+
+    public interface MigrationListener {
+        void onMigrationStateChanged(MigrationState state);
     }
+
+    public class LocalBinder extends Binder {
+        public StorageMigrationService getService() {
+            return StorageMigrationService.this;
+        }
+    }
+
     public void addListener(MigrationListener l) {}
     public void removeListener(MigrationListener l) {}
     public MigrationState getCurrentState() { return MigrationState.idle(); }
-    @Override public android.os.IBinder onBind(Intent intent) { return new LocalBinder(); }
+
+    @Override
+    public IBinder onBind(Intent intent) { return new LocalBinder(); }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) { return START_NOT_STICKY; }
 }
