@@ -767,4 +767,24 @@
     <string name="memory_editor_overlay">Overlay</string>
     <string name="memory_editor_base_address">MC Base: %1$s</string>
     <string name="memory_editor_base_loading">Loading base address…</string>
+    <string name="storage_migration_title">storage_migration_title</string>
+    <string name="storage_migration_message">storage_migration_message</string>
+    <string name="storage_migration_start">storage_migration_start</string>
+    <string name="storage_migration_permission_denied">storage_migration_permission_denied</string>
+    <string name="storage_migration_progress_title">storage_migration_progress_title</string>
+    <string name="storage_migration_progress_subtitle">storage_migration_progress_subtitle</string>
+    <string name="storage_migration_scanning">storage_migration_scanning</string>
+    <string name="storage_migration_progress_detail">storage_migration_progress_detail</string>
+    <string name="storage_migration_eta_pending">storage_migration_eta_pending</string>
+    <string name="storage_migration_eta_detail">storage_migration_eta_detail</string>
+    <string name="storage_migration_duration_hours_minutes">storage_migration_duration_hours_minutes</string>
+    <string name="storage_migration_duration_minutes_seconds">storage_migration_duration_minutes_seconds</string>
+    <string name="storage_migration_duration_seconds">storage_migration_duration_seconds</string>
+    <string name="storage_migration_background_hint">storage_migration_background_hint</string>
+    <string name="storage_migration_completed_title">storage_migration_completed_title</string>
+    <string name="storage_migration_completed_message">storage_migration_completed_message</string>
+    <string name="storage_migration_partial_title">storage_migration_partial_title</string>
+    <string name="storage_migration_partial_message">storage_migration_partial_message</string>
+    <string name="storage_migration_failed_title">storage_migration_failed_title</string>
+    <string name="storage_migration_failed_message">storage_migration_failed_message</string>
 </resources>
