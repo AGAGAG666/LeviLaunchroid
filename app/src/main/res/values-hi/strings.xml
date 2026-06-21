@@ -148,32 +148,12 @@
     <string name="repair_preparing">तैयारी हो रही है…</string>
     <string name="repair_processing">लाइब्रेरीज़ निकाली जा रही हैं…</string>
     <string name="repair_finalizing">मरम्मत पूरी की जा रही है…</string>
-    <string name="storage_migration_title">स्टोरेज माइग्रेशन आवश्यक है</string>
-    <string name="storage_migration_message">LeviLauncher को जारी रखने से पहले games/org.levimc से डेटा %1$s में माइग्रेट करना होगा।
 
 यह स्टोरेज बदलाव Google Play पर प्रकाशित करने की आवश्यकताओं को पूरा करने के लिए जरूरी है। पुराना फ़ोल्डर जस का तस रहेगा, लेकिन माइग्रेशन के बाद उसका उपयोग नहीं होगा।
 
 माइग्रेशन में समय लग सकता है। इसके चलते समय ऐप को बैकग्राउंड में छोड़ा जा सकता है; बहुत सारी फ़ाइलें कॉपी करते समय फ़ोन गर्म हो सकता है। कृपया समझें।</string>
-    <string name="storage_migration_start">माइग्रेट करें</string>
-    <string name="storage_migration_permission_denied">माइग्रेशन के लिए पुराने फ़ोल्डर को पढ़ने हेतु स्टोरेज अनुमति आवश्यक है।</string>
-    <string name="storage_migration_progress_title">स्टोरेज माइग्रेट हो रहा है</string>
-    <string name="storage_migration_progress_subtitle">लॉन्चर डेटा Android/media में कॉपी किया जा रहा है</string>
-    <string name="storage_migration_scanning">पुराना फ़ोल्डर स्कैन किया जा रहा है…</string>
-    <string name="storage_migration_progress_detail">%1$d/%2$d फ़ाइलें · %3$s</string>
-    <string name="storage_migration_eta_pending">शेष समय का अनुमान लगाया जा रहा है…</string>
-    <string name="storage_migration_eta_detail">लगभग %1$s शेष · %2$s तक पूरा होगा</string>
-    <string name="storage_migration_duration_hours_minutes">%1$d घं %2$d मि</string>
-    <string name="storage_migration_duration_minutes_seconds">%1$d मि %2$d से</string>
-    <string name="storage_migration_duration_seconds">%1$d से</string>
-    <string name="storage_migration_background_hint">माइग्रेशन बैकग्राउंड में जारी रह सकता है। फ़ोन को चार्ज पर रखना बेहतर है; फ़ाइल कॉपी करते समय फ़ोन गर्म हो सकता है। कृपया समझें।</string>
-    <string name="storage_migration_completed_title">माइग्रेशन पूरा हुआ</string>
-    <string name="storage_migration_completed_message">%1$d फ़ाइलें माइग्रेट हुईं (%2$s)। %3$d फ़ाइलें पहले से अपडेट थीं।
 
 पुराना games/org.levimc फ़ोल्डर हटाया नहीं गया और अब उपयोग नहीं होगा।</string>
-    <string name="storage_migration_partial_title">माइग्रेशन अधूरा है</string>
-    <string name="storage_migration_partial_message">%2$d में से %1$d फ़ाइलें कॉपी नहीं हो सकीं। LeviLauncher जारी रखने से पहले माइग्रेशन पूरा होना चाहिए।</string>
-    <string name="storage_migration_failed_title">माइग्रेशन विफल</string>
-    <string name="storage_migration_failed_message">माइग्रेशन जारी नहीं रह सका: %1$s
 
 LeviLauncher जारी रखने से पहले माइग्रेशन पूरा होना चाहिए।</string>
 

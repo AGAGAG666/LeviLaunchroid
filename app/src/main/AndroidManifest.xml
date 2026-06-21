@@ -74,7 +74,6 @@
             tools:ignore="DiscouragedApi" />
 
         <service
-            android:name="org.levimc.launcher.util.StorageMigrationService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
 
