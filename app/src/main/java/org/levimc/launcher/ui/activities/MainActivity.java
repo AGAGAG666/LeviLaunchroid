@@ -783,9 +783,7 @@ import okhttp3.OkHttpClient;
         }
 
 
-    private String shortenMigrationPath(String path) {
-        // Migration removed
-        }
+    private String shortenMigrationPath(String path) { return ""; }
 
 
     private String formatBytes(long bytes) {
@@ -797,14 +795,10 @@ import okhttp3.OkHttpClient;
         return String.format(java.util.Locale.getDefault(), "%.1f GB", mb / 1024.0);
     }
 
-    private String getMigrationEtaText(StorageMigrationService.MigrationState state) {
-        // Migration removed
-        }
+    private String getMigrationEtaText(StorageMigrationService.MigrationState state) { return ""; }
 
 
-    private String formatMigrationDuration(long millis) {
-        // Migration removed
-        }
+    private String formatMigrationDuration(long millis) { return ""; }
 
 
     private void showEulaIfNeeded() {
