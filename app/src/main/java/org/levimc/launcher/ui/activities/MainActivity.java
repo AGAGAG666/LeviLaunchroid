@@ -57,6 +57,8 @@ import org.levimc.launcher.util.PermissionsHandler;
 import org.levimc.launcher.util.PersonalizationManager;
 import org.levimc.launcher.util.PlayStoreValidator;
 import org.levimc.launcher.util.ResourcepackHandler;
+import org.levimc.launcher.util.StorageMigrationManager;
+import org.levimc.launcher.util.StorageMigrationService;
 import org.levimc.launcher.util.UIHelper;
 import org.levimc.launcher.core.content.ContentManager;
 import java.util.ArrayList;
@@ -102,6 +104,7 @@ import okhttp3.OkHttpClient;
     private ApkImportManager apkImportManager;
     private MainViewModel viewModel;
     private VersionManager versionManager;
+    private StorageMigrationManager storageMigrationManager;
     private ActivityResultLauncher<Intent> permissionResultLauncher;
     private ActivityResultLauncher<Intent> apkImportResultLauncher;
     private ActivityResultLauncher<String> notificationPermissionLauncher;
@@ -125,15 +128,31 @@ import okhttp3.OkHttpClient;
     private boolean migrationPromptShown;
     private boolean migrationPromptCheckInFlight;
     private boolean postMigrationInitialized;
+    private StorageMigrationService storageMigrationService;
+    private boolean storageMigrationBound;
+    private LibsRepairDialog storageMigrationDialog;
+    private StorageMigrationService.MigrationState lastMigrationState;
+    private final ExecutorService storageMigrationExecutor = Executors.newSingleThreadExecutor();
 
+    private final StorageMigrationService.MigrationListener storageMigrationListener =
+            state -> runOnUiThread(() -> handleStorageMigrationState(state));
 
+    private final ServiceConnection storageMigrationConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            storageMigrationService = ((StorageMigrationService.LocalBinder) service).getService();
+            storageMigrationBound = true;
+            storageMigrationService.addListener(storageMigrationListener);
+            handleStorageMigrationState(storageMigrationService.getCurrentState());
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            if (storageMigrationService != null) {
+                storageMigrationService.removeListener(storageMigrationListener);
             }
+            storageMigrationService = null;
+            storageMigrationBound = false;
         }
     };
 
@@ -200,6 +219,7 @@ import okhttp3.OkHttpClient;
         });
 
         initAccountHeader();
+        binding.getRoot().post(this::showStorageMigrationPromptAfterEula);
     }
 
     @Override
@@ -541,6 +561,7 @@ import okhttp3.OkHttpClient;
     private void setupManagersAndHandlers() {
         languageManager = new LanguageManager(this);
         languageManager.applySavedLanguage();
+        storageMigrationManager = new StorageMigrationManager(this);
         permissionResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -664,6 +685,8 @@ import okhttp3.OkHttpClient;
 
     private void requestBasicPermissions() {
         requestStoragePermissionForMigration(() -> {
+            if (storageMigrationManager != null) {
+                startStorageMigrationService();
             }
         });
     }
@@ -680,7 +703,10 @@ import okhttp3.OkHttpClient;
             @Override
             public void onPermissionDenied(PermissionsHandler.PermissionType type, boolean permanentlyDenied) {
                 if (type == PermissionsHandler.PermissionType.STORAGE) {
+                    Toast.makeText(MainActivity.this, R.string.storage_migration_permission_denied, Toast.LENGTH_LONG).show();
                     showBlockingMigrationRetryDialog(
+                            getString(R.string.storage_migration_failed_title),
+                            getString(R.string.storage_migration_permission_denied)
                     );
                 }
             }
@@ -688,16 +714,44 @@ import okhttp3.OkHttpClient;
     }
 
     private void showStorageMigrationPromptIfNeeded() {
-        // Migration disabled - using legacy directory
+        if (postMigrationInitialized || migrationPromptShown || migrationPromptCheckInFlight || storageMigrationManager == null || isFinishing() || isDestroyed()) return;
+        if (StorageMigrationService.isMigrationRunning(this)) {
+            resumeStorageMigrationService();
+            return;
+        }
+        migrationPromptCheckInFlight = true;
+        storageMigrationExecutor.execute(() -> {
+            boolean shouldOfferMigration = false;
+            try {
+                shouldOfferMigration = storageMigrationManager.shouldOfferMigration();
+            } catch (Exception ignored) {
+            }
+            boolean finalShouldOfferMigration = shouldOfferMigration;
+            runOnUiThread(() -> {
+                migrationPromptCheckInFlight = false;
+                if (isFinishing() || isDestroyed()) return;
+                if (!finalShouldOfferMigration) {
+                    initializeAfterMigrationGate();
+                    return;
+                }
+                if (migrationPromptShown || storageMigrationManager == null) return;
+                showStorageMigrationPromptDialog();
+            });
+        });
     }
 
-        private void showStorageMigrationPromptDialog() {
+    private void showStorageMigrationPromptDialog() {
         migrationPromptShown = true;
 
         CustomAlertDialog dialog = new CustomAlertDialog(this)
+                .setTitleText(getString(R.string.storage_migration_title))
                 .setMessage(getString(
+                        R.string.storage_migration_message,
                         LauncherStorage.getTargetAppRootDisplayPath(this)
                 ))
+                .setPositiveButton(getString(R.string.confirm), v -> {
+                    if (storageMigrationManager.canReadLegacyRoot()) {
+                        startStorageMigrationService();
                     } else {
                         requestBasicPermissions();
                     }
@@ -708,17 +762,113 @@ import okhttp3.OkHttpClient;
     }
 
     private void showStorageMigrationPromptAfterEula() {
-        // Migration disabled
+        SharedPreferences prefs = getSharedPreferences("LauncherPrefs", MODE_PRIVATE);
+        if (!prefs.getBoolean("eula_accepted", false)) return;
+        showStorageMigrationPromptIfNeeded();
     }
+
+    private void startStorageMigrationService() {
+        if (isFinishing()) return;
+        requestNotificationPermissionForMigration();
+        showStorageMigrationDialog();
+        StorageMigrationService.startMigration(this);
+        bindStorageMigrationService();
+    }
+
+    private void resumeStorageMigrationService() {
+        if (isFinishing()) return;
+        requestNotificationPermissionForMigration();
+        showStorageMigrationDialog();
+        StorageMigrationService.startMigration(this);
+        bindStorageMigrationService();
+    }
+
+    private void requestNotificationPermissionForMigration() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || notificationPermissionLauncher == null) return;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+    }
+
+    private void bindStorageMigrationService() {
+        if (storageMigrationBound) return;
+        if (!StorageMigrationService.isMigrationRunning(this)) return;
+        Intent intent = new Intent(this, StorageMigrationService.class);
+        bindService(intent, storageMigrationConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private void unbindStorageMigrationService() {
+        if (!storageMigrationBound) return;
+        if (storageMigrationService != null) {
+            storageMigrationService.removeListener(storageMigrationListener);
+        }
+        unbindService(storageMigrationConnection);
+        storageMigrationBound = false;
+        storageMigrationService = null;
+    }
+
     private void showStorageMigrationDialog() {
         if (isFinishing()) return;
+        if (storageMigrationDialog != null && storageMigrationDialog.isShowing()) return;
+        storageMigrationDialog = new LibsRepairDialog(this);
+        storageMigrationDialog.setCanceledOnTouchOutside(false);
+        storageMigrationDialog.setOnShowListener(dialog -> {
+            storageMigrationDialog.setTitleText(getString(R.string.storage_migration_progress_title));
+            storageMigrationDialog.setSubtitleText(getString(R.string.storage_migration_progress_subtitle));
+            storageMigrationDialog.setStatusText(getString(R.string.storage_migration_scanning));
+            storageMigrationDialog.setEtaText(getString(R.string.storage_migration_eta_pending));
+            storageMigrationDialog.setBackgroundHintText(getString(R.string.storage_migration_background_hint));
+            storageMigrationDialog.setPauseButton("", null);
+            storageMigrationDialog.setIndeterminate(true);
+            storageMigrationDialog.updateProgress(0);
+            if (lastMigrationState != null) {
+                updateStorageMigrationDialog(lastMigrationState);
             }
         });
+        storageMigrationDialog.show();
     }
 
+    private void handleStorageMigrationState(StorageMigrationService.MigrationState state) {
+        if (state == null || isFinishing()) return;
+        lastMigrationState = state;
+        if (state.isActive()) {
+            showStorageMigrationDialog();
+            updateStorageMigrationDialog(state);
+            return;
+        }
+        if (state.isFinished()) {
+            dismissStorageMigrationDialog(() -> showStorageMigrationResult(state));
+            return;
+        }
+    }
 
+    private void updateStorageMigrationDialog(StorageMigrationService.MigrationState state) {
+        if (storageMigrationDialog == null || !storageMigrationDialog.isShowing()) return;
+        if (state.status == StorageMigrationService.Status.SCANNING) {
+            storageMigrationDialog.setIndeterminate(true);
+            storageMigrationDialog.setStatusText(getString(R.string.storage_migration_scanning));
+            storageMigrationDialog.setEtaText(getMigrationEtaText(state));
+            storageMigrationDialog.updateProgress(0);
+            return;
+        }
+        if (state.status != StorageMigrationService.Status.RUNNING) return;
+        storageMigrationDialog.setIndeterminate(false);
+        String progressDetail = getString(
+                R.string.storage_migration_progress_detail,
+                state.processedFiles,
+                state.totalFiles,
+                shortenMigrationPath(state.currentFile)
+        );
+        storageMigrationDialog.setStatusText(progressDetail);
+        storageMigrationDialog.setEtaText(getMigrationEtaText(state));
+        storageMigrationDialog.updateProgress(state.percent);
+    }
 
     private void dismissStorageMigrationDialog(Runnable afterDismiss) {
+        LibsRepairDialog dialog = storageMigrationDialog;
+        storageMigrationDialog = null;
         if (dialog == null) {
             if (afterDismiss != null) afterDismiss.run();
             return;
@@ -731,6 +881,44 @@ import okhttp3.OkHttpClient;
         }
     }
 
+    private void showStorageMigrationResult(StorageMigrationService.MigrationState state) {
+        if (isFinishing()) return;
+        if (state.status == StorageMigrationService.Status.COMPLETED) {
+            boolean wasInitialized = postMigrationInitialized;
+            initializeAfterMigrationGate();
+            if (wasInitialized && versionManager != null) {
+                versionManager.reload();
+                setTextMinecraftVersion();
+                updateViewModelVersion();
+            }
+            if (viewModel != null) viewModel.refreshMods();
+            refreshContentCounts();
+            new CustomAlertDialog(MainActivity.this)
+                    .setTitleText(getString(R.string.storage_migration_completed_title))
+                    .setMessage(getString(
+                            R.string.storage_migration_completed_message,
+                            state.totalFiles,
+                            formatBytes(state.totalBytes),
+                            state.skippedFiles
+                    ))
+                    .setPositiveButton(getString(R.string.confirm), null)
+                    .show();
+        } else if (state.status == StorageMigrationService.Status.PARTIAL) {
+            showBlockingMigrationRetryDialog(
+                    getString(R.string.storage_migration_partial_title),
+                    getString(
+                            R.string.storage_migration_partial_message,
+                            state.failedFiles,
+                            state.totalFiles
+                    )
+            );
+        } else if (state.status == StorageMigrationService.Status.FAILED) {
+            showBlockingMigrationRetryDialog(
+                    getString(R.string.storage_migration_failed_title),
+                    getString(R.string.storage_migration_failed_message, state.errorMessage)
+            );
+        }
+    }
 
     private void showBlockingMigrationRetryDialog(String title, String message) {
         if (isFinishing() || isDestroyed()) return;
@@ -738,6 +926,7 @@ import okhttp3.OkHttpClient;
         CustomAlertDialog dialog = new CustomAlertDialog(MainActivity.this)
                 .setTitleText(title)
                 .setMessage(message)
+                .setPositiveButton(getString(R.string.retry), v -> showStorageMigrationPromptIfNeeded())
                 .setNegativeButton(getString(R.string.exit), v -> finishAffinity());
         dialog.setCancelable(false);
         dialog.show();
@@ -758,6 +947,15 @@ import okhttp3.OkHttpClient;
         return String.format(java.util.Locale.getDefault(), "%.1f GB", mb / 1024.0);
     }
 
+    private String getMigrationEtaText(StorageMigrationService.MigrationState state) {
+        if (state.estimatedRemainingMillis < 0L || state.estimatedCompletionAtMillis <= 0L) {
+            return getString(R.string.storage_migration_eta_pending);
+        }
+        String remaining = formatMigrationDuration(state.estimatedRemainingMillis);
+        String completionTime = DateFormat.getTimeInstance(DateFormat.SHORT, java.util.Locale.getDefault())
+                .format(new Date(state.estimatedCompletionAtMillis));
+        return getString(R.string.storage_migration_eta_detail, remaining, completionTime);
+    }
 
     private String formatMigrationDuration(long millis) {
         long seconds = Math.max(1L, Math.round(millis / 1000.0d));
@@ -765,9 +963,12 @@ import okhttp3.OkHttpClient;
         long minutes = (seconds % 3600L) / 60L;
         long remainingSeconds = seconds % 60L;
         if (hours > 0L) {
+            return getString(R.string.storage_migration_duration_hours_minutes, hours, minutes);
         }
         if (minutes > 0L) {
+            return getString(R.string.storage_migration_duration_minutes_seconds, minutes, remainingSeconds);
         }
+        return getString(R.string.storage_migration_duration_seconds, remainingSeconds);
     }
 
     private void showEulaIfNeeded() {
@@ -786,6 +987,7 @@ import okhttp3.OkHttpClient;
                 .setPositiveButton(getString(R.string.eula_agree), v -> {
                     getSharedPreferences("LauncherPrefs", MODE_PRIVATE)
                             .edit().putBoolean("eula_accepted", true).apply();
+                    binding.getRoot().post(this::showStorageMigrationPromptIfNeeded);
                 })
                 .setNegativeButton(getString(R.string.eula_exit), v -> finishAffinity());
         dia.setCancelable(false);
@@ -796,9 +998,12 @@ import okhttp3.OkHttpClient;
     protected void onResume() {
         super.onResume();
         refreshAccountHeaderUI();
+        if (StorageMigrationService.isMigrationRunning(this)) {
+            resumeStorageMigrationService();
             return;
         }
         if (!postMigrationInitialized) {
+            showStorageMigrationPromptAfterEula();
             return;
         }
         if (versionManager != null) {
@@ -813,6 +1018,7 @@ import okhttp3.OkHttpClient;
 
     @Override
     protected void onStop() {
+        unbindStorageMigrationService();
         super.onStop();
     }
 
@@ -1354,9 +1560,11 @@ import okhttp3.OkHttpClient;
 
     @Override
     protected void onDestroy() {
+        unbindStorageMigrationService();
+        dismissStorageMigrationDialog(null);
+        storageMigrationExecutor.shutdownNow();
         super.onDestroy();
     }
 
- 
-    // Migration disabled stubs
+ }
 
