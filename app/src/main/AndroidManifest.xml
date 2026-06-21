@@ -73,9 +73,6 @@
             android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
             tools:ignore="DiscouragedApi" />
 
-        <service
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
 
         <activity
             android:name="org.levimc.launcher.ui.activities.ContentListActivity"
