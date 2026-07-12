@@ -7,6 +7,9 @@ import org.levimc.launcher.core.mods.inbuilt.ExternalModBridge;
 import org.levimc.launcher.core.mods.inbuilt.manager.InbuiltModManager;
 import org.levimc.launcher.core.mods.inbuilt.model.ModIds;
 
+import org.levimc.launcher.core.mods.memoryeditor.MemoryAddress;
+import org.levimc.launcher.core.mods.memoryeditor.MemoryOverlayButton;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ public class InbuiltOverlayManager {
     private final Map<String, BaseOverlayButton> modOverlayMap = new HashMap<>();
     private final Map<String, ExternalButtonOverlay> externalButtonOverlayMap = new HashMap<>();
     private final Map<String, Integer> modPositionMap = new HashMap<>();
+    private final Map<Long, MemoryOverlayButton> memoryOverlays = new HashMap<>();
     private ChickPetOverlay chickPetOverlay;
     private ZoomOverlay zoomOverlay;
     private SnaplookOverlay snaplookOverlay;
@@ -361,6 +365,23 @@ public class InbuiltOverlayManager {
         return modActiveStates.getOrDefault(modId, false);
     }
 
+    public void addMemoryOverlay(MemoryAddress address) {
+        long addr = address.getAddress();
+        if (memoryOverlays.containsKey(addr)) return;
+        android.util.DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+        int centerX = metrics.widthPixels / 2 - (int)(26 * metrics.density);
+        int centerY = metrics.heightPixels / 2 - (int)(26 * metrics.density);
+        MemoryOverlayButton btn = new MemoryOverlayButton(activity, address);
+        btn.show(centerX, centerY);
+        memoryOverlays.put(addr, btn);
+    }
+
+    public void removeMemoryOverlay(long addrValue) {
+        MemoryOverlayButton btn = memoryOverlays.remove(addrValue);
+        if (btn != null) {
+            btn.hide();
+        }
+    }
 
     public void hideAllOverlays() {
         selectHudEditorOverlay(null);
@@ -400,6 +421,10 @@ public class InbuiltOverlayManager {
             hudOverlay.hide();
             hudOverlay = null;
         }
+        for (MemoryOverlayButton btn : memoryOverlays.values()) {
+            btn.hide();
+        }
+        memoryOverlays.clear();
         instance = null;
     }
 
