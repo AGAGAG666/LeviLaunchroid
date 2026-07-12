@@ -162,7 +162,6 @@
     <string name="repair_finalizing">Finalizing repair…</string>
 
 
-Migration must complete before LeviLauncher can continue.</string>
     <string name="migration_cleanup_title">Clean Historical Directory</string>
     <string name="migration_cleanup_desc">Only remove the old games/org.levimc directory after you have confirmed every instance launches normally and worlds, resource packs, behavior packs, and settings are not missing. Deleted historical data cannot be restored from this directory.</string>
     <string name="migration_cleanup_button">Clean Historical Directory</string>

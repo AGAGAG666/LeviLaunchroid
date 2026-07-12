@@ -161,8 +161,6 @@
 
 
 
-
-La migration doit être terminée avant de continuer avec LeviLauncher.</string>
     <string name="migration_cleanup_title">Nettoyer le répertoire historique</string>
     <string name="migration_cleanup_desc">Supprimez l\'ancien répertoire games/org.levimc uniquement après avoir confirmé que toutes les instances se lancent normalement et qu\'aucun monde, pack de ressources, pack de comportement ou paramètre ne manque. Les données historiques supprimées ne pourront pas être restaurées depuis ce répertoire.</string>
     <string name="migration_cleanup_button">Nettoyer le répertoire historique</string>

@@ -144,8 +144,6 @@
 
 
 
-
-Migrasi harus selesai sebelum LeviLauncher dapat melanjutkan.</string>
     <string name="migration_cleanup_title">Bersihkan Direktori Riwayat</string>
     <string name="migration_cleanup_desc">Hapus direktori lama games/org.levimc hanya setelah memastikan semua instans dapat diluncurkan normal dan world, resource pack, behavior pack, serta pengaturan tidak hilang. Data riwayat yang dihapus tidak dapat dipulihkan dari direktori ini.</string>
     <string name="migration_cleanup_button">Bersihkan Direktori Riwayat</string>

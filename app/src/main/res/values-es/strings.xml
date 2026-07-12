@@ -161,8 +161,6 @@
 
 
 
-
-La migración debe completarse antes de continuar con LeviLauncher.</string>
     <string name="migration_cleanup_title">Limpiar directorio histórico</string>
     <string name="migration_cleanup_desc">Elimina el directorio antiguo games/org.levimc solo después de confirmar que todas las instancias se inician correctamente y que no faltan mundos, paquetes de recursos, paquetes de comportamiento ni ajustes. Los datos históricos eliminados no se podrán restaurar desde este directorio.</string>
     <string name="migration_cleanup_button">Limpiar directorio histórico</string>

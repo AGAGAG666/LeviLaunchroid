@@ -128,8 +128,6 @@
 
 
 
-
-必须完成迁移后才能继续使用 LeviLauncher。</string>
     <string name="migration_cleanup_title">清理历史目录</string>
     <string name="migration_cleanup_desc">仅在确认所有实例都能正常启动，世界、资源包、行为包和设置均未缺失后，再移除旧的 games/org.levimc 目录。删除后无法再从该历史目录恢复数据。</string>
     <string name="migration_cleanup_button">清理历史目录</string>
