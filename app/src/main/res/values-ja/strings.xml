@@ -161,8 +161,6 @@
 
 
 
-
-LeviLauncher を続行するには移行を完了する必要があります。</string>
     <string name="migration_cleanup_title">履歴ディレクトリを削除</string>
     <string name="migration_cleanup_desc">すべてのインスタンスが正常に起動し、ワールド、リソースパック、ビヘイビアーパック、設定が失われていないことを確認してから、古い games/org.levimc ディレクトリを削除してください。削除した履歴データはこのディレクトリから復元できません。</string>
     <string name="migration_cleanup_button">履歴ディレクトリを削除</string>

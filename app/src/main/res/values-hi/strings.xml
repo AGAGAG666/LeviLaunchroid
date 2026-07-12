@@ -161,8 +161,6 @@
 
 
 
-
-LeviLauncher जारी रखने से पहले माइग्रेशन पूरा होना चाहिए।</string>
     <string name="migration_cleanup_title">पुरानी डायरेक्टरी साफ़ करें</string>
     <string name="migration_cleanup_desc">पुरानी games/org.levimc डायरेक्टरी को तभी हटाएँ जब आपने पुष्टि कर ली हो कि सभी इंस्टेंस सामान्य रूप से शुरू होते हैं और world, resource pack, behavior pack या settings गायब नहीं हैं। हटाए गए पुराने डेटा को इस डायरेक्टरी से वापस नहीं लाया जा सकेगा।</string>
     <string name="migration_cleanup_button">पुरानी डायरेक्टरी साफ़ करें</string>
