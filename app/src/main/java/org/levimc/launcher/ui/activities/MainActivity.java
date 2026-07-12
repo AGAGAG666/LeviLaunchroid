@@ -766,7 +766,6 @@ import okhttp3.OkHttpClient;
         // Migration removed
         }
 
-
     private void handleStorageMigrationState(StorageMigrationService.MigrationState state) {
         // Migration removed
         }
@@ -948,6 +947,10 @@ import okhttp3.OkHttpClient;
         } catch (IllegalArgumentException e) {
             storageType = org.levimc.launcher.settings.FeatureSettings.StorageType.INTERNAL;
         }
+        storageType = LauncherStorage.normalizeContentStorageType(
+                storageType,
+                currentVersion.versionIsolation
+        );
 
         java.io.File baseDir = LauncherStorage.getContentGameDataDir(
                 this,
@@ -1372,13 +1375,7 @@ import okhttp3.OkHttpClient;
             }
         }
 
-        // Add enabled inbuilt mods
-        InbuiltModManager manager = InbuiltModManager.getInstance(this);
-        if (!manager.isModMenuEnabled()) {
-            for (org.levimc.launcher.core.mods.inbuilt.model.InbuiltMod inbuilt : manager.getAddedMods(this)) {
-                addModNameEntry(inbuilt.getName());
-            }
-        }
+
     }
 
     private void addModNameEntry(String name) {

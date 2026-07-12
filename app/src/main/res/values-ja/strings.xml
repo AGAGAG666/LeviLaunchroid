@@ -100,6 +100,7 @@
     <string name="settings_tab_personalize">カスタマイズ</string>
     <string name="settings_tab_updates">アップデート</string>
     <string name="settings_tab_about">アプリについて</string>
+    <string name="settings_tab_migration">移行</string>
     <string name="settings_theme_desc">アプリのテーマを選択</string>
 
     <string name="unknown_sources_permission_title">インストールの許可</string>
@@ -107,6 +108,15 @@
 
     <string name="check_update">アップデートを確認</string>
     <string name="version_prefix">バージョン: </string>
+    <string name="unknown_error">不明なエラー</string>
+    <string name="preloader_sigs_title">ランタイムデータ</string>
+    <string name="preloader_sigs_last_update">最終更新: %1$s</string>
+    <string name="preloader_sigs_never_updated">未更新</string>
+    <string name="preloader_sigs_update">ランタイムデータを更新</string>
+    <string name="preloader_sigs_updating">更新中…</string>
+    <string name="preloader_sigs_update_success">ランタイムデータを更新しました</string>
+    <string name="preloader_sigs_update_failed">ランタイムデータの更新に失敗しました: %1$s</string>
+    <string name="preloader_sigs_no_remote_url">ランタイムデータ更新URLが設定されていません</string>
 
     <string name="dialog_title_no_version">バージョンが選択されていません</string>
     <string name="dialog_message_no_version">起動する前にゲームのバージョンを選択してください。</string>
@@ -152,6 +162,23 @@
 
 
 
+LeviLauncher を続行するには移行を完了する必要があります。</string>
+    <string name="migration_cleanup_title">履歴ディレクトリを削除</string>
+    <string name="migration_cleanup_desc">すべてのインスタンスが正常に起動し、ワールド、リソースパック、ビヘイビアーパック、設定が失われていないことを確認してから、古い games/org.levimc ディレクトリを削除してください。削除した履歴データはこのディレクトリから復元できません。</string>
+    <string name="migration_cleanup_button">履歴ディレクトリを削除</string>
+    <string name="migration_cleanup_confirm_title">履歴ディレクトリを削除しますか？</string>
+    <string name="migration_cleanup_confirm_message">古い games/org.levimc ディレクトリを完全に削除します。\n\n続行する前に、すべてのインスタンスが正常に起動し、ワールド、リソースパック、ビヘイビアーパック、設定が失われていないことを確認してください。</string>
+    <string name="migration_cleanup_unavailable_not_completed">ストレージ移行がまだ完了していません。古いディレクトリを削除する前に移行を完了してください。</string>
+    <string name="migration_cleanup_unavailable_missing">古い games/org.levimc ディレクトリが見つからないか、すでに削除されています。</string>
+    <string name="migration_cleanup_ready">古いディレクトリを削除できます。続行する前に、移行済みのすべてのインスタンスが正常であることを確認してください。</string>
+    <string name="migration_cleanup_success">履歴ディレクトリを削除しました: %1$d 個のファイルを削除 (%2$s)。</string>
+    <string name="migration_cleanup_failed">履歴ディレクトリの削除に失敗しました: %1$s</string>
+    <string name="shared_storage_layout_title">共有コンテンツディレクトリ</string>
+    <string name="shared_storage_layout_desc">Internal と External の共有コンテンツに新しい _shared ディレクトリを使用します。オフにすると、元の internal/external ゲームデータディレクトリを使用します。ファイルは移動されません。</string>
+    <string name="shared_storage_layout_mode_new">新しい _shared ディレクトリ</string>
+    <string name="shared_storage_layout_mode_legacy">元の internal/external ディレクトリ</string>
+    <string name="shared_storage_layout_status">現在のモード: %1$s\nInternal: %2$s\nExternal: %3$s</string>
+    <string name="shared_storage_layout_changed">ストレージディレクトリの選択を更新しました。変更を完全に反映するには Minecraft を再起動し、コンテンツ管理を開き直してください。</string>
 
     <string name="theme_title">テーマモード</string>
     <string name="theme_follow_system">システムに従う</string>
@@ -227,6 +254,8 @@
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
     <string name="hindi">हिन्दी</string>
+    <string name="turkish">Türkçe</string>
+    <string name="vietnamese">Tiếng Việt</string>
 
     <string name="rename_version_title">バージョンの名前変更</string>
     <string name="rename_version_message">このバージョンの新しい名前を入力してください:</string>
@@ -673,4 +702,42 @@
         <item quantity="other">%d 個の項目</item>
     </plurals>
 
+    <!-- Mod Menu synced translations -->
+    <string name="mod_menu_favorites">お気に入り</string>
+    <string name="mod_menu_favorite">お気に入りに追加</string>
+    <string name="mod_menu_unfavorite">お気に入りから削除</string>
+    <string name="mod_menu_hud_editor">HUD エディター</string>
+    <string name="mod_menu_filter_enabled">有効</string>
+    <string name="mod_menu_filter_inbuilt">内蔵</string>
+    <string name="mod_menu_filter_external">外部</string>
+    <string name="mod_menu_no_favorites">お気に入りのModはまだありません</string>
+    <string name="mod_menu_no_matches">一致するModがありません</string>
+    <string name="mod_menu_group_inbuilt">内蔵機能</string>
+    <string name="mod_menu_group_external_ungrouped">未グループの外部Mod</string>
+    <string name="mod_menu_module_count">%1$d / %2$d</string>
+    <string name="mod_menu_general_settings">一般設定</string>
+    <string name="mod_menu_appearance">外観</string>
+    <string name="mod_menu_pause_menu_only">ポーズメニューのみ</string>
+    <string name="mod_menu_pause_menu_only_desc">ポーズ画面でのみModメニューを表示</string>
+    <string name="mod_menu_default_percent" formatted="false">100%</string>
+    <string name="mod_menu_percent_value">%1$d%%</string>
+    <string name="mod_overlay_fps_unknown">FPS: --</string>
+    <string name="mod_overlay_fps_value">FPS: %1$d</string>
+    <string name="mod_overlay_cps_value">CPS: %1$d</string>
+    <string name="mod_config_overlay_button_size_dp">オーバーレイボタンサイズ (dp)</string>
+    <string name="mod_config_overlay_opacity_percent" formatted="false">オーバーレイ透明度 (%)</string>
+    <string name="mod_config_cursor_sensitivity_percent" formatted="false">カーソル感度 (%)</string>
+    <string name="mod_config_zoom_level_percent" formatted="false">ズームレベル (%)</string>
+    <string name="mod_config_auto_sprint_keybind">オートスプリントのキー割り当て</string>
+    <string name="mod_config_zoom_keybind">ズームのキー割り当て</string>
+    <string name="mod_config_press_any_key">割り当てるキーを押してください...</string>
+    <string name="mod_config_key_unknown">不明</string>
+    <string name="mod_config_color_alpha_short">A</string>
+    <string name="mod_config_color_red_short">R</string>
+    <string name="mod_config_color_green_short">G</string>
+    <string name="mod_config_color_blue_short">B</string>
+    <string name="mod_config_color_hex_hint" formatted="false">#AARRGGBB</string>
+    <string name="overlay_button_size_value">サイズ: %1$ddp</string>
+    <string name="overlay_button_opacity_value">透明度: %1$d%%</string>
+    <string name="reset">リセット</string>
 </resources>

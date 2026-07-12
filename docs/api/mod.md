@@ -2,124 +2,102 @@
 
 ## Purpose
 
-The Mod API provides the `MyMod` lifecycle style used by LeviLauncher native
-mods. New mods should use the C++ template and `PL_REGISTER_MOD`.
+The Mod API is the lifecycle entry point for native mods. It uses
+`<pl/Mod.hpp>`, `ll::mod::NativeMod::current()`, and a long-lived C++
+instance registered with `PL_REGISTER_MOD`.
 
-## Headers
+## Header
 
 ```cpp
-#include <pl/cpp/Mod.hpp>
-#include <pl/cpp/mod/RegisterHelper.hpp>
+#include <pl/Mod.hpp>
 ```
 
-Use the typed config helpers from:
+## Registration
 
 ```cpp
-#include <pl/cpp/Config.hpp>
-```
+#include <pl/Mod.hpp>
 
-## Register a Mod
-
-```cpp
-#include "mod/MyMod.h"
-#include <pl/cpp/mod/RegisterHelper.hpp>
-
-PL_REGISTER_MOD(my_mod::MyMod, my_mod::MyMod::getInstance());
-```
-
-`MyMod` should provide these methods:
-
-```cpp
 class MyMod {
 public:
-  static MyMod &getInstance();
+  static MyMod &instance();
+
+  MyMod();
+
+  [[nodiscard]] ll::mod::NativeMod &getSelf() const { return mSelf; }
 
   bool load();
   bool enable();
   bool disable();
   bool unload();
+
+private:
+  ll::mod::NativeMod &mSelf;
 };
+
+PL_REGISTER_MOD(MyMod, MyMod::instance())
 ```
 
-`unload()` is optional. Add it when the mod owns resources that should be
-released during shutdown.
+```cpp
+MyMod::MyMod() : mSelf(*ll::mod::NativeMod::current()) {}
+```
+
+`load()` is required. `enable()`, `disable()`, and `unload()` are optional; the
+registration helper treats missing optional phases as success.
+
+Use `PL_REGISTER_MOD` once in a source file for each native mod library.
 
 ## Lifecycle
 
-| Method | When it runs |
+| Method | Recommended work |
 | --- | --- |
-| `load()` | The mod is loaded. |
-| `enable()` | The game is about to start. |
-| `disable()` | The game is closing. |
-| `unload()` | The mod is doing final cleanup. |
+| `load()` | Read config, create directories, prepare mod-owned state. |
+| `enable()` | Register hooks, input callbacks, and runtime UI. |
+| `disable()` | Undo game-facing work and unregister runtime UI. |
+| `unload()` | Release remaining C++ state after disable. |
 
-Each method should return `true` when it succeeds and `false` when it fails.
+Each method returns `true` on success and `false` on failure.
 
 ## NativeMod
 
-Use `getSelf()` in your mod class to access the current mod object:
-
-```cpp
-pl::mod::NativeMod &MyMod::getSelf() const {
-  return *pl::mod::NativeMod::current();
-}
-```
-
-Common methods:
-
-| Method | Purpose |
-| --- | --- |
-| `getLogger()` | Logger dedicated to this mod. |
-| `getId()` | Mod id. |
-| `getName()` | Display name. |
-| `getAuthor()` | Author from manifest. |
-| `getVersion()` | Version from manifest. |
-| `getModDir()` | Mod package directory. |
-| `getDataDir()` | Directory for mod data files. |
-| `getConfigDir()` | Directory for mod configuration files. |
-| `getResourceDir()` | Directory for bundled resource files. |
-| `getManifestPath()` | Manifest file path. |
-| `getLibraryPath()` | Mod library path. |
-| `getJavaVM()` | Current Java VM pointer. |
-
-## Example
+`ll::mod::NativeMod` exposes manifest metadata, package paths, the Java VM,
+state, and a mod-scoped logger.
 
 ```cpp
 bool MyMod::load() {
   auto &self = getSelf();
-  self.getLogger().info("Loading {}", self.getName());
-
-  std::filesystem::create_directories(self.getDataDir());
   std::filesystem::create_directories(self.getConfigDir());
-  return true;
-}
-
-bool MyMod::enable() {
-  getSelf().getLogger().info("Enabled");
-  return true;
-}
-
-bool MyMod::disable() {
-  getSelf().getLogger().info("Disabled");
-  return true;
-}
-
-bool MyMod::unload() {
-  getSelf().getLogger().info("Unloaded");
+  self.getLogger().info("Loading {}", self.getName());
   return true;
 }
 ```
 
-## Config
+Common members:
 
-Use `pl::config::ConfigFile<T>` for typed JSON config files, automatic default
-layout updates, and launcher-editable schema generation. See the
-[Config API Reference](/api/config).
+| Member | Purpose |
+| --- | --- |
+| `getJavaVM()` | Current `JavaVM *`. |
+| `getLogger()` | `pl::log::Logger` for this mod. |
+| `getId()` | Stable runtime mod id. |
+| `getName()` | Display name from the manifest. |
+| `getAuthor()` | Author from the manifest. |
+| `getVersion()` | Version from the manifest. |
+| `getEntryPath()` | Resolved path to the configured entry file. |
+| `getEntryFileName()` | Entry file name from the manifest. |
+| `getIconPath()` | Resolved icon path, when one is configured. |
+| `getModDir()` | Root directory of the mod package. |
+| `getDataDir()` | `<mod root>/data`. |
+| `getConfigDir()` | `<mod root>/config`. |
+| `getResourceDir()` | `<mod root>/resources`. |
+| `getManifestPath()` | Resolved path to `manifest.json`. |
+| `getLibraryPath()` | Resolved path to the loaded native library. |
+| `getState()` | Current native mod lifecycle state. |
+| `isLoaded()` / `isEnabled()` / `isDisabled()` | Convenience state checks. |
+
+Runtime UI, floating buttons, and HUD overlay drawing are documented in
+[Mod Menu API](./mod-menu.md).
 
 ## Notes
 
-- Store mod data in `getDataDir()`.
-- Store user-editable configuration in `getConfigDir()`, or use
-  `pl::config::ConfigFile<T>` for typed JSON config.
-- Keep `load()` lightweight and move game-facing work to `enable()` when possible.
-- Clean up resources in the reverse order: `disable()` first, then `unload()`.
+- Keep the registered instance alive for the process lifetime.
+- Do not throw across lifecycle boundaries; catch failures and return `false`.
+- Store user-editable config under `getSelf().getConfigDir()`.

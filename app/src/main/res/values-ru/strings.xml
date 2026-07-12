@@ -90,6 +90,15 @@
 
     <string name="check_update">Проверить обновления</string>
     <string name="version_prefix">Версия: </string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="preloader_sigs_title">Данные среды выполнения</string>
+    <string name="preloader_sigs_last_update">Последнее обновление: %1$s</string>
+    <string name="preloader_sigs_never_updated">Никогда</string>
+    <string name="preloader_sigs_update">Обновить данные среды выполнения</string>
+    <string name="preloader_sigs_updating">Обновление…</string>
+    <string name="preloader_sigs_update_success">Данные среды выполнения обновлены</string>
+    <string name="preloader_sigs_update_failed">Не удалось обновить данные среды выполнения: %1$s</string>
+    <string name="preloader_sigs_no_remote_url">URL обновления данных среды выполнения не настроен</string>
 
     <string name="dialog_title_no_version">Версия не выбрана</string>
     <string name="dialog_message_no_version">Пожалуйста, выберите версию игры перед запуском.</string>
@@ -136,6 +145,23 @@
 
 
 
+Миграция должна завершиться, прежде чем LeviLauncher сможет продолжить.</string>
+    <string name="migration_cleanup_title">Очистить исторический каталог</string>
+    <string name="migration_cleanup_desc">Удаляйте старый каталог games/org.levimc только после того, как убедитесь, что все экземпляры запускаются нормально, а миры, наборы ресурсов, наборы поведения и настройки не пропали. Удалённые исторические данные нельзя будет восстановить из этого каталога.</string>
+    <string name="migration_cleanup_button">Очистить исторический каталог</string>
+    <string name="migration_cleanup_confirm_title">Очистить исторический каталог?</string>
+    <string name="migration_cleanup_confirm_message">Это навсегда удалит старый каталог games/org.levimc.\n\nПеред продолжением убедитесь, что все экземпляры запускаются нормально, а миры, наборы ресурсов, наборы поведения и настройки не пропали.</string>
+    <string name="migration_cleanup_unavailable_not_completed">Миграция хранилища ещё не завершена. Завершите миграцию перед очисткой старого каталога.</string>
+    <string name="migration_cleanup_unavailable_missing">Старый каталог games/org.levimc не найден или уже очищен.</string>
+    <string name="migration_cleanup_ready">Старый каталог можно очистить. Перед продолжением убедитесь, что все перенесённые экземпляры работают корректно.</string>
+    <string name="migration_cleanup_success">Исторический каталог очищен: удалено файлов: %1$d (%2$s).</string>
+    <string name="migration_cleanup_failed">Не удалось очистить исторический каталог: %1$s</string>
+    <string name="shared_storage_layout_title">Каталог общего контента</string>
+    <string name="shared_storage_layout_desc">Использовать новый каталог _shared для общего внутреннего и внешнего контента. Отключите, чтобы использовать исходные внутренний и внешний каталоги данных игры. Файлы при этом не перемещаются.</string>
+    <string name="shared_storage_layout_mode_new">Новый каталог _shared</string>
+    <string name="shared_storage_layout_mode_legacy">Исходные внутренний/внешний каталоги</string>
+    <string name="shared_storage_layout_status">Текущий режим: %1$s\nВнутренний: %2$s\nВнешний: %3$s</string>
+    <string name="shared_storage_layout_changed">Выбор каталога хранилища обновлён. Перезапустите Minecraft и снова откройте управление контентом, чтобы изменение полностью применилось.</string>
 
     <string name="theme_title">Тема</string>
     <string name="theme_follow_system">Как в системе</string>
@@ -180,6 +206,8 @@
     <string name="french">Français</string>
     <string name="japanese">日本語</string>
     <string name="hindi">हिन्दी</string>
+    <string name="turkish">Türkçe</string>
+    <string name="vietnamese">Tiếng Việt</string>
 
     <!-- Переименовать версию -->
     <string name="rename_version_title">Переименовать версию</string>
@@ -558,6 +586,7 @@
     <string name="settings_tab_personalize">Персонализация</string>
     <string name="settings_tab_updates">Обновления</string>
     <string name="settings_tab_about">О приложении</string>
+    <string name="settings_tab_migration">Миграция</string>
     <string name="settings_theme_desc">Выберите тему приложения</string>
     <string name="launch_vertically">Запуск вертикально</string>
     <string name="launch_vertically_desc">Принудительно запускать игру в портретном режиме</string>
@@ -706,4 +735,42 @@
         <item quantity="other">%d элемента</item>
     </plurals>
 
+    <!-- Mod Menu synced translations -->
+    <string name="mod_menu_favorites">Избранное</string>
+    <string name="mod_menu_favorite">Добавить в избранное</string>
+    <string name="mod_menu_unfavorite">Удалить из избранного</string>
+    <string name="mod_menu_hud_editor">Редактор HUD</string>
+    <string name="mod_menu_filter_enabled">Включённые</string>
+    <string name="mod_menu_filter_inbuilt">Встроенные</string>
+    <string name="mod_menu_filter_external">Внешние</string>
+    <string name="mod_menu_no_favorites">Избранных модов пока нет</string>
+    <string name="mod_menu_no_matches">Подходящих модов нет</string>
+    <string name="mod_menu_group_inbuilt">Встроенные функции</string>
+    <string name="mod_menu_group_external_ungrouped">Несгруппированные внешние моды</string>
+    <string name="mod_menu_module_count">%1$d / %2$d</string>
+    <string name="mod_menu_general_settings">Общие настройки</string>
+    <string name="mod_menu_appearance">Внешний вид</string>
+    <string name="mod_menu_pause_menu_only">Только меню паузы</string>
+    <string name="mod_menu_pause_menu_only_desc">Показывать меню модов только на экране паузы</string>
+    <string name="mod_menu_default_percent" formatted="false">100%</string>
+    <string name="mod_menu_percent_value">%1$d%%</string>
+    <string name="mod_overlay_fps_unknown">FPS: --</string>
+    <string name="mod_overlay_fps_value">FPS: %1$d</string>
+    <string name="mod_overlay_cps_value">CPS: %1$d</string>
+    <string name="mod_config_overlay_button_size_dp">Размер кнопки оверлея (dp)</string>
+    <string name="mod_config_overlay_opacity_percent" formatted="false">Непрозрачность оверлея (%)</string>
+    <string name="mod_config_cursor_sensitivity_percent" formatted="false">Чувствительность курсора (%)</string>
+    <string name="mod_config_zoom_level_percent" formatted="false">Уровень зума (%)</string>
+    <string name="mod_config_auto_sprint_keybind">Клавиша автоспринта</string>
+    <string name="mod_config_zoom_keybind">Клавиша зума</string>
+    <string name="mod_config_press_any_key">Нажмите любую клавишу для привязки...</string>
+    <string name="mod_config_key_unknown">НЕИЗВЕСТНО</string>
+    <string name="mod_config_color_alpha_short">A</string>
+    <string name="mod_config_color_red_short">R</string>
+    <string name="mod_config_color_green_short">G</string>
+    <string name="mod_config_color_blue_short">B</string>
+    <string name="mod_config_color_hex_hint" formatted="false">#AARRGGBB</string>
+    <string name="overlay_button_size_value">Размер: %1$ddp</string>
+    <string name="overlay_button_opacity_value">Непрозрачность: %1$d%%</string>
+    <string name="reset">Сбросить</string>
 </resources>

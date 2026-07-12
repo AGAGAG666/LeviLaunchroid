@@ -1,88 +1,63 @@
-# Types 与宏
+# SDK 头文件与宏
 
-## 作用
+## 公开头文件
 
-类型和宏头提供常用辅助宏与基础类型别名。
-
-## 头文件
-
-C:
-
-```c
-#include <pl/c/Macro.h>
-#include <pl/c/Types.h>
-```
-
-C++:
+SDK 只安装以下头文件：
 
 ```cpp
-#include <pl/cpp/Types.hpp>
+#include <pl/Config.hpp>
+#include <pl/Export.hpp>
+#include <pl/Input.hpp>
+#include <pl/Logger.hpp>
+#include <pl/Mod.hpp>
+#include <pl/ModMenu.hpp>
+#include <pl/memory/Hook.hpp>
+#include <pl/memory/Patch.hpp>
+#include <pl/memory/Signature.hpp>
 ```
 
-## 宏
+## PL_EXPORT
 
-### VA_EXPAND
+`PL_EXPORT` 在支持的编译器上为符号设置默认可见性。大多数 mod 不需要直接使用；
+只有需要给其它 native library 调用的符号才需要它。
 
-```c
-#define VA_EXPAND(...) __VA_ARGS__
+```cpp
+#include <pl/Export.hpp>
+
+PL_EXPORT void customVisibleFunction();
 ```
 
-用于展开可变参数宏。
+## PL_REGISTER_MOD
 
-### PLAPI
+`PL_REGISTER_MOD(Type, instanceExpr)` 注册生命周期对象。
 
-```c
-#ifdef PRELOADER_EXPORT
-#define PLAPI __attribute__((visibility("default")))
-#else
-#define PLAPI
-#endif
+```cpp
+#include <pl/Mod.hpp>
+
+class MyMod {
+public:
+  static MyMod &instance();
+
+  bool load();
+};
+
+PL_REGISTER_MOD(MyMod, MyMod::instance())
 ```
 
-作用：标记公开的 native 接口函数。
+在一个源文件中使用一次该宏。`instanceExpr` 必须返回或创建一个在进程生命周期内
+保持有效的对象。
 
-使用场景：
+被注册类型必须提供 `bool load()`。`bool enable()`、`bool disable()` 和
+`bool unload()` 可选。
 
-```c
-PLAPI void MyExportedFunction(void);
-```
+## 命名
 
-### PLCAPI
+公开 SDK 遵循 Lamina C++ 风格：
 
-```c
-#ifdef __cplusplus
-#define PLCAPI extern "C" PLAPI
-#else
-#define PLCAPI extern PLAPI
-#endif
-```
-
-作用：声明 C 风格公开函数。
-
-## 基础类型
-
-`pl/c/Types.h` 提供以下别名：
-
-| 类型 | 等价类型 |
+| 项目 | 风格 |
 | --- | --- |
-| `ushort` | `unsigned short` |
-| `uint` | `unsigned int` |
-| `ulong` | `unsigned long` |
-| `llong` | `long long` |
-| `ullong` | `unsigned long long` |
-| `uchar` | `unsigned char` |
-| `schar` | `signed char` |
-| `byte` | `uchar` |
-| `ldouble` | `long double` |
-| `int64` | `long long` |
-| `int32` | `int` |
-| `int16` | `short` |
-| `int8` | `char` |
-| `uint64` | `unsigned long long` |
-| `uint32` | `unsigned int` |
-| `uint16` | `unsigned short` |
-| `uint8` | `unsigned char` |
-
-## 注意事项
-
-- 新代码优先使用 `pl/c/*` 或 `pl/cpp/*`。
+| 文件和类型 | `UpperCamelCase` |
+| 函数和变量 | `lowerCamelCase` |
+| 私有成员 | `mUpperCamelCase` |
+| 常量 | `UpperCamelCase` |
+| 宏 | `UPPER_SNAKE_CASE` |
