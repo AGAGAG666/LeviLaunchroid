@@ -47,6 +47,8 @@ LeviLauncher 是一个开源 Android Minecraft 基岩版启动器。本文档优
 
 Preloader API 仍然保留在本站，但它属于“开发者”分类，不再是文档的主入口。
 
+本 fork 的定制修改与维护记录见 [Fork 变更与维护](/zh-CN/guide/fork-changes.md)。
+
 ## 推荐阅读顺序
 
 1. [快速开始](/zh-CN/guide/getting-started)
@@ -54,3 +56,4 @@ Preloader API 仍然保留在本站，但它属于“开发者”分类，不再
 3. [兼容性与常见问题](/zh-CN/guide/compatibility)
 4. [Native Mod 快速开始](/zh-CN/guide/developer)
 5. [Preloader API 参考](/zh-CN/api/mod)
+6. [操作指南](/zh-CN/guide/operation-guide)
