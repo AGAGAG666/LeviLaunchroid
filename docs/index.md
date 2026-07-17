@@ -54,3 +54,4 @@ Developer-facing Preloader APIs are still documented here, but they are part of 
 3. [Compatibility](/guide/compatibility)
 4. [Native Mod Quick Start](/guide/developer)
 5. [Preloader API Reference](/api/mod)
+6. [Operation Guide](/guide/operation-guide)
