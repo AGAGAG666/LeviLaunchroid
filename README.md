@@ -52,6 +52,10 @@ This software is provided "as is", without warranty of any kind. The authors and
 
 ---
 
+## Documentation
+
+See the [docs site](https://github.com/AGAGAG666/LeviLaunchroid/tree/test/docs/guide) for maintenance guides, fork changelog, and development standards.
+
 ## Original Project
 
 For the original, unmodified version, visit: [https://github.com/LiteLDev/LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid)

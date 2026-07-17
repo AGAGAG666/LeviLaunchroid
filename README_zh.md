@@ -52,6 +52,10 @@ LeviLaunchroid_AG 是基于 [LeviLaunchroid](https://github.com/LiteLDev/LeviLau
 
 ---
 
+## 文档
+
+维护指南、fork 变更记录及开发规范详见 [docs 站点](https://github.com/AGAGAG666/LeviLaunchroid/tree/test/docs/guide)。
+
 ## 原项目
 
 如需使用原始未修改版本，请访问：[https://github.com/LiteLDev/LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid)
