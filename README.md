@@ -21,7 +21,7 @@ LeviLaunchroid_AG is a modified fork of [LeviLaunchroid](https://github.com/Lite
 
 - Removed Google Play store verification requirement
 - Removed package name lock (imported MC APKs are no longer limited to `com.mojang.minecraftpe`)
-- Restored memory editor feature (removed in original v1.4.7)
+- Restored memory editor feature 
 - Removed forced version isolation for custom versions
 - CurseForge API integration for mod discovery
 
