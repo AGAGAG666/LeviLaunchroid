@@ -21,7 +21,7 @@ LeviLaunchroid_AG 是基于 [LeviLaunchroid](https://github.com/LiteLDev/LeviLau
 
 - 移除了 Google Play 商店验证要求
 - 移除了包名锁定（导入的 MC 安装包不再限于 `com.mojang.minecraftpe`）
-- 恢复了内存编辑器功能（原版 v1.4.7 中被移除）
+- 恢复了内存编辑器功能
 - 移除了自定义版本的强制版本隔离
 - CurseForge API 集成用于模组发现
 
