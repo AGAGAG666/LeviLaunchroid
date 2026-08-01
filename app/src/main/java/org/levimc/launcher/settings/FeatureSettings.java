@@ -10,6 +10,7 @@ public class FeatureSettings {
     private boolean logcatOverlayEnabled = false;
     private boolean memoryEditorEnabled = false;
     private Boolean crashUploadEnabled = true;
+    private int resourcePackCacheLimitMB = 256;
 
     public enum StorageType {
         INTERNAL,
@@ -52,6 +53,8 @@ public class FeatureSettings {
     public boolean isMemoryEditorEnabled() { return memoryEditorEnabled; }
     public void setMemoryEditorEnabled(boolean enabled) { this.memoryEditorEnabled = enabled; autoSave(); }
 
+    public int getResourcePackCacheLimitMB() { return resourcePackCacheLimitMB; }
+    public void setResourcePackCacheLimitMB(int limit) { this.resourcePackCacheLimitMB = limit; autoSave(); }
 
     private void autoSave() {
         if (appContext != null) {

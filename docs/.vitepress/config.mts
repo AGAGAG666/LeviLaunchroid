@@ -20,6 +20,7 @@ function buildEnglishSidebar(localePrefix: string): DefaultTheme.SidebarItem[] {
         { text: "Native Mod Quick Start", link: `${localePrefix}guide/developer` },
         { text: "Build from Source", link: `${localePrefix}guide/build` },
         { text: "Mod Entry API", link: `${localePrefix}api/mod` },
+        { text: "Mod Menu API", link: `${localePrefix}api/mod-menu` },
         { text: "Config API", link: `${localePrefix}api/config` },
         { text: "Input API", link: `${localePrefix}api/input` },
         { text: "Hook API", link: `${localePrefix}api/hook` },
@@ -51,6 +52,7 @@ function buildChineseSidebar(localePrefix: string): DefaultTheme.SidebarItem[] {
         { text: "Native Mod 快速开始", link: `${localePrefix}guide/developer` },
         { text: "从源码构建", link: `${localePrefix}guide/build` },
         { text: "Mod 入口 API", link: `${localePrefix}api/mod` },
+        { text: "Mod Menu API", link: `${localePrefix}api/mod-menu` },
         { text: "Config API", link: `${localePrefix}api/config` },
         { text: "Input API", link: `${localePrefix}api/input` },
         { text: "Hook API", link: `${localePrefix}api/hook` },
@@ -75,6 +77,7 @@ function buildEnglishNav(): DefaultTheme.NavItem[] {
         { text: "Build from Source", link: "/guide/build" },
       ],
     },
+    { text: "Privacy Policy", link: "/privacy-policy" },
     { text: "Downloads", link: releases },
     { text: "GitHub", link: repo },
   ];
@@ -92,6 +95,7 @@ function buildChineseNav(): DefaultTheme.NavItem[] {
         { text: "从源码构建", link: "/zh-CN/guide/build" },
       ],
     },
+    { text: "隐私政策", link: "/privacy-policy" },
     { text: "下载", link: releases },
     { text: "GitHub", link: repo },
   ];
@@ -170,6 +174,6 @@ export default defineConfig({
     lineNumbers: true,
   },
   sitemap: {
-    hostname: "https://liteldev.github.io/LeviLaunchroid/",
+    hostname: "https://levilaunchroid.levimc.org/",
   },
 });

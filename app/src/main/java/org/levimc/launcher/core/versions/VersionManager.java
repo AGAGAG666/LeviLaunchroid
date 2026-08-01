@@ -528,31 +528,66 @@ public class VersionManager {
     public void setInstanceVersionIsolation(GameVersion version, boolean enabled) {
         if (version == null) return;
         version.versionIsolation = enabled;
-        new Thread(() -> {
-            try {
-                File metadataDir = LauncherStorage.getProfileMetadataDir(context, version.directoryName);
-                metadataStore.update(
-                        metadataDir,
-                        metadataDefaults(version.isInstalled, version.directoryName, version.packageName, version.versionCode),
-                        metadata -> metadata.versionIsolation = enabled
-                );
-            } catch (Exception ignored) {}
-        }).start();
+        updateCachedInstance(version, cached -> cached.versionIsolation = enabled);
+        try {
+            File metadataDir = LauncherStorage.getProfileMetadataDir(context, getMetadataDirectoryName(version));
+            metadataStore.update(
+                    metadataDir,
+                    metadataDefaults(version.isInstalled, version.directoryName, version.packageName, version.versionCode),
+                    metadata -> metadata.versionIsolation = enabled
+            );
+        } catch (Exception ignored) {}
     }
 
     public void setInstanceLaunchVertically(GameVersion version, boolean enabled) {
         if (version == null) return;
         version.launchVertically = enabled;
-        new Thread(() -> {
-            try {
-                File metadataDir = LauncherStorage.getProfileMetadataDir(context, version.directoryName);
-                metadataStore.update(
-                        metadataDir,
-                        metadataDefaults(version.isInstalled, version.directoryName, version.packageName, version.versionCode),
-                        metadata -> metadata.launchVertically = enabled
-                );
-            } catch (Exception ignored) {}
-        }).start();
+        updateCachedInstance(version, cached -> cached.launchVertically = enabled);
+        try {
+            File metadataDir = LauncherStorage.getProfileMetadataDir(context, getMetadataDirectoryName(version));
+            metadataStore.update(
+                    metadataDir,
+                    metadataDefaults(version.isInstalled, version.directoryName, version.packageName, version.versionCode),
+                    metadata -> metadata.launchVertically = enabled
+            );
+        } catch (Exception ignored) {}
+    }
+
+    private void updateCachedInstance(GameVersion source, GameVersionMutator mutator) {
+        if (source == null || mutator == null) return;
+        for (GameVersion version : installedVersions) {
+            if (isSameInstance(version, source)) {
+                mutator.mutate(version);
+            }
+        }
+        for (GameVersion version : customVersions) {
+            if (isSameInstance(version, source)) {
+                mutator.mutate(version);
+            }
+        }
+        if (isSameInstance(selectedVersion, source)) {
+            mutator.mutate(selectedVersion);
+        }
+    }
+
+    private boolean isSameInstance(GameVersion left, GameVersion right) {
+        if (left == null || right == null) return false;
+        if (left.isInstalled || right.isInstalled) {
+            return left.isInstalled
+                    && right.isInstalled
+                    && safeValue(left.packageName, MinecraftLauncher.MC_PACKAGE_NAME)
+                    .equals(safeValue(right.packageName, MinecraftLauncher.MC_PACKAGE_NAME));
+        }
+        return safeValue(left.directoryName, "").equals(safeValue(right.directoryName, ""));
+    }
+
+    private String getMetadataDirectoryName(GameVersion version) {
+        if (version == null) return LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
+        return version.isInstalled ? LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID : version.directoryName;
+    }
+
+    private interface GameVersionMutator {
+        void mutate(GameVersion version);
     }
 
     private void restoreSelectedVersion() {
@@ -742,10 +777,10 @@ public class VersionManager {
         confirmDialog.show();
     }
 
-    public void renameCustomVersion(GameVersion version, String newDisplayName, OnRenameVersionCallback callback) {
-        if (version == null || version.isInstalled) {
+    public void renameVersion(GameVersion version, String newDisplayName, OnRenameVersionCallback callback) {
+        if (version == null) {
             if (callback != null)
-                callback.onRenameFailed(new IllegalArgumentException(context.getString(R.string.cannot_rename_installed)));
+                callback.onRenameFailed(new IllegalArgumentException("Version is null"));
             return;
         }
 
@@ -757,10 +792,11 @@ public class VersionManager {
 
         new Thread(() -> {
             try {
-                File metadataDir = LauncherStorage.getProfileMetadataDir(context, version.directoryName);
+                String metaDirName = getMetadataDirectoryName(version);
+                File metadataDir = LauncherStorage.getProfileMetadataDir(context, metaDirName);
                 metadataStore.update(
                         metadataDir,
-                        VersionProfileMetadataStore.Defaults.custom(version.directoryName, version.versionCode),
+                        metadataDefaults(version.isInstalled, version.directoryName, version.packageName, version.versionCode),
                         metadata -> metadata.displayName = newDisplayName.trim()
                 );
                 reload();

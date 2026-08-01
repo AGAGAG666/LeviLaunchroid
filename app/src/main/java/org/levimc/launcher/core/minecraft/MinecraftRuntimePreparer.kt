@@ -8,6 +8,8 @@ import org.levimc.launcher.core.mods.Mod
 import org.levimc.launcher.core.mods.ModManager
 import org.levimc.launcher.core.mods.ModNativeLoader
 import org.levimc.launcher.core.versions.GameVersion
+import org.levimc.launcher.preloader.PreloaderInput
+import org.levimc.launcher.preloader.PreloaderSignatureRulesManager
 import org.levimc.launcher.util.LauncherStorage
 import java.io.File
 
@@ -49,6 +51,13 @@ object MinecraftRuntimePreparer {
         val gameManager = GamePackageManager.getInstance(context.applicationContext, version, trace, null)
         trace.mark("GamePackageManager ready")
 
+        listener.onProgress(20, "Cleaning stale cache")
+        val profileId = MinecraftLauncher.getStorageProfileId(version)
+        val cacheDir = org.levimc.launcher.util.LauncherStorage.getStorageCacheRoot(context, profileId, version.versionIsolation)
+        val dataDir = org.levimc.launcher.util.LauncherStorage.getStorageDataRoot(context, profileId, version.versionIsolation)
+        val externalFilesDir = org.levimc.launcher.util.LauncherStorage.getStorageFilesRoot(context, profileId, version.versionIsolation, true)
+        MinecraftCacheCleaner.cleanupBeforeLaunch(cacheDir, dataDir, externalFilesDir, trace)
+
         listener.onProgress(26, "Preparing launch")
         prepareMinecraftIntent(context, launchIntent, gameManager, version)
         trace.mark("Launch intent prepared")
@@ -67,6 +76,9 @@ object MinecraftRuntimePreparer {
         } catch (error: UnsatisfiedLinkError) {
             trace.mark("Game loader load skipped", error.message ?: error.javaClass.simpleName)
         }
+        val signatureRulesFile = PreloaderSignatureRulesManager.getRulesFile(context.applicationContext)
+        PreloaderInput.configureSignatureRules(signatureRulesFile, version.versionCode)
+        trace.mark("Preloader signature rules configured", signatureRulesFile?.absolutePath ?: "<none>")
 
         listener.onLog("Loading native libraries")
         loadMinecraftLibraries(gameManager, version, listener, trace)
@@ -74,7 +86,14 @@ object MinecraftRuntimePreparer {
         listener.onProgress(78, "Loading enabled mods")
         listener.onLog("Loading native mods")
 
-        nativeSetupRuntime(modManager.currentVersion?.modsDir?.absolutePath.toString())
+        try {
+            org.levimc.launcher.core.mods.inbuilt.nativemod.InbuiltModsNative.loadLibrary()
+            org.levimc.launcher.core.mods.inbuilt.nativemod.GyroMod.nativePreResolve()
+        } catch (e: Throwable) {
+            listener.onLog("Failed to pre-resolve GyroMod: ${e.message}")
+        }
+
+        //nativeSetupRuntime(modManager.currentVersion?.modsDir?.absolutePath.toString())
         val skippedIncompatibleMods = loadNativeMods(context, launchIntent, modManager, listener, trace)
 
         listener.onProgress(100, "Runtime ready", "Entering Minecraft")

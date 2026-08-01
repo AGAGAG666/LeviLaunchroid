@@ -100,6 +100,7 @@
     <string name="settings_tab_personalize">Personnalisation</string>
     <string name="settings_tab_updates">Mises à jour</string>
     <string name="settings_tab_about">À propos</string>
+    <string name="settings_tab_migration">Migration</string>
     <string name="settings_theme_desc">Choisir le thème de l\'application</string>
 
     <string name="unknown_sources_permission_title">Autorisation d\'installation</string>
@@ -107,6 +108,15 @@
 
     <string name="check_update">Vérifier les mises à jour</string>
     <string name="version_prefix">Version : </string>
+    <string name="unknown_error">Erreur inconnue</string>
+    <string name="preloader_sigs_title">Données d’exécution</string>
+    <string name="preloader_sigs_last_update">Dernière mise à jour : %1$s</string>
+    <string name="preloader_sigs_never_updated">Jamais</string>
+    <string name="preloader_sigs_update">Mettre à jour les données d’exécution</string>
+    <string name="preloader_sigs_updating">Mise à jour…</string>
+    <string name="preloader_sigs_update_success">Données d’exécution mises à jour</string>
+    <string name="preloader_sigs_update_failed">Échec de la mise à jour des données d’exécution : %1$s</string>
+    <string name="preloader_sigs_no_remote_url">L’URL de mise à jour des données d’exécution n’est pas configurée</string>
 
     <string name="dialog_title_no_version">Aucune version sélectionnée</string>
     <string name="dialog_message_no_version">Veuillez sélectionner une version du jeu avant le lancement.</string>
@@ -176,6 +186,22 @@ L’ancien dossier games/org.levimc n’a pas été supprimé et n’est plus ut
     <string name="storage_migration_failed_message">La migration ne peut pas continuer : %1$s
 
 La migration doit être terminée avant de continuer avec LeviLauncher.</string>
+    <string name="migration_cleanup_title">Nettoyer le répertoire historique</string>
+    <string name="migration_cleanup_desc">Supprimez l\'ancien répertoire games/org.levimc uniquement après avoir confirmé que toutes les instances se lancent normalement et qu\'aucun monde, pack de ressources, pack de comportement ou paramètre ne manque. Les données historiques supprimées ne pourront pas être restaurées depuis ce répertoire.</string>
+    <string name="migration_cleanup_button">Nettoyer le répertoire historique</string>
+    <string name="migration_cleanup_confirm_title">Nettoyer le répertoire historique ?</string>
+    <string name="migration_cleanup_confirm_message">Cela supprimera définitivement l\'ancien répertoire games/org.levimc.\n\nAvant de continuer, vérifiez que toutes les instances se lancent normalement et qu\'aucun monde, pack de ressources, pack de comportement ou paramètre ne manque.</string>
+    <string name="migration_cleanup_unavailable_not_completed">La migration du stockage n\'est pas encore terminée. Terminez la migration avant de nettoyer l\'ancien répertoire.</string>
+    <string name="migration_cleanup_unavailable_missing">L\'ancien répertoire games/org.levimc est introuvable ou a déjà été nettoyé.</string>
+    <string name="migration_cleanup_ready">L\'ancien répertoire peut être nettoyé. Vérifiez que toutes les instances migrées fonctionnent correctement avant de continuer.</string>
+    <string name="migration_cleanup_success">Répertoire historique nettoyé : %1$d fichiers supprimés (%2$s).</string>
+    <string name="migration_cleanup_failed">Échec du nettoyage du répertoire historique : %1$s</string>
+    <string name="shared_storage_layout_title">Répertoire de contenu partagé</string>
+    <string name="shared_storage_layout_desc">Utilisez le nouveau répertoire _shared pour le contenu partagé interne et externe. Désactivez cette option pour utiliser les répertoires de données de jeu internes et externes d\'origine. Cela ne déplace aucun fichier.</string>
+    <string name="shared_storage_layout_mode_new">Nouveau répertoire _shared</string>
+    <string name="shared_storage_layout_mode_legacy">Répertoires internes/externes d\'origine</string>
+    <string name="shared_storage_layout_status">Mode actuel : %1$s\nInterne : %2$s\nExterne : %3$s</string>
+    <string name="shared_storage_layout_changed">La sélection du répertoire de stockage a été mise à jour. Redémarrez Minecraft et rouvrez la gestion du contenu pour appliquer complètement le changement.</string>
 
     <string name="theme_title">Mode Thème</string>
     <string name="theme_follow_system">Suivre le système</string>
@@ -242,15 +268,17 @@ La migration doit être terminée avant de continuer avec LeviLauncher.</string>
     <string name="instance_batch_backup_failed_message">Impossible de créer une sauvegarde :\n%1$s</string>
 
     <string name="language">Langue (Language)</string>
-    <string name="english">English</string>
-    <string name="chinese">简体中文</string>
-    <string name="russian">Русский</string>
-    <string name="indonesian">Bahasa Indonesia</string>
-    <string name="spanish">Español</string>
-    <string name="portuguese">Português</string>
-    <string name="french">Français</string>
-    <string name="japanese">日本語</string>
-    <string name="hindi">हिन्दी</string>
+    <string name="english">Anglais (English)</string>
+    <string name="chinese">简体中文 (Chinese)</string>
+    <string name="french">Français (French)</string>
+    <string name="hindi">हिन्दी (Hindi)</string>
+    <string name="indonesian">Bahasa Indonesia (Indonesian)</string>
+    <string name="japanese">日本語 (Japanese)</string>
+    <string name="portuguese">Português (Portuguese)</string>
+    <string name="russian">Русский (Russian)</string>
+    <string name="spanish">Español (Spanish)</string>
+    <string name="turkish">Türkçe (Turkish)</string>
+    <string name="vietnamese">Tiếng Việt (Vietnamese)</string>
 
     <string name="rename_version_title">Renommer la version</string>
     <string name="rename_version_message">Entrez un nouveau nom pour cette version :</string>
@@ -700,4 +728,42 @@ La migration doit être terminée avant de continuer avec LeviLauncher.</string>
         <item quantity="other">%d éléments</item>
     </plurals>
 
+    <!-- Mod Menu synced translations -->
+    <string name="mod_menu_favorites">Favoris</string>
+    <string name="mod_menu_favorite">Ajouter aux favoris</string>
+    <string name="mod_menu_unfavorite">Retirer des favoris</string>
+    <string name="mod_menu_hud_editor">Éditeur HUD</string>
+    <string name="mod_menu_filter_enabled">Activés</string>
+    <string name="mod_menu_filter_inbuilt">Intégrés</string>
+    <string name="mod_menu_filter_external">Externes</string>
+    <string name="mod_menu_no_favorites">Aucun mod favori pour le moment</string>
+    <string name="mod_menu_no_matches">Aucun mod correspondant</string>
+    <string name="mod_menu_group_inbuilt">Fonctionnalités intégrées</string>
+    <string name="mod_menu_group_external_ungrouped">Mods externes non groupés</string>
+    <string name="mod_menu_module_count">%1$d / %2$d</string>
+    <string name="mod_menu_general_settings">Paramètres généraux</string>
+    <string name="mod_menu_appearance">Apparence</string>
+    <string name="mod_menu_pause_menu_only">Menu pause uniquement</string>
+    <string name="mod_menu_pause_menu_only_desc">Afficher le menu des mods uniquement dans le menu de pause</string>
+    <string name="mod_menu_default_percent" formatted="false">100%</string>
+    <string name="mod_menu_percent_value">%1$d%%</string>
+    <string name="mod_overlay_fps_unknown">FPS: --</string>
+    <string name="mod_overlay_fps_value">FPS: %1$d</string>
+    <string name="mod_overlay_cps_value">CPS: %1$d</string>
+    <string name="mod_config_overlay_button_size_dp">Taille du bouton de superposition (dp)</string>
+    <string name="mod_config_overlay_opacity_percent" formatted="false">Opacité de la superposition (%)</string>
+    <string name="mod_config_cursor_sensitivity_percent" formatted="false">Sensibilité du curseur (%)</string>
+    <string name="mod_config_zoom_level_percent" formatted="false">Niveau de zoom (%)</string>
+    <string name="mod_config_auto_sprint_keybind">Touche de sprint automatique</string>
+    <string name="mod_config_zoom_keybind">Touche de zoom</string>
+    <string name="mod_config_press_any_key">Appuyez sur une touche pour associer...</string>
+    <string name="mod_config_key_unknown">INCONNU</string>
+    <string name="mod_config_color_alpha_short">A</string>
+    <string name="mod_config_color_red_short">R</string>
+    <string name="mod_config_color_green_short">G</string>
+    <string name="mod_config_color_blue_short">B</string>
+    <string name="mod_config_color_hex_hint" formatted="false">#AARRGGBB</string>
+    <string name="overlay_button_size_value">Taille : %1$ddp</string>
+    <string name="overlay_button_opacity_value">Opacité : %1$d%%</string>
+    <string name="reset">Réinitialiser</string>
 </resources>

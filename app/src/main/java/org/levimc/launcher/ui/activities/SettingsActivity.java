@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Gravity;
@@ -31,15 +32,21 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import org.levimc.launcher.R;
 import org.levimc.launcher.core.crash.CrashReporter;
+import org.levimc.launcher.preloader.PreloaderSignatureRulesManager;
 import org.levimc.launcher.settings.FeatureSettings;
 import org.levimc.launcher.ui.dialogs.CustomAlertDialog;
 import org.levimc.launcher.ui.animation.DynamicAnim;
 import org.levimc.launcher.ui.dialogs.LogcatOverlayManager;
 import org.levimc.launcher.util.GithubReleaseUpdater;
 import org.levimc.launcher.util.LanguageManager;
+import org.levimc.launcher.util.LauncherStorage;
 import org.levimc.launcher.util.PermissionsHandler;
 import org.levimc.launcher.util.PersonalizationManager;
 import org.levimc.launcher.util.ThemeManager;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -54,11 +61,13 @@ public class SettingsActivity extends BaseActivity {
     private TextView tabBasic;
     private TextView tabPersonalize;
     private TextView tabUpdates;
+    private TextView tabMigration;
     private TextView tabAbout;
 
     private View sectionBasic;
     private View sectionPersonalize;
     private View sectionUpdates;
+    private View sectionMigration;
     private View sectionAbout;
 
     private static final String KEY_SELECTED_TAB = "selected_tab_index";
@@ -71,6 +80,12 @@ public class SettingsActivity extends BaseActivity {
     private TextView bgImageBlurValue;
     private TextView bgImageBrightnessValue;
     private ImageView bgImagePreview;
+    private TextView migrationCleanupStatus;
+    private Button migrationCleanupButton;
+    private SwitchMaterial switchSharedStorageLayout;
+    private TextView sharedStorageLayoutStatus;
+    private TextView preloaderSigsLastUpdateText;
+    private Button preloaderSigsUpdateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +131,10 @@ public class SettingsActivity extends BaseActivity {
         setupBasicSection();
         setupPersonalizeSection();
         setupUpdatesSection();
+        setupMigrationSection();
         setupAboutSection();
 
-        TextView[] tabs = {tabBasic, tabPersonalize, tabUpdates, tabAbout};
+        TextView[] tabs = getSettingsTabs();
         if (selectedTabIndex >= tabs.length) {
             selectedTabIndex = 0;
         }
@@ -135,22 +151,25 @@ public class SettingsActivity extends BaseActivity {
         tabBasic = findViewById(R.id.tab_basic);
         tabPersonalize = findViewById(R.id.tab_personalize);
         tabUpdates = findViewById(R.id.tab_updates);
+        tabMigration = findViewById(R.id.tab_migration);
         tabAbout = findViewById(R.id.tab_about);
 
         sectionBasic = findViewById(R.id.section_basic);
         sectionPersonalize = findViewById(R.id.section_personalize);
         sectionUpdates = findViewById(R.id.section_updates);
+        sectionMigration = findViewById(R.id.section_migration);
         sectionAbout = findViewById(R.id.section_about);
 
         tabBasic.setOnClickListener(v -> { selectedTabIndex = 0; selectTab(tabBasic); });
         tabPersonalize.setOnClickListener(v -> { selectedTabIndex = 1; selectTab(tabPersonalize); });
         tabUpdates.setOnClickListener(v -> { selectedTabIndex = 2; selectTab(tabUpdates); });
         tabAbout.setOnClickListener(v -> { selectedTabIndex = 3; selectTab(tabAbout); });
+        tabMigration.setOnClickListener(v -> { selectedTabIndex = 4; selectTab(tabMigration); });
     }
 
     private void selectTab(TextView selectedTab) {
-        TextView[] tabs = {tabBasic, tabPersonalize, tabUpdates, tabAbout};
-        View[] sections = {sectionBasic, sectionPersonalize, sectionUpdates, sectionAbout};
+        TextView[] tabs = getSettingsTabs();
+        View[] sections = {sectionBasic, sectionPersonalize, sectionUpdates, sectionAbout, sectionMigration};
 
         int accent = personalizationManager.getAccentColor();
 
@@ -184,32 +203,42 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
+    private TextView[] getSettingsTabs() {
+        return new TextView[]{tabBasic, tabPersonalize, tabUpdates, tabAbout, tabMigration};
+    }
+
     private void setupBasicSection() {
         LanguageManager languageManager = new LanguageManager(this);
         FeatureSettings fs = FeatureSettings.getInstance();
 
+        // Keep English at the top (default language).
+        // Sort all other languages alphabetically by their display name.
         String[] languageOptions = {
                 getString(R.string.english),
                 getString(R.string.chinese),
-                getString(R.string.russian),
-                getString(R.string.indonesian),
-                getString(R.string.spanish),
-                getString(R.string.portuguese),
                 getString(R.string.french),
+                getString(R.string.hindi),
+                getString(R.string.indonesian),
                 getString(R.string.japanese),
-                getString(R.string.hindi)
+                getString(R.string.portuguese),
+                getString(R.string.russian),
+                getString(R.string.spanish),
+                getString(R.string.turkish),
+                getString(R.string.vietnamese)
         };
 
         String currentCode = languageManager.getCurrentLanguage();
         int defaultIdx = switch (currentCode) {
             case "zh", "zh-CN" -> 1;
-            case "ru" -> 2;
-            case "idn" -> 3;
-            case "es" -> 4;
-            case "pt" -> 5;
-            case "fr" -> 6;
-            case "ja" -> 7;
-            case "hi" -> 8;
+            case "fr" -> 2;
+            case "hi" -> 3;
+            case "idn" -> 4;
+            case "ja" -> 5;
+            case "pt" -> 6;
+            case "ru" -> 7;
+            case "es" -> 8;
+            case "tr", "tr-TR" -> 9;
+            case "vi" -> 10;
             default -> 0;
         };
 
@@ -227,13 +256,15 @@ public class SettingsActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String code = switch (position) {
                     case 1 -> "zh-CN";
-                    case 2 -> "ru";
-                    case 3 -> "idn";
-                    case 4 -> "es";
-                    case 5 -> "pt";
-                    case 6 -> "fr";
-                    case 7 -> "ja";
-                    case 8 -> "hi";
+                    case 2 -> "fr";
+                    case 3 -> "hi";
+                    case 4 -> "idn";
+                    case 5 -> "ja";
+                    case 6 -> "pt";
+                    case 7 -> "ru";
+                    case 8 -> "es";
+                    case 9 -> "tr";
+                    case 10 -> "vi";
                     default -> "en";
                 };
                 if (!code.equals(languageManager.getCurrentLanguage())) {
@@ -278,6 +309,28 @@ public class SettingsActivity extends BaseActivity {
         SwitchMaterial switchManagedLogin = findViewById(R.id.switch_managed_login);
         switchManagedLogin.setChecked(fs.isLauncherManagedMcLoginEnabled());
         switchManagedLogin.setOnCheckedChangeListener((btn, checked) -> fs.setLauncherManagedMcLoginEnabled(checked));
+
+        SeekBar cacheLimitSlider = findViewById(R.id.cache_limit_slider);
+        TextView cacheLimitText = findViewById(R.id.cache_limit_text);
+
+        int currentLimit = fs.getResourcePackCacheLimitMB();
+        cacheLimitSlider.setProgress(currentLimit);
+        cacheLimitText.setText(currentLimit + " MB");
+
+        cacheLimitSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                cacheLimitText.setText(progress + " MB");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                fs.setResourcePackCacheLimitMB(seekBar.getProgress());
+            }
+        });
     }
 
     private void showMemoryEditorWarningDialog(SwitchMaterial sw, FeatureSettings fs) {
@@ -459,7 +512,7 @@ public class SettingsActivity extends BaseActivity {
 
         refreshThemeSelectionUI();
         
-        TextView[] tabs = {tabBasic, tabPersonalize, tabUpdates, tabAbout};
+        TextView[] tabs = getSettingsTabs();
         selectTab(tabs[selectedTabIndex]);
         
         View settingsTitle = findViewById(R.id.settings_title);
@@ -477,6 +530,12 @@ public class SettingsActivity extends BaseActivity {
         if (btnCheckUpdate != null && accent != 0) {
             btnCheckUpdate.setBackgroundTintList(ColorStateList.valueOf(accent));
             btnCheckUpdate.setTextColor(Color.WHITE);
+        }
+
+        Button btnUpdatePreloaderSigs = findViewById(R.id.btn_update_preloader_sigs);
+        if (btnUpdatePreloaderSigs != null && accent != 0) {
+            btnUpdatePreloaderSigs.setBackgroundTintList(ColorStateList.valueOf(accent));
+            btnUpdatePreloaderSigs.setTextColor(Color.WHITE);
         }
         
         SwitchMaterial switchLogcat = findViewById(R.id.switch_logcat);
@@ -674,6 +733,149 @@ public class SettingsActivity extends BaseActivity {
 
         Button btnCheckUpdate = findViewById(R.id.btn_check_update);
         btnCheckUpdate.setOnClickListener(v -> handleUpdateButtonClick());
+
+        preloaderSigsLastUpdateText = findViewById(R.id.preloader_sigs_last_update);
+        preloaderSigsUpdateButton = findViewById(R.id.btn_update_preloader_sigs);
+        refreshPreloaderSigsLastUpdateUi();
+        if (preloaderSigsUpdateButton != null) {
+            preloaderSigsUpdateButton.setOnClickListener(v -> handlePreloaderSigsUpdateClick());
+        }
+    }
+
+    private void handlePreloaderSigsUpdateClick() {
+        if (preloaderSigsUpdateButton == null) {
+            return;
+        }
+        if (!PreloaderSignatureRulesManager.hasRemoteRulesUrl()) {
+            Toast.makeText(this, R.string.preloader_sigs_no_remote_url, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        preloaderSigsUpdateButton.setEnabled(false);
+        preloaderSigsUpdateButton.setText(R.string.preloader_sigs_updating);
+        PreloaderSignatureRulesManager.refreshNow(this, result -> {
+            if (isFinishing()) {
+                return;
+            }
+            preloaderSigsUpdateButton.setEnabled(true);
+            preloaderSigsUpdateButton.setText(R.string.preloader_sigs_update);
+            refreshPreloaderSigsLastUpdateUi();
+
+            if (result.success) {
+                Toast.makeText(this, R.string.preloader_sigs_update_success, Toast.LENGTH_SHORT).show();
+            } else {
+                String detail = result.message.isEmpty()
+                        ? getString(R.string.unknown_error)
+                        : result.message;
+                Toast.makeText(this, getString(R.string.preloader_sigs_update_failed, detail), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void refreshPreloaderSigsLastUpdateUi() {
+        if (preloaderSigsLastUpdateText == null) {
+            return;
+        }
+
+        long updateTime = PreloaderSignatureRulesManager.getLastSuccessfulUpdateTime(this);
+        String updateText = updateTime > 0L
+                ? DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault()).format(new Date(updateTime))
+                : getString(R.string.preloader_sigs_never_updated);
+        preloaderSigsLastUpdateText.setText(getString(R.string.preloader_sigs_last_update, updateText));
+    }
+
+    private void setupMigrationSection() {
+        switchSharedStorageLayout = findViewById(R.id.switch_shared_storage_layout);
+        sharedStorageLayoutStatus = findViewById(R.id.shared_storage_layout_status);
+        TextView legacyPath = findViewById(R.id.migration_cleanup_path);
+        migrationCleanupStatus = findViewById(R.id.migration_cleanup_status);
+        migrationCleanupButton = findViewById(R.id.btn_cleanup_legacy_dir);
+
+        if (switchSharedStorageLayout != null) {
+            switchSharedStorageLayout.setChecked(LauncherStorage.isUsingNewSharedStorage(this));
+            switchSharedStorageLayout.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                LauncherStorage.setUseNewSharedStorage(this, isChecked);
+                refreshSharedStorageLayoutUi();
+                Toast.makeText(this, R.string.shared_storage_layout_changed, Toast.LENGTH_LONG).show();
+            });
+        }
+        refreshSharedStorageLayoutUi();
+
+        if (legacyPath != null) {
+            legacyPath.setText(LauncherStorage.getLegacyRoot().getAbsolutePath());
+        }
+        if (migrationCleanupButton != null) {
+            migrationCleanupButton.setOnClickListener(v -> confirmCleanupLegacyDir());
+        }
+        refreshMigrationCleanupUi();
+    }
+
+    private void refreshSharedStorageLayoutUi() {
+        if (sharedStorageLayoutStatus == null) return;
+
+        int modeRes = LauncherStorage.isUsingNewSharedStorage(this)
+                ? R.string.shared_storage_layout_mode_new
+                : R.string.shared_storage_layout_mode_legacy;
+        sharedStorageLayoutStatus.setText(getString(
+                R.string.shared_storage_layout_status,
+                getString(modeRes),
+                LauncherStorage.getSharedInternalGameDataDisplayPath(this),
+                LauncherStorage.getSharedExternalGameDataDisplayPath(this)
+        ));
+    }
+
+    private void refreshMigrationCleanupUi() {
+        if (migrationCleanupStatus == null || migrationCleanupButton == null) return;
+
+        boolean migrationCompleted = LauncherStorage.isMigrationCompleted(this);
+        boolean legacyExists = LauncherStorage.getLegacyRoot().isDirectory();
+        migrationCleanupButton.setEnabled(migrationCompleted && legacyExists);
+
+        if (!migrationCompleted) {
+            migrationCleanupStatus.setText(R.string.migration_cleanup_unavailable_not_completed);
+        } else if (!legacyExists) {
+            migrationCleanupStatus.setText(R.string.migration_cleanup_unavailable_missing);
+        } else {
+            migrationCleanupStatus.setText(R.string.migration_cleanup_ready);
+        }
+    }
+
+    private void confirmCleanupLegacyDir() {
+        new android.app.AlertDialog.Builder(this)
+                .setTitle(R.string.migration_cleanup_confirm_title)
+                .setMessage(R.string.migration_cleanup_confirm_message)
+                .setPositiveButton(R.string.delete, (dialog, which) -> cleanupLegacyDir())
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void cleanupLegacyDir() {
+        if (migrationCleanupButton != null) {
+            migrationCleanupButton.setEnabled(false);
+        }
+        AsyncTask.execute(() -> {
+            LauncherStorage.LegacyCleanupResult result = LauncherStorage.cleanupLegacyRoot(this);
+            runOnUiThread(() -> {
+                refreshMigrationCleanupUi();
+                if (result.success) {
+                    String message = getString(
+                            R.string.migration_cleanup_success,
+                            result.deletedFiles,
+                            formatBytes(result.deletedBytes)
+                    );
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                    if (migrationCleanupStatus != null) {
+                        migrationCleanupStatus.setText(message);
+                    }
+                } else {
+                    String message = getString(R.string.migration_cleanup_failed, result.errorMessage);
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                    if (migrationCleanupStatus != null) {
+                        migrationCleanupStatus.setText(message);
+                    }
+                }
+            });
+        });
     }
 
     private void setupAboutSection() {
@@ -716,5 +918,14 @@ public class SettingsActivity extends BaseActivity {
     private void setupNavBar() {
         setActiveNavTab(R.id.nav_tab_settings);
         findViewById(R.id.nav_tab_settings).setOnClickListener(v -> {});
+    }
+
+    private String formatBytes(long bytes) {
+        if (bytes < 1024) return bytes + " B";
+        double kb = bytes / 1024.0;
+        if (kb < 1024) return String.format(Locale.getDefault(), "%.1f KB", kb);
+        double mb = kb / 1024.0;
+        if (mb < 1024) return String.format(Locale.getDefault(), "%.1f MB", mb);
+        return String.format(Locale.getDefault(), "%.1f GB", mb / 1024.0);
     }
 }

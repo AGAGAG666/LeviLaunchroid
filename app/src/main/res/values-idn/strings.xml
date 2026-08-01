@@ -90,6 +90,15 @@
 
     <string name="check_update">Periksa pembaruan</string>
     <string name="version_prefix">Versi: </string>
+    <string name="unknown_error">Kesalahan tidak diketahui</string>
+    <string name="preloader_sigs_title">Data runtime</string>
+    <string name="preloader_sigs_last_update">Pembaruan terakhir: %1$s</string>
+    <string name="preloader_sigs_never_updated">Belum pernah</string>
+    <string name="preloader_sigs_update">Perbarui data runtime</string>
+    <string name="preloader_sigs_updating">Memperbarui…</string>
+    <string name="preloader_sigs_update_success">Data runtime diperbarui</string>
+    <string name="preloader_sigs_update_failed">Gagal memperbarui data runtime: %1$s</string>
+    <string name="preloader_sigs_no_remote_url">URL pembaruan data runtime belum dikonfigurasi</string>
 
     <string name="dialog_title_no_version">Tidak Ada Versi yang Dipilih</string>
     <string name="dialog_message_no_version">Silakan pilih versi game sebelum memulai.</string>
@@ -160,6 +169,22 @@ Folder lama games/org.levimc tidak dihapus dan tidak lagi digunakan.</string>
     <string name="storage_migration_failed_message">Migrasi tidak dapat dilanjutkan: %1$s
 
 Migrasi harus selesai sebelum LeviLauncher dapat melanjutkan.</string>
+    <string name="migration_cleanup_title">Bersihkan Direktori Riwayat</string>
+    <string name="migration_cleanup_desc">Hapus direktori lama games/org.levimc hanya setelah memastikan semua instans dapat diluncurkan normal dan world, resource pack, behavior pack, serta pengaturan tidak hilang. Data riwayat yang dihapus tidak dapat dipulihkan dari direktori ini.</string>
+    <string name="migration_cleanup_button">Bersihkan Direktori Riwayat</string>
+    <string name="migration_cleanup_confirm_title">Bersihkan Direktori Riwayat?</string>
+    <string name="migration_cleanup_confirm_message">Ini akan menghapus permanen direktori lama games/org.levimc.\n\nSebelum melanjutkan, pastikan semua instans dapat diluncurkan normal dan world, resource pack, behavior pack, serta pengaturan tidak hilang.</string>
+    <string name="migration_cleanup_unavailable_not_completed">Migrasi penyimpanan belum selesai. Selesaikan migrasi sebelum membersihkan direktori lama.</string>
+    <string name="migration_cleanup_unavailable_missing">Direktori lama games/org.levimc tidak ditemukan atau sudah dibersihkan.</string>
+    <string name="migration_cleanup_ready">Direktori lama dapat dibersihkan. Pastikan semua instans hasil migrasi sehat sebelum melanjutkan.</string>
+    <string name="migration_cleanup_success">Direktori riwayat dibersihkan: %1$d file dihapus (%2$s).</string>
+    <string name="migration_cleanup_failed">Gagal membersihkan direktori riwayat: %1$s</string>
+    <string name="shared_storage_layout_title">Direktori Konten Bersama</string>
+    <string name="shared_storage_layout_desc">Gunakan direktori _shared baru untuk konten bersama Internal dan External. Matikan untuk memakai direktori data game internal dan eksternal asli. Ini tidak memindahkan file.</string>
+    <string name="shared_storage_layout_mode_new">Direktori _shared baru</string>
+    <string name="shared_storage_layout_mode_legacy">Direktori internal/eksternal asli</string>
+    <string name="shared_storage_layout_status">Mode saat ini: %1$s\nInternal: %2$s\nExternal: %3$s</string>
+    <string name="shared_storage_layout_changed">Pilihan direktori penyimpanan diperbarui. Mulai ulang Minecraft dan buka kembali manajemen konten agar perubahan diterapkan sepenuhnya.</string>
 
     <string name="theme_title">Mode Tema</string>
     <string name="theme_follow_system">Ikuti Sistem</string>
@@ -194,16 +219,18 @@ Migrasi harus selesai sebelum LeviLauncher dapat melanjutkan.</string>
     <string name="version_isolation">Isolasi Versi</string>
 
     <!-- Language Setting -->
-    <string name="language">Bahasa</string>
-    <string name="english">English</string>
-    <string name="chinese">简体中文</string>
-    <string name="russian">Русский</string>
-    <string name="indonesian">Bahasa Indonesia</string>
-    <string name="spanish">Español</string>
-    <string name="portuguese">Português</string>
-    <string name="french">Français</string>
-    <string name="japanese">日本語</string>
-    <string name="hindi">हिन्दी</string>
+    <string name="language">Bahasa (Language)</string>
+    <string name="english">Inggris (English)</string>
+    <string name="chinese">简体中文 (Chinese)</string>
+    <string name="french">Français (French)</string>
+    <string name="hindi">हिन्दी (Hindi)</string>
+    <string name="indonesian">Bahasa Indonesia (Indonesian)</string>
+    <string name="japanese">日本語 (Japanese)</string>
+    <string name="portuguese">Português (Portuguese)</string>
+    <string name="russian">Русский (Russian)</string>
+    <string name="spanish">Español (Spanish)</string>
+    <string name="turkish">Türkçe (Turkish)</string>
+    <string name="vietnamese">Tiếng Việt (Vietnamese)</string>
 
     <!-- Version Rename -->
     <string name="rename_version_title">Ganti Nama Versi</string>
@@ -586,6 +613,7 @@ Migrasi harus selesai sebelum LeviLauncher dapat melanjutkan.</string>
     <string name="settings_tab_personalize">Personalisasi</string>
     <string name="settings_tab_updates">Pembaruan</string>
     <string name="settings_tab_about">Tentang</string>
+    <string name="settings_tab_migration">Migrasi</string>
     <string name="settings_theme_desc">Pilih tema aplikasi</string>
     <string name="launch_vertically">Luncurkan Vertikal</string>
     <string name="launch_vertically_desc">Paksa game diluncurkan dalam mode potret</string>
@@ -723,4 +751,42 @@ Migrasi harus selesai sebelum LeviLauncher dapat melanjutkan.</string>
         <item quantity="other">%d item</item>
     </plurals>
 
+    <!-- Mod Menu synced translations -->
+    <string name="mod_menu_favorites">Favorit</string>
+    <string name="mod_menu_favorite">Tambahkan ke favorit</string>
+    <string name="mod_menu_unfavorite">Hapus dari favorit</string>
+    <string name="mod_menu_hud_editor">Editor HUD</string>
+    <string name="mod_menu_filter_enabled">Aktif</string>
+    <string name="mod_menu_filter_inbuilt">Bawaan</string>
+    <string name="mod_menu_filter_external">Eksternal</string>
+    <string name="mod_menu_no_favorites">Belum ada mod favorit</string>
+    <string name="mod_menu_no_matches">Tidak ada mod yang cocok</string>
+    <string name="mod_menu_group_inbuilt">Fitur Bawaan</string>
+    <string name="mod_menu_group_external_ungrouped">Mod Eksternal Tidak Dikelompokkan</string>
+    <string name="mod_menu_module_count">%1$d / %2$d</string>
+    <string name="mod_menu_general_settings">Pengaturan Umum</string>
+    <string name="mod_menu_appearance">Tampilan</string>
+    <string name="mod_menu_pause_menu_only">Hanya Menu Jeda</string>
+    <string name="mod_menu_pause_menu_only_desc">Tampilkan menu mod hanya di layar jeda</string>
+    <string name="mod_menu_default_percent" formatted="false">100%</string>
+    <string name="mod_menu_percent_value">%1$d%%</string>
+    <string name="mod_overlay_fps_unknown">FPS: --</string>
+    <string name="mod_overlay_fps_value">FPS: %1$d</string>
+    <string name="mod_overlay_cps_value">CPS: %1$d</string>
+    <string name="mod_config_overlay_button_size_dp">Ukuran Tombol Overlay (dp)</string>
+    <string name="mod_config_overlay_opacity_percent" formatted="false">Opasitas Overlay (%)</string>
+    <string name="mod_config_cursor_sensitivity_percent" formatted="false">Sensitivitas Kursor (%)</string>
+    <string name="mod_config_zoom_level_percent" formatted="false">Level Zoom (%)</string>
+    <string name="mod_config_auto_sprint_keybind">Keybind Sprint Otomatis</string>
+    <string name="mod_config_zoom_keybind">Keybind Zoom</string>
+    <string name="mod_config_press_any_key">Tekan tombol apa saja untuk mengikat...</string>
+    <string name="mod_config_key_unknown">TIDAK DIKETAHUI</string>
+    <string name="mod_config_color_alpha_short">A</string>
+    <string name="mod_config_color_red_short">R</string>
+    <string name="mod_config_color_green_short">G</string>
+    <string name="mod_config_color_blue_short">B</string>
+    <string name="mod_config_color_hex_hint" formatted="false">#AARRGGBB</string>
+    <string name="overlay_button_size_value">Ukuran: %1$ddp</string>
+    <string name="overlay_button_opacity_value">Opasitas: %1$d%%</string>
+    <string name="reset">Reset</string>
 </resources>

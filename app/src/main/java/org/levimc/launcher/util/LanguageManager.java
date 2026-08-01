@@ -50,36 +50,45 @@ public class LanguageManager {
 
         popup.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
+
+            // Keep English at the top (default language).
+            // Sort all other languages alphabetically by their display name.
             if (itemId == R.id.action_english) {
-            setAppLanguage("en");
-            return true;
-        } else if (itemId == R.id.action_chinese) {
-            setAppLanguage("zh-CN");
-            return true;
-        } else if (itemId == R.id.action_russian) {
-            setAppLanguage("ru");
-            return true;
-        } else if (itemId == R.id.action_indonesian) {
-            setAppLanguage("idn");
-            return true;
-        } else if (itemId == R.id.action_spanish) {
-            setAppLanguage("es");
-            return true;
-        } else if (itemId == R.id.action_portuguese) {
-            setAppLanguage("pt");
-            return true;
-        } else if (itemId == R.id.action_french) {
-            setAppLanguage("fr");
-            return true;
-        } else if (itemId == R.id.action_japanese) {
-            setAppLanguage("ja");
-            return true;
-        } else if (itemId == R.id.action_hindi) {
-            setAppLanguage("hi");
-            return true;
-        }
-        return false;
-    });
+                setAppLanguage("en");
+                return true;
+            } else if (itemId == R.id.action_chinese) {
+                setAppLanguage("zh-CN");
+                return true;
+            } else if (itemId == R.id.action_french) {
+                setAppLanguage("fr");
+                return true;
+            } else if (itemId == R.id.action_hindi) {
+                setAppLanguage("hi");
+                return true;
+            } else if (itemId == R.id.action_indonesian) {
+                setAppLanguage("idn");
+                return true;
+            } else if (itemId == R.id.action_japanese) {
+                setAppLanguage("ja");
+                return true;
+            } else if (itemId == R.id.action_portuguese) {
+                setAppLanguage("pt");
+                return true;
+            } else if (itemId == R.id.action_russian) {
+                setAppLanguage("ru");
+                return true;
+            } else if (itemId == R.id.action_spanish) {
+                setAppLanguage("es");
+                return true;
+            } else if (itemId == R.id.action_turkish) {
+                setAppLanguage("tr");
+                return true;
+            } else if (itemId == R.id.action_vietnamese) {
+                setAppLanguage("vi");
+                return true;
+            }
+            return false;
+        });
 
         popup.show();
     }

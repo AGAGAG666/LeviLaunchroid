@@ -190,6 +190,8 @@ public class ContentListActivity extends BaseActivity {
         String worldsPath = getIntent().getStringExtra(EXTRA_WORLDS_DIRECTORY);
         if (worldsPath != null) {
             worldsDirectory = new File(worldsPath);
+        } else {
+            worldsDirectory = getWorldsDirectoryForType(currentStorageType);
         }
 
         switch (contentType) {
@@ -1091,7 +1093,11 @@ public class ContentListActivity extends BaseActivity {
     private File getGameDataDirForType(FeatureSettings.StorageType storageType) {
         GameVersion currentVersion = versionManager.getSelectedVersion();
         if (currentVersion == null) return null;
-        return LauncherStorage.getContentGameDataDir(this, currentVersion.getStorageProfileId(), storageType);
+        FeatureSettings.StorageType resolvedType = LauncherStorage.normalizeContentStorageType(
+                storageType,
+                currentVersion.versionIsolation
+        );
+        return LauncherStorage.getContentGameDataDir(this, currentVersion.getStorageProfileId(), resolvedType);
     }
 
     private FeatureSettings.StorageType parseStorageType(String value) {

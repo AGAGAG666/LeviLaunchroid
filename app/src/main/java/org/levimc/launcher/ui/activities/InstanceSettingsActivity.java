@@ -39,6 +39,7 @@ public class InstanceSettingsActivity extends BaseActivity {
     private EditText editName;
     private SwitchMaterial switchIsolation;
     private SwitchMaterial switchLaunchVertically;
+    private String originalDisplayName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +115,7 @@ public class InstanceSettingsActivity extends BaseActivity {
                 currentName = dn;
             }
         }
+        originalDisplayName = currentName.trim();
         editName.setText(currentName);
 
         switchIsolation.setChecked(version.versionIsolation);
@@ -159,24 +161,40 @@ public class InstanceSettingsActivity extends BaseActivity {
     private void saveAndFinish() {
         String newName = editName.getText().toString().trim();
 
-        if (!newName.isEmpty() && !version.isInstalled) {
-            versionManager.renameCustomVersion(version, newName, new VersionManager.OnRenameVersionCallback() {
-                @Override
-                public void onRenameCompleted(boolean success) {}
-
-                @Override
-                public void onRenameFailed(Exception e) {
-                    runOnUiThread(() -> Toast.makeText(InstanceSettingsActivity.this,
-                            "Rename failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                }
-            });
-        }
-
         versionManager.setInstanceVersionIsolation(version, switchIsolation.isChecked());
         versionManager.setInstanceLaunchVertically(version, switchLaunchVertically.isChecked());
 
-        setResult(RESULT_OK);
-        finish();
+        if (!newName.isEmpty() && !newName.equals(originalDisplayName)) {
+            View btnOk = findViewById(R.id.btn_ok);
+            if (btnOk != null) {
+                btnOk.setEnabled(false);
+                btnOk.setAlpha(0.5f);
+            }
+            versionManager.renameVersion(version, newName, new VersionManager.OnRenameVersionCallback() {
+                @Override
+                public void onRenameCompleted(boolean success) {
+                    runOnUiThread(() -> {
+                        setResult(RESULT_OK);
+                        finish();
+                    });
+                }
+
+                @Override
+                public void onRenameFailed(Exception e) {
+                    runOnUiThread(() -> {
+                        if (btnOk != null) {
+                            btnOk.setEnabled(true);
+                            btnOk.setAlpha(1.0f);
+                        }
+                        Toast.makeText(InstanceSettingsActivity.this,
+                                "Rename failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
+        } else {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     private void confirmDelete() {
