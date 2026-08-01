@@ -152,9 +152,9 @@ jobs:
       - name: Build APKs
         run: |
           if [ "${{ github.ref_name }}" = "test" ]; then
-            ./gradlew assembleDebug
+            ./gradlew assembleDebug --stacktrace
           else
-            ./gradlew assembleDebug assembleBeta assembleRelease
+            ./gradlew assembleDebug assembleBeta assembleRelease --stacktrace
           fi
 
       - name: Upload Debug APK
